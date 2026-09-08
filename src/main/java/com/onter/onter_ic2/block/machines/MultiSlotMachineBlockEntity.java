@@ -227,14 +227,17 @@ public class MultiSlotMachineBlockEntity extends BlockEntity implements MenuProv
         if (level.isClientSide) return;
 
         // 1. Discharge battery in battery slot
-        ItemStack batteryStack = entity.itemHandler.getStackInSlot(entity.getBatterySlot());
-        if (!batteryStack.isEmpty()) {
-            IEnergyStorage itemEnergy = batteryStack.getCapability(Capabilities.EnergyStorage.ITEM, null);
-            if (itemEnergy != null && itemEnergy.canExtract()) {
-                int needed = entity.energyStorage.getMaxEnergyStored() - entity.energyStorage.getEnergyStored();
-                if (needed > 0) {
-                    int extracted = itemEnergy.extractEnergy(needed, false);
-                    entity.energyStorage.receiveEnergy(extracted, false);
+        int batterySlot = entity.getBatterySlot();
+        if (batterySlot < entity.itemHandler.getSlots()) {
+            ItemStack batteryStack = entity.itemHandler.getStackInSlot(batterySlot);
+            if (!batteryStack.isEmpty()) {
+                IEnergyStorage itemEnergy = batteryStack.getCapability(Capabilities.EnergyStorage.ITEM, null);
+                if (itemEnergy != null && itemEnergy.canExtract()) {
+                    int needed = entity.energyStorage.getMaxEnergyStored() - entity.energyStorage.getEnergyStored();
+                    if (needed > 0) {
+                        int extracted = itemEnergy.extractEnergy(needed, false);
+                        entity.energyStorage.receiveEnergy(extracted, false);
+                    }
                 }
             }
         }
@@ -461,8 +464,16 @@ public class MultiSlotMachineBlockEntity extends BlockEntity implements MenuProv
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
+        int totalSlots = (numChannels * 2) + 1 + 4;
         if (tag.contains("Inventory")) {
             itemHandler.deserializeNBT(registries, tag.getCompound("Inventory"));
+            if (itemHandler.getSlots() != totalSlots) {
+                itemHandler.setSize(totalSlots);
+            }
+        } else {
+            if (itemHandler.getSlots() != totalSlots) {
+                itemHandler.setSize(totalSlots);
+            }
         }
         progress = tag.getInt("Progress");
         maxProgress = tag.getInt("MaxProgress");

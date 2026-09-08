@@ -397,6 +397,13 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
         super.loadAdditional(tag, registries);
         if (tag.contains("Inventory")) {
             itemHandler.deserializeNBT(registries, tag.getCompound("Inventory"));
+            if (itemHandler.getSlots() != TOTAL_SLOTS) {
+                itemHandler.setSize(TOTAL_SLOTS);
+            }
+        } else {
+            if (itemHandler.getSlots() != TOTAL_SLOTS) {
+                itemHandler.setSize(TOTAL_SLOTS);
+            }
         }
         if (tag.contains("Energy")) {
             energyStorage.deserializeNBT(registries, tag.getCompound("Energy"));
