@@ -1,0 +1,16 @@
+{
+  "type": "onter_ic2:metal_forming",
+  "ingredient": {
+    "tag": "c:ingots/iron"
+  },
+  "result": {
+    "id": "alltheores:iron_plate",
+    "fallback": {
+      "id": "onter_ic2:advanced_alloy",
+      "count": 1
+    }
+  },
+  "energyCost": 800,
+  "processTime": 200,
+  "mode": "rolling"
+}

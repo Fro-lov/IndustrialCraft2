@@ -1,0 +1,37 @@
+{
+  "machine.macerator": {
+    "category": "block",
+    "subtitle": "subtitles.onter_ic2.macerator",
+    "sounds": [
+      "onter_ic2:macerator_op"
+    ]
+  },
+  "machine.electric_furnace": {
+    "category": "block",
+    "subtitle": "subtitles.onter_ic2.electric_furnace",
+    "sounds": [
+      "onter_ic2:electro_furnace_loop"
+    ]
+  },
+  "machine.compressor": {
+    "category": "block",
+    "subtitle": "subtitles.onter_ic2.compressor",
+    "sounds": [
+      "onter_ic2:compressor_op"
+    ]
+  },
+  "machine.extractor": {
+    "category": "block",
+    "subtitle": "subtitles.onter_ic2.extractor",
+    "sounds": [
+      "onter_ic2:extractor_op"
+    ]
+  },
+  "machine.generator": {
+    "category": "block",
+    "subtitle": "subtitles.onter_ic2.generator",
+    "sounds": [
+      "onter_ic2:generator_op"
+    ]
+  }
+}

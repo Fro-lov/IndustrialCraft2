@@ -1,0 +1,13 @@
+{
+  "type": "onter_ic2:metal_forming",
+  "ingredient": {
+    "tag": "c:ingots/gold"
+  },
+  "result": {
+    "id": "onter_ic2:gold_cable",
+    "count": 3
+  },
+  "energyCost": 800,
+  "processTime": 200,
+  "mode": "extruding"
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "TRT",
+    "TRT"
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:copper_cable"
+    },
+    "T": {
+      "tag": "c:ingots/tin"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:re_battery",
+    "count": 1
+  }
+}

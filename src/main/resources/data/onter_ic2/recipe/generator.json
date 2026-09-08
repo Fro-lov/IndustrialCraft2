@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    " I ",
+    " F "
+  ],
+  "key": {
+    "B": {
+      "item": "onter_ic2:re_battery"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:generator",
+    "count": 1
+  }
+}

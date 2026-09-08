@@ -1,0 +1,16 @@
+{
+  "type": "onter_ic2:metal_forming",
+  "ingredient": {
+    "tag": "c:ingots/gold"
+  },
+  "result": {
+    "id": "alltheores:gold_plate",
+    "fallback": {
+      "id": "onter_ic2:gold_cable",
+      "count": 2
+    }
+  },
+  "energyCost": 800,
+  "processTime": 200,
+  "mode": "rolling"
+}

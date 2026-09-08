@@ -1,0 +1,58 @@
+{
+  "itemGroup.onter_ic2": "Onter IC2 (IndustrialCraft)",
+
+  "block.onter_ic2.macerator": "Дробитель",
+  "block.onter_ic2.electric_furnace": "Электропечь",
+  "block.onter_ic2.compressor": "Компрессор",
+  "block.onter_ic2.extractor": "Экстрактор",
+  "block.onter_ic2.metal_former": "Металлоформовщик",
+
+  "block.onter_ic2.generator": "Генератор",
+  "block.onter_ic2.solar_panel": "Солнечная панель",
+  "block.onter_ic2.advanced_solar_panel": "Продвинутая панель",
+  "block.onter_ic2.hybrid_solar_panel": "Гибридная панель",
+  "block.onter_ic2.ultimate_hybrid_solar_panel": "Ультимейт панель",
+  "block.onter_ic2.quantum_solar_panel": "Квантовая панель",
+
+  "block.onter_ic2.batbox": "BatBox",
+  "block.onter_ic2.cesu": "CESU",
+  "block.onter_ic2.mfe": "MFE",
+  "block.onter_ic2.mfsu": "MFSU",
+
+  "block.onter_ic2.copper_cable": "Медный изолированный провод",
+  "block.onter_ic2.gold_cable": "Золотой изолированный провод",
+  "block.onter_ic2.hv_cable": "Высоковольтный изолированный провод",
+  "block.onter_ic2.glass_fibre_cable": "Стекловолоконный провод",
+  "block.onter_ic2.superconductor_cable": "Сверхпроводящий кабель (Без потерь)",
+
+  "item.onter_ic2.rubber": "Резина",
+  "item.onter_ic2.sticky_resin": "Латекс",
+  "item.onter_ic2.electronic_circuit": "Электронная схема",
+  "item.onter_ic2.advanced_circuit": "Улучшенная схема",
+  "item.onter_ic2.mixed_metal_ingot": "Слиток композитного сплава",
+  "item.onter_ic2.advanced_alloy": "Композит",
+  "item.onter_ic2.carbon_fibre": "Углеволокно",
+  "item.onter_ic2.carbon_mesh": "Углепластик",
+  "item.onter_ic2.carbon_plate": "Углепластиковая пластина",
+
+  "item.onter_ic2.raw_iridium": "Необработанный иридий",
+  "item.onter_ic2.iridium_ingot": "Иридиевый слиток",
+  "item.onter_ic2.iridium_plate": "Иридиевая пластина",
+  "item.onter_ic2.reinforced_iridium_plate": "Укрепленная иридиевая пластина",
+
+  "item.onter_ic2.sunnarium_part": "Кусочек саннариума",
+  "item.onter_ic2.sunnarium": "Саннариум",
+  "item.onter_ic2.sunnarium_plate": "Саннариумовая пластина",
+
+  "item.onter_ic2.re_battery": "Аккумулятор (RE-Battery)",
+  "item.onter_ic2.energy_crystal": "Энергетический кристалл",
+  "item.onter_ic2.lapotron_crystal": "Лазуротроновый кристалл",
+
+  "item.onter_ic2.overclocker_upgrade": "Ускоритель (Overclocker)",
+  "item.onter_ic2.energy_storage_upgrade": "Улучшение 'Хранилище энергии'",
+  "item.onter_ic2.transformer_upgrade": "Улучшение 'Трансформатор'",
+
+  "tooltip.onter_ic2.energy": "§eЭнергия: §f%d / %d FE §7(§a%d / %d EU§7)",
+  "message.onter_ic2.solar_status": "§eЭнергия: §f%d / %d FE §7| Генерация: §a%d FE/t (%d EU/t)",
+  "message.onter_ic2.metal_former_mode": "§eРежим металлоформовщика: §a%s"
+}

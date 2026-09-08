@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EEE",
+    "ACA",
+    "EEE"
+  ],
+  "key": {
+    "E": {
+      "item": "onter_ic2:energy_crystal"
+    },
+    "A": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "C": {
+      "item": "onter_ic2:cesu"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:mfe",
+    "count": 1
+  }
+}

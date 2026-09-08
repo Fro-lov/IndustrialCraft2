@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "ICI",
+    " G "
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    },
+    "G": {
+      "item": "onter_ic2:generator"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:macerator",
+    "count": 1
+  }
+}

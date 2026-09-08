@@ -1,0 +1,15 @@
+{
+  "type": "onter_ic2:macerating",
+  "ingredient": {
+    "item": "minecraft:raw_gold"
+  },
+  "result": {
+    "id": "alltheores:gold_dust",
+    "fallback": {
+      "id": "minecraft:gold_nugget",
+      "count": 18
+    }
+  },
+  "energyCost": 800,
+  "processTime": 200
+}

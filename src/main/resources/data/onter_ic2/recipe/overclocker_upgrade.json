@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "ECE",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:copper_cable"
+    },
+    "E": {
+      "item": "onter_ic2:electronic_circuit"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:overclocker_upgrade",
+    "count": 1
+  }
+}

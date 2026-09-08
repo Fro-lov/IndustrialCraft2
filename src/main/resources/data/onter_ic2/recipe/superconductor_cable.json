@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "GSG",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    },
+    "G": {
+      "item": "onter_ic2:glass_fibre_cable"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:superconductor_cable",
+    "count": 4
+  }
+}

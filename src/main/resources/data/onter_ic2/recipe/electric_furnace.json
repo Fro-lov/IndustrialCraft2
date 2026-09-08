@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " R ",
+    " G "
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "G": {
+      "item": "onter_ic2:generator"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:electric_furnace",
+    "count": 1
+  }
+}

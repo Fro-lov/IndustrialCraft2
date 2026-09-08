@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "ABA",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:gold_cable"
+    },
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "B": {
+      "item": "onter_ic2:batbox"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:cesu",
+    "count": 1
+  }
+}

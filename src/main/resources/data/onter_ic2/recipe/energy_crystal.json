@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "RDR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "D": {
+      "tag": "c:gems/diamond"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:energy_crystal",
+    "count": 1
+  }
+}

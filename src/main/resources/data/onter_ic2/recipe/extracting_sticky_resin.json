@@ -1,0 +1,12 @@
+{
+  "type": "onter_ic2:extracting",
+  "ingredient": {
+    "item": "onter_ic2:sticky_resin"
+  },
+  "result": {
+    "id": "onter_ic2:rubber",
+    "count": 3
+  },
+  "energyCost": 600,
+  "processTime": 200
+}

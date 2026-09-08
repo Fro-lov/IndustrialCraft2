@@ -1,0 +1,15 @@
+{
+  "type": "onter_ic2:macerating",
+  "ingredient": {
+    "item": "minecraft:coal"
+  },
+  "result": {
+    "id": "alltheores:coal_dust",
+    "fallback": {
+      "id": "onter_ic2:carbon_fibre",
+      "count": 1
+    }
+  },
+  "energyCost": 800,
+  "processTime": 200
+}

@@ -1,0 +1,15 @@
+{
+  "type": "onter_ic2:macerating",
+  "ingredient": {
+    "item": "minecraft:raw_copper"
+  },
+  "result": {
+    "id": "alltheores:copper_dust",
+    "fallback": {
+      "id": "minecraft:copper_ingot",
+      "count": 2
+    }
+  },
+  "energyCost": 800,
+  "processTime": 200
+}

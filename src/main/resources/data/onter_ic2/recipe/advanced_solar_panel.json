@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "ASA",
+    "ECE"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "S": {
+      "item": "onter_ic2:solar_panel"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "E": {
+      "item": "onter_ic2:re_battery"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:advanced_solar_panel",
+    "count": 1
+  }
+}

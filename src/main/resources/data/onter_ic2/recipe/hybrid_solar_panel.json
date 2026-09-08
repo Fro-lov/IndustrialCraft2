@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "ASA",
+    "ECE"
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:carbon_plate"
+    },
+    "A": {
+      "item": "onter_ic2:sunnarium_plate"
+    },
+    "S": {
+      "item": "onter_ic2:advanced_solar_panel"
+    },
+    "E": {
+      "item": "onter_ic2:energy_crystal"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:hybrid_solar_panel",
+    "count": 1
+  }
+}

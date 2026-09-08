@@ -1,0 +1,12 @@
+{
+  "type": "onter_ic2:compressing",
+  "ingredient": {
+    "item": "onter_ic2:carbon_mesh"
+  },
+  "result": {
+    "id": "onter_ic2:carbon_plate",
+    "count": 1
+  },
+  "energyCost": 1200,
+  "processTime": 300
+}

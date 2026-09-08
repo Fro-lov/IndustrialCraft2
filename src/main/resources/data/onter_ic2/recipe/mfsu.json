@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LAL",
+    "LML",
+    "LAL"
+  ],
+  "key": {
+    "L": {
+      "item": "onter_ic2:lapotron_crystal"
+    },
+    "A": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "M": {
+      "item": "onter_ic2:mfe"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:mfsu",
+    "count": 1
+  }
+}

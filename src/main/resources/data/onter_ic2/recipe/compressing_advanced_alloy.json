@@ -1,0 +1,12 @@
+{
+  "type": "onter_ic2:compressing",
+  "ingredient": {
+    "item": "onter_ic2:mixed_metal_ingot"
+  },
+  "result": {
+    "id": "onter_ic2:advanced_alloy",
+    "count": 1
+  },
+  "energyCost": 1200,
+  "processTime": 300
+}

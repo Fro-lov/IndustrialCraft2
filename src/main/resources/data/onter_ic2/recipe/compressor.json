@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S S",
+    "SCS",
+    "SGS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone"
+    },
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    },
+    "G": {
+      "item": "onter_ic2:generator"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:compressor",
+    "count": 1
+  }
+}

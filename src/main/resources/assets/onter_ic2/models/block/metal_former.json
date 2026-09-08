@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "top": "onter_ic2:block/metal_former_top",
+    "bottom": "onter_ic2:block/metal_former_bottom",
+    "side": "onter_ic2:block/metal_former_side",
+    "front": "onter_ic2:block/metal_former_front"
+  }
+}

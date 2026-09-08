@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "CCC",
+    "EGE"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "C": {
+      "tag": "c:dusts/coal"
+    },
+    "E": {
+      "item": "onter_ic2:electronic_circuit"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:solar_panel",
+    "count": 1
+  }
+}

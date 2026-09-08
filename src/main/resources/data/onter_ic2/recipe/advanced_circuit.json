@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RGR",
+    "ECE",
+    "RGR"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "G": {
+      "tag": "c:dusts/glowstone"
+    },
+    "E": {
+      "tag": "c:gems/lapis"
+    },
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:advanced_circuit",
+    "count": 1
+  }
+}

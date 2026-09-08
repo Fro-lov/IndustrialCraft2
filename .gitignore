@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+
+# Temp & Artifacts
+temp_tiles/
+test_electric.png
+gui_*_converted.png
+*.log
+
+# OS
+Thumbs.db
+.DS_Store

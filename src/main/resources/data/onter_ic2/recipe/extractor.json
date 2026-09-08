@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T T",
+    "TCT",
+    "TGT"
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:tree_tap",
+      "fallback": {
+        "item": "onter_ic2:rubber"
+      }
+    },
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    },
+    "G": {
+      "item": "onter_ic2:generator"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:extractor",
+    "count": 1
+  }
+}

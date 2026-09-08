@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LCL",
+    "LEL",
+    "LCL"
+  ],
+  "key": {
+    "L": {
+      "tag": "c:gems/lapis"
+    },
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    },
+    "E": {
+      "item": "onter_ic2:energy_crystal"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:lapotron_crystal",
+    "count": 1
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "BBB",
+    "CCC"
+  ],
+  "key": {
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "B": {
+      "item": "onter_ic2:re_battery"
+    },
+    "C": {
+      "item": "onter_ic2:copper_cable"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:batbox",
+    "count": 1
+  }
+}
