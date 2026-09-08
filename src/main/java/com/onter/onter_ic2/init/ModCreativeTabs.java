@@ -17,12 +17,26 @@ public class ModCreativeTabs {
                     .title(Component.translatable("itemGroup.onter_ic2"))
                     .icon(() -> new ItemStack(ModBlocks.MACERATOR.get()))
                     .displayItems((parameters, output) -> {
-                        // Machines
+                        // Machines (Base)
                         output.accept(ModBlocks.MACERATOR.get());
                         output.accept(ModBlocks.ELECTRIC_FURNACE.get());
                         output.accept(ModBlocks.COMPRESSOR.get());
                         output.accept(ModBlocks.EXTRACTOR.get());
                         output.accept(ModBlocks.METAL_FORMER.get());
+
+                        // Machines (Advanced x6)
+                        output.accept(ModBlocks.ADVANCED_MACERATOR.get());
+                        output.accept(ModBlocks.ADVANCED_ELECTRIC_FURNACE.get());
+                        output.accept(ModBlocks.ADVANCED_COMPRESSOR.get());
+                        output.accept(ModBlocks.ADVANCED_EXTRACTOR.get());
+                        output.accept(ModBlocks.ADVANCED_METAL_FORMER.get());
+
+                        // Machines (Maximum x12)
+                        output.accept(ModBlocks.MAX_MACERATOR.get());
+                        output.accept(ModBlocks.MAX_ELECTRIC_FURNACE.get());
+                        output.accept(ModBlocks.MAX_COMPRESSOR.get());
+                        output.accept(ModBlocks.MAX_EXTRACTOR.get());
+                        output.accept(ModBlocks.MAX_METAL_FORMER.get());
 
                         // Generators & Solars
                         output.accept(ModBlocks.GENERATOR.get());
@@ -39,11 +53,20 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.MFSU.get());
 
                         // Cables
+                        output.accept(ModBlocks.COPPER_CABLE_UNINSULATED.get());
                         output.accept(ModBlocks.COPPER_CABLE.get());
-                        output.accept(ModBlocks.GOLD_CABLE.get());
-                        output.accept(ModBlocks.HV_CABLE.get());
+                        output.accept(ModBlocks.GOLD_CABLE_UNINSULATED.get());
+                        output.accept(ModBlocks.GOLD_CABLE_1X.get());
+                        output.accept(ModBlocks.GOLD_CABLE_2X.get());
+                        output.accept(ModBlocks.HV_CABLE_UNINSULATED.get());
+                        output.accept(ModBlocks.HV_CABLE_1X.get());
+                        output.accept(ModBlocks.HV_CABLE_2X.get());
+                        output.accept(ModBlocks.HV_CABLE_3X.get());
                         output.accept(ModBlocks.GLASS_FIBRE_CABLE.get());
                         output.accept(ModBlocks.SUPERCONDUCTOR_CABLE.get());
+
+                        // Tools
+                        output.accept(ModItems.WRENCH.get());
 
                         // Resources
                         output.accept(ModItems.RUBBER.get());
@@ -72,5 +95,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.OVERCLOCKER_UPGRADE.get());
                         output.accept(ModItems.ENERGY_STORAGE_UPGRADE.get());
                         output.accept(ModItems.TRANSFORMER_UPGRADE.get());
+                        output.accept(ModItems.EJECTOR_UPGRADE.get());
+                        output.accept(ModItems.PULLING_UPGRADE.get());
                     }).build());
 }

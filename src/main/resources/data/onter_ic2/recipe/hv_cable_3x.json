@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "onter_ic2:hv_cable_2x"
+    },
+    {
+      "item": "onter_ic2:rubber"
+    }
+  ],
+  "result": {
+    "id": "onter_ic2:hv_cable_3x",
+    "count": 1
+  }
+}

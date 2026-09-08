@@ -1,3 +1,6 @@
 {
-  "parent": "onter_ic2:block/superconductor_cable_core"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "onter_ic2:item/superconductor_cable"
+  }
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " P ",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:copper_cable"
+    },
+    "P": {
+      "item": "minecraft:sticky_piston"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:pulling_upgrade",
+    "count": 1
+  }
+}

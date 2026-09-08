@@ -1,7 +1,27 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "onter_ic2:block/mfsu"
+    },
+    "facing=south": {
+      "model": "onter_ic2:block/mfsu",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "onter_ic2:block/mfsu",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "onter_ic2:block/mfsu",
+      "y": 90
+    },
+    "facing=up": {
+      "model": "onter_ic2:block/mfsu",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "onter_ic2:block/mfsu",
+      "x": 90
     }
   }
 }

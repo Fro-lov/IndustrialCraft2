@@ -60,11 +60,24 @@ public class MetalFormerBlockEntity extends BaseMachineBlockEntity {
     };
 
     public MetalFormerBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.METAL_FORMER.get(), pos, blockState, 40000, 10, 200); // 10 FE/t, 200 ticks
+        this(ModBlockEntities.METAL_FORMER.get(), pos, blockState, 40000, 10, 200, 1); // 10 FE/t, 200 ticks
+    }
+
+    public MetalFormerBlockEntity(net.minecraft.world.level.block.entity.BlockEntityType<?> type, BlockPos pos, BlockState blockState,
+                                  int capacity, int energyPerTick, int maxProgress, int batchMultiplier) {
+        super(type, pos, blockState, capacity, energyPerTick, maxProgress, batchMultiplier);
     }
 
     public MetalFormerRecipe.Mode getMode() {
         return mode;
+    }
+
+    public void setMode(MetalFormerRecipe.Mode newMode) {
+        if (this.mode != newMode) {
+            this.mode = newMode;
+            this.progress = 0;
+            setChanged();
+        }
     }
 
     public void cycleMode() {
@@ -76,7 +89,7 @@ public class MetalFormerBlockEntity extends BaseMachineBlockEntity {
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.onter_ic2.metal_former");
+        return Component.translatable(getBlockState().getBlock().getDescriptionId());
     }
 
     @Nullable
@@ -97,6 +110,7 @@ public class MetalFormerBlockEntity extends BaseMachineBlockEntity {
 
     @Override
     protected boolean canProcess() {
+        if (!surplusOutputBuffer.isEmpty()) return false;
         Optional<RecipeHolder<MetalFormerRecipe>> recipe = getCurrentRecipe();
         if (recipe.isEmpty()) return false;
 
@@ -104,23 +118,18 @@ public class MetalFormerBlockEntity extends BaseMachineBlockEntity {
         ItemStack outputSlot = itemHandler.getStackInSlot(SLOT_OUTPUT);
 
         if (outputSlot.isEmpty()) return true;
-        if (!ItemStack.isSameItemSameComponents(outputSlot, result)) return false;
-        return outputSlot.getCount() + result.getCount() <= outputSlot.getMaxStackSize();
+        return ItemStack.isSameItemSameComponents(outputSlot, result) && outputSlot.getCount() < outputSlot.getMaxStackSize();
     }
 
     @Override
     protected void processItem() {
         Optional<RecipeHolder<MetalFormerRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent() && canProcess()) {
-            ItemStack result = recipe.get().value().assemble(new SingleRecipeInput(itemHandler.getStackInSlot(SLOT_INPUT)), level.registryAccess());
-            itemHandler.extractItem(SLOT_INPUT, 1, false);
-
-            ItemStack outputSlot = itemHandler.getStackInSlot(SLOT_OUTPUT);
-            if (outputSlot.isEmpty()) {
-                itemHandler.setStackInSlot(SLOT_OUTPUT, result.copy());
-            } else {
-                outputSlot.grow(result.getCount());
-            }
+            ItemStack input = itemHandler.getStackInSlot(SLOT_INPUT);
+            int toExtract = Math.min(batchMultiplier, input.getCount());
+            ItemStack result = recipe.get().value().assemble(new SingleRecipeInput(input), level.registryAccess());
+            itemHandler.extractItem(SLOT_INPUT, toExtract, false);
+            produceOutput(result, toExtract);
         }
     }
 

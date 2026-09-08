@@ -17,6 +17,7 @@ public class ModSounds {
     public static final Supplier<SoundEvent> COMPRESSOR_OP = registerSoundEvent("machine.compressor", "compressor_op");
     public static final Supplier<SoundEvent> EXTRACTOR_OP = registerSoundEvent("machine.extractor", "extractor_op");
     public static final Supplier<SoundEvent> GENERATOR_OP = registerSoundEvent("machine.generator", "generator_op");
+    public static final Supplier<SoundEvent> WRENCH = registerSoundEvent("tool.wrench", "wrench");
 
     private static Supplier<SoundEvent> registerSoundEvent(String name, String soundLocation) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(OnterIC2.MODID, soundLocation)));

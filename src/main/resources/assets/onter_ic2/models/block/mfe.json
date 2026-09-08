@@ -4,6 +4,6 @@
     "top": "onter_ic2:block/mfe_top",
     "bottom": "onter_ic2:block/mfe_bottom",
     "side": "onter_ic2:block/mfe_side",
-    "front": "onter_ic2:block/mfe_front"
+    "front": "onter_ic2:block/mfe_output"
   }
 }

@@ -4,7 +4,6 @@ import com.onter.onter_ic2.OnterIC2;
 import com.onter.onter_ic2.menu.MetalFormerMenu;
 import com.onter.onter_ic2.recipe.MetalFormerRecipe;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,7 +12,6 @@ import java.util.List;
 
 public class MetalFormerScreen extends BaseMachineScreen<MetalFormerMenu> {
     private static final ResourceLocation TEXTURE = OnterIC2.loc("textures/gui/container/metal_former.png");
-    private Button modeButton;
 
     public MetalFormerScreen(MetalFormerMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title, TEXTURE);
@@ -24,15 +22,7 @@ public class MetalFormerScreen extends BaseMachineScreen<MetalFormerMenu> {
     @Override
     protected void init() {
         super.init();
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
-
-        // Mode switch button placed at x=50, y=16 (above the 3 mode icons, perfectly clear of input slot at x=17)
-        modeButton = addRenderableWidget(Button.builder(Component.literal("Mode"), btn -> {
-            if (minecraft != null && minecraft.gameMode != null) {
-                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 0);
-            }
-        }).bounds(x + 54, y + 16, 54, 16).build());
+        // No text buttons - authentic IC2 interactive GUI layout
     }
 
     @Override
@@ -48,38 +38,55 @@ public class MetalFormerScreen extends BaseMachineScreen<MetalFormerMenu> {
             guiGraphics.blit(TEXTURE, x + 17, y + 37 + (14 - energyHeight), 176, 14 - energyHeight, 14, energyHeight);
         }
 
-        // Active Mode Highlight Icon & Progress
+        // Active Mode Capsule Highlight (17x13)
         MetalFormerRecipe.Mode mode = menu.getMode();
         int modeU = switch (mode) {
-            case ROLLING -> 176;
-            case EXTRUDING -> 192;
-            case CUTTING -> 208;
+            case EXTRUDING -> 176;
+            case ROLLING -> 193;
+            case CUTTING -> 210;
         };
         int modeX = switch (mode) {
-            case ROLLING -> 54;
-            case EXTRUDING -> 72;
+            case EXTRUDING -> 54;
+            case ROLLING -> 72;
             case CUTTING -> 90;
         };
 
         // Draw active mode icon
-        guiGraphics.blit(TEXTURE, x + modeX, y + 39, modeU, 14, 16, 15);
+        guiGraphics.blit(TEXTURE, x + modeX, y + 39, modeU, 14, 17, 13);
 
-        // Progress bar inside active mode
+        // Progress Bar inside the box at (x=67, y=53)
         int progress = menu.getScaledProgress(16);
         if (progress > 0) {
-            guiGraphics.blit(TEXTURE, x + modeX, y + 39, modeU, 14, progress, 15);
+            // Authentic orange progress line filling horizontally inside the box
+            guiGraphics.fill(x + 69, y + 62, x + 69 + progress, y + 64, 0xFFE58200);
+            guiGraphics.fill(x + 69, y + 64, x + 69 + progress, y + 65, 0xFFA05500);
         }
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
+        if (button == 0 && minecraft != null && minecraft.gameMode != null) {
+            int x = (width - imageWidth) / 2;
+            int y = (height - imageHeight) / 2;
 
-        // Click directly on mode icons area to switch mode
-        if (mouseX >= x + 50 && mouseX <= x + 110 && mouseY >= y + 36 && mouseY <= y + 56) {
-            if (minecraft != null && minecraft.gameMode != null) {
+            // Click on Extruding capsule (54..70, 39..51)
+            if (mouseX >= x + 54 && mouseX <= x + 70 && mouseY >= y + 39 && mouseY <= y + 51) {
                 minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 0);
+                return true;
+            }
+            // Click on Rolling capsule (72..88, 39..51)
+            if (mouseX >= x + 72 && mouseX <= x + 88 && mouseY >= y + 39 && mouseY <= y + 51) {
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 1);
+                return true;
+            }
+            // Click on Cutting capsule (90..106, 39..51)
+            if (mouseX >= x + 90 && mouseX <= x + 106 && mouseY >= y + 39 && mouseY <= y + 51) {
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 2);
+                return true;
+            }
+            // Click on Mode Button / Progress Box (67..86, 53..72)
+            if (mouseX >= x + 67 && mouseX <= x + 86 && mouseY >= y + 53 && mouseY <= y + 72) {
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 3);
                 return true;
             }
         }
@@ -88,33 +95,45 @@ public class MetalFormerScreen extends BaseMachineScreen<MetalFormerMenu> {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        if (modeButton != null) {
-            MetalFormerRecipe.Mode mode = menu.getMode();
-            String modeRu = switch (mode) {
-                case ROLLING -> "Прокат";
-                case EXTRUDING -> "Выдавл.";
-                case CUTTING -> "Резка";
-            };
-            modeButton.setMessage(Component.literal(modeRu));
-        }
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        // Tooltip over mode area
-        if (mouseX >= x + 50 && mouseX <= x + 110 && mouseY >= y + 36 && mouseY <= y + 56) {
+        // Energy Tooltip over Lightning bolt (17..31, 37..51)
+        if (mouseX >= x + 17 && mouseX <= x + 31 && mouseY >= y + 37 && mouseY <= y + 51) {
+            int energy = menu.getEnergy();
+            int maxEnergy = menu.getMaxEnergy();
+            guiGraphics.renderComponentTooltip(font, List.of(
+                    Component.literal("§eЭнергия: §f" + (energy / 4) + " / " + (maxEnergy / 4) + " EU"),
+                    Component.literal("§7(" + energy + " / " + maxEnergy + " FE)")
+            ), mouseX, mouseY);
+        }
+
+        // Mode Tooltip over Mode Capsules (54..107, 39..52)
+        if (mouseX >= x + 54 && mouseX <= x + 107 && mouseY >= y + 39 && mouseY <= y + 52) {
             MetalFormerRecipe.Mode mode = menu.getMode();
-            String desc = switch (mode) {
-                case ROLLING -> "§eПрокат: §fСлитки -> Пластины";
-                case EXTRUDING -> "§eВыдавливание: §fСлитки -> Провода";
-                case CUTTING -> "§eРезка: §fПластины -> Оболочки / Провода";
+            String activeName = switch (mode) {
+                case EXTRUDING -> "§6Выдавливание (Провода)";
+                case ROLLING -> "§6Прокатка (Пластины)";
+                case CUTTING -> "§6Резка (Кусачки / Оболочки)";
             };
             guiGraphics.renderComponentTooltip(font, List.of(
-                    Component.literal("§6Режим: " + mode.name()),
-                    Component.literal(desc),
-                    Component.literal("§7[Нажмите для переключения]")
+                    Component.literal("§eТекущий режим: " + activeName),
+                    Component.literal("§7- §fЛевая иконка: §eВыдавливание (Слитки -> Провода)"),
+                    Component.literal("§7- §fЦентр: §eПрокатка (Слитки -> Пластины)"),
+                    Component.literal("§7- §fПравая: §eРезка (Пластины -> Оболочки)"),
+                    Component.literal("§a[Нажмите на иконку для выбора]")
+            ), mouseX, mouseY);
+        }
+
+        // Tooltip over Progress Box (67..86, 53..72)
+        if (mouseX >= x + 67 && mouseX <= x + 86 && mouseY >= y + 53 && mouseY <= y + 72) {
+            guiGraphics.renderComponentTooltip(font, List.of(
+                    Component.literal("§eПереключатель режима"),
+                    Component.literal("§7[Нажмите для смены]")
             ), mouseX, mouseY);
         }
     }
 }
+

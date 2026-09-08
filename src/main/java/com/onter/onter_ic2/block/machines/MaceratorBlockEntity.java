@@ -20,12 +20,17 @@ import java.util.Optional;
 
 public class MaceratorBlockEntity extends BaseMachineBlockEntity {
     public MaceratorBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.MACERATOR.get(), pos, blockState, 40000, 8, 300); // 8 FE/t (2 EU/t), 300 ticks
+        this(ModBlockEntities.MACERATOR.get(), pos, blockState, 40000, 8, 300, 1); // 8 FE/t (2 EU/t), 300 ticks
+    }
+
+    public MaceratorBlockEntity(net.minecraft.world.level.block.entity.BlockEntityType<?> type, BlockPos pos, BlockState blockState,
+                                int capacity, int energyPerTick, int maxProgress, int batchMultiplier) {
+        super(type, pos, blockState, capacity, energyPerTick, maxProgress, batchMultiplier);
     }
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.onter_ic2.macerator");
+        return Component.translatable(getBlockState().getBlock().getDescriptionId());
     }
 
     @Nullable
@@ -43,6 +48,7 @@ public class MaceratorBlockEntity extends BaseMachineBlockEntity {
 
     @Override
     protected boolean canProcess() {
+        if (!surplusOutputBuffer.isEmpty()) return false;
         Optional<RecipeHolder<MaceratorRecipe>> recipe = getCurrentRecipe();
         if (recipe.isEmpty()) return false;
 
@@ -50,23 +56,18 @@ public class MaceratorBlockEntity extends BaseMachineBlockEntity {
         ItemStack outputSlot = itemHandler.getStackInSlot(SLOT_OUTPUT);
 
         if (outputSlot.isEmpty()) return true;
-        if (!ItemStack.isSameItemSameComponents(outputSlot, result)) return false;
-        return outputSlot.getCount() + result.getCount() <= outputSlot.getMaxStackSize();
+        return ItemStack.isSameItemSameComponents(outputSlot, result) && outputSlot.getCount() < outputSlot.getMaxStackSize();
     }
 
     @Override
     protected void processItem() {
         Optional<RecipeHolder<MaceratorRecipe>> recipe = getCurrentRecipe();
         if (recipe.isPresent() && canProcess()) {
-            ItemStack result = recipe.get().value().assemble(new SingleRecipeInput(itemHandler.getStackInSlot(SLOT_INPUT)), level.registryAccess());
-            itemHandler.extractItem(SLOT_INPUT, 1, false);
-
-            ItemStack outputSlot = itemHandler.getStackInSlot(SLOT_OUTPUT);
-            if (outputSlot.isEmpty()) {
-                itemHandler.setStackInSlot(SLOT_OUTPUT, result.copy());
-            } else {
-                outputSlot.grow(result.getCount());
-            }
+            ItemStack input = itemHandler.getStackInSlot(SLOT_INPUT);
+            int toExtract = Math.min(batchMultiplier, input.getCount());
+            ItemStack result = recipe.get().value().assemble(new SingleRecipeInput(input), level.registryAccess());
+            itemHandler.extractItem(SLOT_INPUT, toExtract, false);
+            produceOutput(result, toExtract);
         }
     }
 }

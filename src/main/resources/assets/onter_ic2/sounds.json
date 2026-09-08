@@ -1,37 +1,38 @@
 {
-  "machine.macerator": {
-    "category": "block",
-    "subtitle": "subtitles.onter_ic2.macerator",
+  "macerator_op": {
     "sounds": [
       "onter_ic2:macerator_op"
-    ]
+    ],
+    "subtitle": "subtitles.onter_ic2.macerator_op"
   },
-  "machine.electric_furnace": {
-    "category": "block",
-    "subtitle": "subtitles.onter_ic2.electric_furnace",
+  "electro_furnace_loop": {
     "sounds": [
       "onter_ic2:electro_furnace_loop"
-    ]
+    ],
+    "subtitle": "subtitles.onter_ic2.electro_furnace_loop"
   },
-  "machine.compressor": {
-    "category": "block",
-    "subtitle": "subtitles.onter_ic2.compressor",
+  "compressor_op": {
     "sounds": [
       "onter_ic2:compressor_op"
-    ]
+    ],
+    "subtitle": "subtitles.onter_ic2.compressor_op"
   },
-  "machine.extractor": {
-    "category": "block",
-    "subtitle": "subtitles.onter_ic2.extractor",
+  "extractor_op": {
     "sounds": [
       "onter_ic2:extractor_op"
-    ]
+    ],
+    "subtitle": "subtitles.onter_ic2.extractor_op"
   },
-  "machine.generator": {
-    "category": "block",
-    "subtitle": "subtitles.onter_ic2.generator",
+  "generator_op": {
     "sounds": [
       "onter_ic2:generator_op"
-    ]
+    ],
+    "subtitle": "subtitles.onter_ic2.generator_op"
+  },
+  "wrench": {
+    "sounds": [
+      "onter_ic2:wrench"
+    ],
+    "subtitle": "subtitles.onter_ic2.wrench"
   }
 }

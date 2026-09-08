@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OLO",
+    "PMP",
+    "OLO"
+  ],
+  "key": {
+    "O": {
+      "item": "onter_ic2:overclocker_upgrade"
+    },
+    "L": {
+      "item": "onter_ic2:lapotron_crystal"
+    },
+    "P": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    },
+    "M": {
+      "item": "onter_ic2:advanced_macerator"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:max_macerator",
+    "count": 1
+  }
+}

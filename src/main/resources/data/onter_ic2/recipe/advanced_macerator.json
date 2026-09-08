@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OCO",
+    "AMA",
+    "OCO"
+  ],
+  "key": {
+    "O": {
+      "item": "onter_ic2:overclocker_upgrade"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "M": {
+      "item": "onter_ic2:macerator"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:advanced_macerator",
+    "count": 1
+  }
+}

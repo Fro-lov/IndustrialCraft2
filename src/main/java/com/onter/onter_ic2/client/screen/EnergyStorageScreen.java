@@ -22,6 +22,21 @@ public class EnergyStorageScreen extends AbstractContainerScreen<EnergyStorageMe
     }
 
     @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        // Authentically render title, Power Level, EU values, and Out transfer rate
+        guiGraphics.drawString(this.font, this.title, 79, 8, 0x404040, false);
+        guiGraphics.drawString(this.font, "Power Level:", 79, 22, 0x404040, false);
+
+        int energyEU = menu.getEnergy() / 4;
+        int maxEU = menu.getMaxEnergy() / 4;
+        guiGraphics.drawString(this.font, String.valueOf(energyEU), 108, 33, 0x404040, false);
+        guiGraphics.drawString(this.font, "/" + maxEU, 104, 44, 0x404040, false);
+
+        int outEU = menu.getBlockEntity() != null ? menu.getBlockEntity().getMaxTransfer() / 4 : 32;
+        guiGraphics.drawString(this.font, "Out: " + outEU + ".0 EU/t", 79, 58, 0x404040, false);
+    }
+
+    @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
@@ -48,8 +63,8 @@ public class EnergyStorageScreen extends AbstractContainerScreen<EnergyStorageMe
             int energy = menu.getEnergy();
             int max = menu.getMaxEnergy();
             guiGraphics.renderComponentTooltip(font, List.of(
-                    Component.literal("§eЭнергия: §f" + energy + " / " + max + " FE"),
-                    Component.literal("§7(§a" + (energy / 4) + " §7/ §a" + (max / 4) + " EU§7)")
+                    Component.literal("§eЭнергия: §f" + (energy / 4) + " / " + (max / 4) + " EU"),
+                    Component.literal("§7(" + energy + " / " + max + " FE)")
             ), mouseX, mouseY);
         }
     }

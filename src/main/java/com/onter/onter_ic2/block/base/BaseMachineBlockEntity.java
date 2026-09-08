@@ -2,6 +2,8 @@ package com.onter.onter_ic2.block.base;
 
 import com.onter.onter_ic2.energy.IC2EnergyStorage;
 import com.onter.onter_ic2.item.BatteryItem;
+import com.onter.onter_ic2.item.EjectorUpgradeItem;
+import com.onter.onter_ic2.item.PullingUpgradeItem;
 import com.onter.onter_ic2.item.UpgradeItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -53,6 +55,7 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
     protected final int baseCapacity;
     protected final int baseEnergyPerTick;
     protected final int baseMaxProgress;
+    protected final int batchMultiplier;
 
     protected int progress = 0;
     protected int maxProgress = 100;
@@ -87,12 +90,46 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
 
     public BaseMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState,
                                   int baseCapacity, int baseEnergyPerTick, int baseMaxProgress) {
+        this(type, pos, blockState, baseCapacity, baseEnergyPerTick, baseMaxProgress, 1);
+    }
+
+    public BaseMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState,
+                                  int baseCapacity, int baseEnergyPerTick, int baseMaxProgress, int batchMultiplier) {
         super(type, pos, blockState);
         this.baseCapacity = baseCapacity;
         this.baseEnergyPerTick = baseEnergyPerTick;
         this.baseMaxProgress = baseMaxProgress;
         this.maxProgress = baseMaxProgress;
-        this.energyStorage = new IC2EnergyStorage(baseCapacity, 2000, 0, this::setChanged);
+        this.batchMultiplier = batchMultiplier;
+        this.energyStorage = new IC2EnergyStorage(baseCapacity, 2000 * batchMultiplier, 0, this::setChanged);
+    }
+
+    public int getBatchMultiplier() {
+        return batchMultiplier;
+    }
+
+    protected void produceOutput(ItemStack singleResult, int inputExtracted) {
+        int totalCount = singleResult.getCount() * inputExtracted;
+        ItemStack outputSlot = itemHandler.getStackInSlot(SLOT_OUTPUT);
+
+        if (outputSlot.isEmpty()) {
+            int toPutInSlot = Math.min(singleResult.getMaxStackSize(), totalCount);
+            ItemStack inSlot = singleResult.copy();
+            inSlot.setCount(toPutInSlot);
+            itemHandler.setStackInSlot(SLOT_OUTPUT, inSlot);
+            totalCount -= toPutInSlot;
+        } else if (ItemStack.isSameItemSameComponents(outputSlot, singleResult)) {
+            int space = outputSlot.getMaxStackSize() - outputSlot.getCount();
+            int toAdd = Math.min(space, totalCount);
+            outputSlot.grow(toAdd);
+            totalCount -= toAdd;
+        }
+
+        if (totalCount > 0) {
+            ItemStack surplus = singleResult.copy();
+            surplus.setCount(totalCount);
+            surplusOutputBuffer.add(surplus);
+        }
     }
 
     public ItemStackHandler getItemHandler() {
@@ -119,19 +156,28 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
                 drops.add(stack);
             }
         }
+        for (ItemStack surplus : surplusOutputBuffer) {
+            if (!surplus.isEmpty()) {
+                drops.add(surplus);
+            }
+        }
         return drops;
     }
+
+    protected final NonNullList<ItemStack> surplusOutputBuffer = NonNullList.create();
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (level.isClientSide) return;
 
         updateUpgrades();
         handleBatteryDischarge();
+        drainSurplusBuffer();
+        handleAutomationUpgrades(level, pos);
 
         boolean wasLit = state.getValue(BaseMachineBlock.LIT);
         boolean isWorking = false;
 
-        if (canProcess()) {
+        if (surplusOutputBuffer.isEmpty() && canProcess()) {
             int energyNeeded = calculateEnergyPerTick();
             if (energyStorage.getEnergyStored() >= energyNeeded) {
                 energyStorage.consumeEnergy(energyNeeded);
@@ -154,6 +200,123 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
         if (wasLit != isWorking) {
             level.setBlock(pos, state.setValue(BaseMachineBlock.LIT, isWorking), 3);
         }
+    }
+
+    protected void drainSurplusBuffer() {
+        if (surplusOutputBuffer.isEmpty()) return;
+
+        ItemStack outputSlot = itemHandler.getStackInSlot(SLOT_OUTPUT);
+        for (int i = 0; i < surplusOutputBuffer.size(); i++) {
+            ItemStack surplus = surplusOutputBuffer.get(i);
+            if (surplus.isEmpty()) continue;
+
+            if (outputSlot.isEmpty()) {
+                itemHandler.setStackInSlot(SLOT_OUTPUT, surplus.copy());
+                surplusOutputBuffer.remove(i);
+                setChanged();
+                break;
+            } else if (ItemStack.isSameItemSameComponents(outputSlot, surplus)) {
+                int space = outputSlot.getMaxStackSize() - outputSlot.getCount();
+                if (space > 0) {
+                    int toAdd = Math.min(space, surplus.getCount());
+                    outputSlot.grow(toAdd);
+                    surplus.shrink(toAdd);
+                    if (surplus.isEmpty()) {
+                        surplusOutputBuffer.remove(i);
+                    }
+                    setChanged();
+                    break;
+                }
+            }
+        }
+    }
+
+    protected void handleAutomationUpgrades(Level level, BlockPos pos) {
+        ItemStack ejectorStack = ItemStack.EMPTY;
+        ItemStack pullingStack = ItemStack.EMPTY;
+
+        for (int i = SLOT_UPGRADE_1; i <= SLOT_UPGRADE_4; i++) {
+            ItemStack stack = itemHandler.getStackInSlot(i);
+            if (stack.getItem() instanceof EjectorUpgradeItem) {
+                ejectorStack = stack;
+            } else if (stack.getItem() instanceof PullingUpgradeItem) {
+                pullingStack = stack;
+            }
+        }
+
+        // 1. Ejector Upgrade: push output items to adjacent inventory
+        if (!ejectorStack.isEmpty()) {
+            ItemStack output = itemHandler.getStackInSlot(SLOT_OUTPUT);
+            if (!output.isEmpty()) {
+                Direction targetDir = EjectorUpgradeItem.getDirection(ejectorStack);
+                if (targetDir != null) {
+                    ejectToSide(level, pos, targetDir, output);
+                } else {
+                    for (Direction dir : Direction.values()) {
+                        if (ejectToSide(level, pos, dir, output)) break;
+                    }
+                }
+            }
+        }
+
+        // 2. Pulling Upgrade: pull items from adjacent inventory into input slot
+        if (!pullingStack.isEmpty()) {
+            ItemStack input = itemHandler.getStackInSlot(SLOT_INPUT);
+            if (input.isEmpty() || input.getCount() < input.getMaxStackSize()) {
+                Direction pullDir = PullingUpgradeItem.getDirection(pullingStack);
+                if (pullDir != null) {
+                    pullFromSide(level, pos, pullDir, input);
+                } else {
+                    for (Direction dir : Direction.values()) {
+                        if (pullFromSide(level, pos, dir, input)) break;
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean ejectToSide(Level level, BlockPos pos, Direction dir, ItemStack output) {
+        IItemHandler target = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, pos.relative(dir), dir.getOpposite());
+        if (target != null) {
+            for (int slot = 0; slot < target.getSlots(); slot++) {
+                ItemStack remainder = target.insertItem(slot, output.copy(), false);
+                int accepted = output.getCount() - remainder.getCount();
+                if (accepted > 0) {
+                    output.shrink(accepted);
+                    if (output.isEmpty()) {
+                        itemHandler.setStackInSlot(SLOT_OUTPUT, ItemStack.EMPTY);
+                    }
+                    setChanged();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean pullFromSide(Level level, BlockPos pos, Direction dir, ItemStack currentInput) {
+        IItemHandler source = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, pos.relative(dir), dir.getOpposite());
+        if (source != null) {
+            for (int slot = 0; slot < source.getSlots(); slot++) {
+                ItemStack inSlot = source.getStackInSlot(slot);
+                if (!inSlot.isEmpty() && (currentInput.isEmpty() || ItemStack.isSameItemSameComponents(currentInput, inSlot))) {
+                    int space = currentInput.isEmpty() ? inSlot.getMaxStackSize() : (currentInput.getMaxStackSize() - currentInput.getCount());
+                    if (space > 0) {
+                        ItemStack extracted = source.extractItem(slot, Math.min(space, inSlot.getCount()), false);
+                        if (!extracted.isEmpty()) {
+                            if (currentInput.isEmpty()) {
+                                itemHandler.setStackInSlot(SLOT_INPUT, extracted);
+                            } else {
+                                currentInput.grow(extracted.getCount());
+                            }
+                            setChanged();
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     protected void updateUpgrades() {
@@ -216,6 +379,14 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
         tag.put("Inventory", itemHandler.serializeNBT(registries));
         tag.put("Energy", energyStorage.serializeNBT(registries));
         tag.putInt("Progress", progress);
+
+        net.minecraft.nbt.ListTag surplusTag = new net.minecraft.nbt.ListTag();
+        for (ItemStack surplus : surplusOutputBuffer) {
+            if (!surplus.isEmpty()) {
+                surplusTag.add(surplus.save(registries));
+            }
+        }
+        tag.put("SurplusBuffer", surplusTag);
     }
 
     @Override
@@ -229,6 +400,13 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
         }
         if (tag.contains("Progress")) {
             progress = tag.getInt("Progress");
+        }
+        surplusOutputBuffer.clear();
+        if (tag.contains("SurplusBuffer")) {
+            net.minecraft.nbt.ListTag surplusTag = tag.getList("SurplusBuffer", net.minecraft.nbt.Tag.TAG_COMPOUND);
+            for (int i = 0; i < surplusTag.size(); i++) {
+                ItemStack.parse(registries, surplusTag.getCompound(i)).ifPresent(surplusOutputBuffer::add);
+            }
         }
     }
 

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "top": "onter_ic2:block/advanced_extractor_top",
+    "bottom": "onter_ic2:block/advanced_extractor_bottom",
+    "side": "onter_ic2:block/advanced_extractor_side",
+    "front": "onter_ic2:block/advanced_extractor_front_active"
+  }
+}

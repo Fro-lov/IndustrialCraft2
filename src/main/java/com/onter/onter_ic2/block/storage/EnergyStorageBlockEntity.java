@@ -117,6 +117,89 @@ public class EnergyStorageBlockEntity extends BlockEntity implements MenuProvide
         return new EnergyStorageMenu(containerId, playerInventory, this, this.dataAccess);
     }
 
+    public Direction getOutputDirection() {
+        BlockState state = getBlockState();
+        if (state.hasProperty(EnergyStorageBlock.FACING)) {
+            return state.getValue(EnergyStorageBlock.FACING);
+        }
+        return Direction.NORTH;
+    }
+
+    public IEnergyStorage getEnergyStorageForSide(@Nullable Direction side) {
+        if (side == null) {
+            return energyStorage;
+        }
+        Direction outputDir = getOutputDirection();
+        if (side == outputDir) {
+            return new IEnergyStorage() {
+                @Override
+                public int receiveEnergy(int maxReceive, boolean simulate) {
+                    return 0;
+                }
+                @Override
+                public int extractEnergy(int maxExtract, boolean simulate) {
+                    return energyStorage.extractEnergy(maxExtract, simulate);
+                }
+                @Override
+                public int getEnergyStored() {
+                    return energyStorage.getEnergyStored();
+                }
+                @Override
+                public int getMaxEnergyStored() {
+                    return energyStorage.getMaxEnergyStored();
+                }
+                @Override
+                public boolean canExtract() {
+                    return true;
+                }
+                @Override
+                public boolean canReceive() {
+                    return false;
+                }
+            };
+        } else {
+            return new IEnergyStorage() {
+                @Override
+                public int receiveEnergy(int maxReceive, boolean simulate) {
+                    return energyStorage.receiveEnergy(maxReceive, simulate);
+                }
+                @Override
+                public int extractEnergy(int maxExtract, boolean simulate) {
+                    return 0;
+                }
+                @Override
+                public int getEnergyStored() {
+                    return energyStorage.getEnergyStored();
+                }
+                @Override
+                public int getMaxEnergyStored() {
+                    return energyStorage.getMaxEnergyStored();
+                }
+                @Override
+                public boolean canExtract() {
+                    return false;
+                }
+                @Override
+                public boolean canReceive() {
+                    return true;
+                }
+            };
+        }
+    }
+
+    public int getMaxTransfer() {
+        return maxTransfer;
+    }
+
+    public int getEnergyStored() {
+        return energyStorage.getEnergyStored();
+    }
+
+    public void setEnergyStored(int energy) {
+        energyStorage.setEnergy(energy);
+        setChanged();
+    }
+
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (level.isClientSide) return;
 
@@ -166,17 +249,15 @@ public class EnergyStorageBlockEntity extends BlockEntity implements MenuProvide
             }
         }
 
-        // Output energy to adjacent blocks
+        // Output energy ONLY to adjacent block at the output direction (FACING)
         if (energyStorage.getEnergyStored() > 0) {
-            for (Direction dir : Direction.values()) {
-                IEnergyStorage adjacent = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos.relative(dir), dir.getOpposite());
-                if (adjacent != null && adjacent.canReceive()) {
-                    int toSend = Math.min(energyStorage.getEnergyStored(), maxTransfer);
-                    int accepted = adjacent.receiveEnergy(toSend, false);
-                    if (accepted > 0) {
-                        energyStorage.consumeEnergy(accepted);
-                        if (energyStorage.getEnergyStored() <= 0) break;
-                    }
+            Direction outputDir = getOutputDirection();
+            IEnergyStorage adjacent = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos.relative(outputDir), outputDir.getOpposite());
+            if (adjacent != null && adjacent.canReceive()) {
+                int toSend = Math.min(energyStorage.getEnergyStored(), maxTransfer);
+                int accepted = adjacent.receiveEnergy(toSend, false);
+                if (accepted > 0) {
+                    energyStorage.consumeEnergy(accepted);
                 }
             }
         }

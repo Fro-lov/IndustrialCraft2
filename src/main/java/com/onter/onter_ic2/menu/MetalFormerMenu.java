@@ -53,9 +53,20 @@ public class MetalFormerMenu extends BaseMachineMenu {
 
     @Override
     public boolean clickMenuButton(Player player, int id) {
-        if (id == 0 && this.blockEntity instanceof MetalFormerBlockEntity metalFormer) {
-            metalFormer.cycleMode();
-            return true;
+        if (this.blockEntity instanceof MetalFormerBlockEntity metalFormer) {
+            if (id == 0) {
+                metalFormer.setMode(MetalFormerRecipe.Mode.EXTRUDING);
+                return true;
+            } else if (id == 1) {
+                metalFormer.setMode(MetalFormerRecipe.Mode.ROLLING);
+                return true;
+            } else if (id == 2) {
+                metalFormer.setMode(MetalFormerRecipe.Mode.CUTTING);
+                return true;
+            } else if (id == 3) {
+                metalFormer.cycleMode();
+                return true;
+            }
         }
         return super.clickMenuButton(player, id);
     }

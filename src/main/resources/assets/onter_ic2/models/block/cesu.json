@@ -4,6 +4,6 @@
     "top": "onter_ic2:block/cesu_top",
     "bottom": "onter_ic2:block/cesu_bottom",
     "side": "onter_ic2:block/cesu_side",
-    "front": "onter_ic2:block/cesu_front"
+    "front": "onter_ic2:block/cesu_output"
   }
 }

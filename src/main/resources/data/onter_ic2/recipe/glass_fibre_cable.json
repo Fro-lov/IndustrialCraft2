@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "RER",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "E": {
+      "item": "onter_ic2:energy_crystal"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:glass_fibre_cable",
+    "count": 6
+  }
+}

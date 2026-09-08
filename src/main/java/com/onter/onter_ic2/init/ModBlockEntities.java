@@ -15,7 +15,7 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, OnterIC2.MODID);
 
-    // Machines
+    // --- Base Machines ---
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MaceratorBlockEntity>> MACERATOR =
             BLOCK_ENTITIES.register("macerator", () -> BlockEntityType.Builder.of(MaceratorBlockEntity::new, ModBlocks.MACERATOR.get()).build(null));
 
@@ -31,7 +31,49 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MetalFormerBlockEntity>> METAL_FORMER =
             BLOCK_ENTITIES.register("metal_former", () -> BlockEntityType.Builder.of(MetalFormerBlockEntity::new, ModBlocks.METAL_FORMER.get()).build(null));
 
-    // Generators
+    // --- Advanced Machines (x6) ---
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MaceratorBlockEntity>> ADVANCED_MACERATOR =
+            BLOCK_ENTITIES.register("advanced_macerator", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new MaceratorBlockEntity(ModBlockEntities.ADVANCED_MACERATOR.get(), pos, state, 200000, 48, 50, 6), ModBlocks.ADVANCED_MACERATOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectricFurnaceBlockEntity>> ADVANCED_ELECTRIC_FURNACE =
+            BLOCK_ENTITIES.register("advanced_electric_furnace", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new ElectricFurnaceBlockEntity(ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get(), pos, state, 200000, 72, 25, 6), ModBlocks.ADVANCED_ELECTRIC_FURNACE.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CompressorBlockEntity>> ADVANCED_COMPRESSOR =
+            BLOCK_ENTITIES.register("advanced_compressor", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CompressorBlockEntity(ModBlockEntities.ADVANCED_COMPRESSOR.get(), pos, state, 200000, 48, 65, 6), ModBlocks.ADVANCED_COMPRESSOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ExtractorBlockEntity>> ADVANCED_EXTRACTOR =
+            BLOCK_ENTITIES.register("advanced_extractor", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new ExtractorBlockEntity(ModBlockEntities.ADVANCED_EXTRACTOR.get(), pos, state, 200000, 48, 50, 6), ModBlocks.ADVANCED_EXTRACTOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MetalFormerBlockEntity>> ADVANCED_METAL_FORMER =
+            BLOCK_ENTITIES.register("advanced_metal_former", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new MetalFormerBlockEntity(ModBlockEntities.ADVANCED_METAL_FORMER.get(), pos, state, 200000, 60, 35, 6), ModBlocks.ADVANCED_METAL_FORMER.get()).build(null));
+
+    // --- Maximum Machines (x12) ---
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MaceratorBlockEntity>> MAX_MACERATOR =
+            BLOCK_ENTITIES.register("max_macerator", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new MaceratorBlockEntity(ModBlockEntities.MAX_MACERATOR.get(), pos, state, 1000000, 96, 25, 12), ModBlocks.MAX_MACERATOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectricFurnaceBlockEntity>> MAX_ELECTRIC_FURNACE =
+            BLOCK_ENTITIES.register("max_electric_furnace", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new ElectricFurnaceBlockEntity(ModBlockEntities.MAX_ELECTRIC_FURNACE.get(), pos, state, 1000000, 144, 12, 12), ModBlocks.MAX_ELECTRIC_FURNACE.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CompressorBlockEntity>> MAX_COMPRESSOR =
+            BLOCK_ENTITIES.register("max_compressor", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CompressorBlockEntity(ModBlockEntities.MAX_COMPRESSOR.get(), pos, state, 1000000, 96, 30, 12), ModBlocks.MAX_COMPRESSOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ExtractorBlockEntity>> MAX_EXTRACTOR =
+            BLOCK_ENTITIES.register("max_extractor", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new ExtractorBlockEntity(ModBlockEntities.MAX_EXTRACTOR.get(), pos, state, 1000000, 96, 25, 12), ModBlocks.MAX_EXTRACTOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MetalFormerBlockEntity>> MAX_METAL_FORMER =
+            BLOCK_ENTITIES.register("max_metal_former", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new MetalFormerBlockEntity(ModBlockEntities.MAX_METAL_FORMER.get(), pos, state, 1000000, 120, 18, 12), ModBlocks.MAX_METAL_FORMER.get()).build(null));
+
+    // --- Generators & Solar Panels ---
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GeneratorBlockEntity>> GENERATOR =
             BLOCK_ENTITIES.register("generator", () -> BlockEntityType.Builder.of(GeneratorBlockEntity::new, ModBlocks.GENERATOR.get()).build(null));
 
@@ -55,7 +97,7 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("quantum_solar_panel", () -> BlockEntityType.Builder.of((pos, state) ->
                     new SolarPanelBlockEntity(ModBlockEntities.QUANTUM_SOLAR_PANEL.get(), pos, state, 16384, 8192, 16384000), ModBlocks.QUANTUM_SOLAR_PANEL.get()).build(null));
 
-    // Energy Storages
+    // --- Energy Storages ---
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EnergyStorageBlockEntity>> BATBOX =
             BLOCK_ENTITIES.register("batbox", () -> BlockEntityType.Builder.of((pos, state) ->
                     new EnergyStorageBlockEntity(ModBlockEntities.BATBOX.get(), pos, state, "batbox", 40000, 128), ModBlocks.BATBOX.get()).build(null));
@@ -72,24 +114,49 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("mfsu", () -> BlockEntityType.Builder.of((pos, state) ->
                     new EnergyStorageBlockEntity(ModBlockEntities.MFSU.get(), pos, state, "mfsu", 40000000, 8192), ModBlocks.MFSU.get()).build(null));
 
-    // Cables
+    // --- Cables ---
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> COPPER_CABLE_UNINSULATED =
+            BLOCK_ENTITIES.register("copper_cable_uninsulated", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CableBlockEntity(ModBlockEntities.COPPER_CABLE_UNINSULATED.get(), pos, state, 128), ModBlocks.COPPER_CABLE_UNINSULATED.get()).build(null));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> COPPER_CABLE =
             BLOCK_ENTITIES.register("copper_cable", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new CableBlockEntity(ModBlockEntities.COPPER_CABLE.get(), pos, state, 512), ModBlocks.COPPER_CABLE.get()).build(null));
+                    new CableBlockEntity(ModBlockEntities.COPPER_CABLE.get(), pos, state, 128), ModBlocks.COPPER_CABLE.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> GOLD_CABLE =
-            BLOCK_ENTITIES.register("gold_cable", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new CableBlockEntity(ModBlockEntities.GOLD_CABLE.get(), pos, state, 2048), ModBlocks.GOLD_CABLE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> GOLD_CABLE_UNINSULATED =
+            BLOCK_ENTITIES.register("gold_cable_uninsulated", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CableBlockEntity(ModBlockEntities.GOLD_CABLE_UNINSULATED.get(), pos, state, 512), ModBlocks.GOLD_CABLE_UNINSULATED.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> HV_CABLE =
-            BLOCK_ENTITIES.register("hv_cable", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new CableBlockEntity(ModBlockEntities.HV_CABLE.get(), pos, state, 8192), ModBlocks.HV_CABLE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> GOLD_CABLE_1X =
+            BLOCK_ENTITIES.register("gold_cable_1x", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CableBlockEntity(ModBlockEntities.GOLD_CABLE_1X.get(), pos, state, 512), ModBlocks.GOLD_CABLE_1X.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> GOLD_CABLE_2X =
+            BLOCK_ENTITIES.register("gold_cable_2x", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CableBlockEntity(ModBlockEntities.GOLD_CABLE_2X.get(), pos, state, 512), ModBlocks.GOLD_CABLE_2X.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> HV_CABLE_UNINSULATED =
+            BLOCK_ENTITIES.register("hv_cable_uninsulated", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CableBlockEntity(ModBlockEntities.HV_CABLE_UNINSULATED.get(), pos, state, 2048), ModBlocks.HV_CABLE_UNINSULATED.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> HV_CABLE_1X =
+            BLOCK_ENTITIES.register("hv_cable_1x", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CableBlockEntity(ModBlockEntities.HV_CABLE_1X.get(), pos, state, 2048), ModBlocks.HV_CABLE_1X.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> HV_CABLE_2X =
+            BLOCK_ENTITIES.register("hv_cable_2x", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CableBlockEntity(ModBlockEntities.HV_CABLE_2X.get(), pos, state, 2048), ModBlocks.HV_CABLE_2X.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> HV_CABLE_3X =
+            BLOCK_ENTITIES.register("hv_cable_3x", () -> BlockEntityType.Builder.of((pos, state) ->
+                    new CableBlockEntity(ModBlockEntities.HV_CABLE_3X.get(), pos, state, 2048), ModBlocks.HV_CABLE_3X.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> GLASS_FIBRE_CABLE =
             BLOCK_ENTITIES.register("glass_fibre_cable", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new CableBlockEntity(ModBlockEntities.GLASS_FIBRE_CABLE.get(), pos, state, 32768), ModBlocks.GLASS_FIBRE_CABLE.get()).build(null));
+                    new CableBlockEntity(ModBlockEntities.GLASS_FIBRE_CABLE.get(), pos, state, 8192), ModBlocks.GLASS_FIBRE_CABLE.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> SUPERCONDUCTOR_CABLE =
             BLOCK_ENTITIES.register("superconductor_cable", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new CableBlockEntity(ModBlockEntities.SUPERCONDUCTOR_CABLE.get(), pos, state, Integer.MAX_VALUE), ModBlocks.SUPERCONDUCTOR_CABLE.get()).build(null));
+                    new CableBlockEntity(ModBlockEntities.SUPERCONDUCTOR_CABLE.get(), pos, state, 524288), ModBlocks.SUPERCONDUCTOR_CABLE.get()).build(null));
 }
+

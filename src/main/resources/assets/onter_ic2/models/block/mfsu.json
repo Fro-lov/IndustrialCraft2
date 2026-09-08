@@ -4,6 +4,6 @@
     "top": "onter_ic2:block/mfsu_top",
     "bottom": "onter_ic2:block/mfsu_bottom",
     "side": "onter_ic2:block/mfsu_side",
-    "front": "onter_ic2:block/mfsu_front"
+    "front": "onter_ic2:block/mfsu_output"
   }
 }

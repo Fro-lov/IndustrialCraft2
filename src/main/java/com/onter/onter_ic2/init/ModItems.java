@@ -2,7 +2,10 @@ package com.onter.onter_ic2.init;
 
 import com.onter.onter_ic2.OnterIC2;
 import com.onter.onter_ic2.item.BatteryItem;
+import com.onter.onter_ic2.item.EjectorUpgradeItem;
+import com.onter.onter_ic2.item.PullingUpgradeItem;
 import com.onter.onter_ic2.item.UpgradeItem;
+import com.onter.onter_ic2.item.WrenchItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -49,4 +52,12 @@ public class ModItems {
             () -> new UpgradeItem(UpgradeItem.UpgradeType.ENERGY_STORAGE, new Item.Properties()));
     public static final DeferredItem<UpgradeItem> TRANSFORMER_UPGRADE = ITEMS.register("transformer_upgrade",
             () -> new UpgradeItem(UpgradeItem.UpgradeType.TRANSFORMER, new Item.Properties()));
+    public static final DeferredItem<EjectorUpgradeItem> EJECTOR_UPGRADE = ITEMS.register("ejector_upgrade",
+            () -> new EjectorUpgradeItem(new Item.Properties()));
+    public static final DeferredItem<PullingUpgradeItem> PULLING_UPGRADE = ITEMS.register("pulling_upgrade",
+            () -> new PullingUpgradeItem(new Item.Properties()));
+
+    // Tools
+    public static final DeferredItem<WrenchItem> WRENCH = ITEMS.register("wrench",
+            () -> new WrenchItem(new Item.Properties()));
 }

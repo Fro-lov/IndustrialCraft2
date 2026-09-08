@@ -6,7 +6,9 @@ public class UpgradeItem extends Item {
     public enum UpgradeType {
         OVERCLOCKER,
         ENERGY_STORAGE,
-        TRANSFORMER
+        TRANSFORMER,
+        EJECTOR,
+        PULLING
     }
 
     private final UpgradeType type;

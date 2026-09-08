@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "RRR",
-    "GSG",
-    "RRR"
+    "SGS",
+    "GLG",
+    "SGS"
   ],
   "key": {
-    "R": {
-      "item": "onter_ic2:reinforced_iridium_plate"
+    "S": {
+      "item": "onter_ic2:sunnarium"
     },
     "G": {
       "item": "onter_ic2:glass_fibre_cable"
     },
-    "S": {
-      "item": "minecraft:nether_star"
+    "L": {
+      "item": "onter_ic2:lapotron_crystal"
     }
   },
   "result": {

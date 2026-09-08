@@ -4,9 +4,15 @@ import json
 base_res = r"E:\minecraft\myMods\onter_ic2\src\main\resources\assets\onter_ic2"
 
 cables = [
+    "copper_cable_uninsulated",
     "copper_cable",
-    "gold_cable",
-    "hv_cable",
+    "gold_cable_uninsulated",
+    "gold_cable_1x",
+    "gold_cable_2x",
+    "hv_cable_uninsulated",
+    "hv_cable_1x",
+    "hv_cable_2x",
+    "hv_cable_3x",
     "glass_fibre_cable",
     "superconductor_cable"
 ]
@@ -105,9 +111,12 @@ for cable in cables:
     with open(os.path.join(blockstates_dir, f"{cable}.json"), "w") as f:
         json.dump(blockstate, f, indent=2)
 
-    # 4. Item Model
+    # 4. Item Model (Authentic 2D item icon if exists, fallback to block)
     item_model = {
-        "parent": f"onter_ic2:block/{cable}_core"
+        "parent": "minecraft:item/generated",
+        "textures": {
+            "layer0": f"onter_ic2:item/{cable}"
+        }
     }
     with open(os.path.join(models_item_dir, f"{cable}.json"), "w") as f:
         json.dump(item_model, f, indent=2)

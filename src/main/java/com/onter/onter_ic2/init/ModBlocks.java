@@ -4,11 +4,7 @@ import com.onter.onter_ic2.OnterIC2;
 import com.onter.onter_ic2.block.cables.CableBlock;
 import com.onter.onter_ic2.block.generators.GeneratorBlock;
 import com.onter.onter_ic2.block.generators.SolarPanelBlock;
-import com.onter.onter_ic2.block.machines.CompressorBlock;
-import com.onter.onter_ic2.block.machines.ElectricFurnaceBlock;
-import com.onter.onter_ic2.block.machines.ExtractorBlock;
-import com.onter.onter_ic2.block.machines.MaceratorBlock;
-import com.onter.onter_ic2.block.machines.MetalFormerBlock;
+import com.onter.onter_ic2.block.machines.*;
 import com.onter.onter_ic2.block.storage.EnergyStorageBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -18,7 +14,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -30,7 +25,7 @@ public class ModBlocks {
         return block;
     }
 
-    // Machines
+    // --- Base Machines ---
     public static final DeferredBlock<MaceratorBlock> MACERATOR = registerBlock("macerator",
             () -> new MaceratorBlock(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
@@ -46,7 +41,59 @@ public class ModBlocks {
     public static final DeferredBlock<MetalFormerBlock> METAL_FORMER = registerBlock("metal_former",
             () -> new MetalFormerBlock(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
-    // Generators & Solar Panels
+    // --- Advanced Machines (x6) ---
+    public static final DeferredBlock<GenericMachineBlock> ADVANCED_MACERATOR = registerBlock("advanced_macerator",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_MACERATOR.get(),
+                    (pos, state) -> new MaceratorBlockEntity(ModBlockEntities.ADVANCED_MACERATOR.get(), pos, state, 200000, 48, 50, 6),
+                    () -> ModSounds.MACERATOR_OP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<GenericMachineBlock> ADVANCED_ELECTRIC_FURNACE = registerBlock("advanced_electric_furnace",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get(),
+                    (pos, state) -> new ElectricFurnaceBlockEntity(ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get(), pos, state, 200000, 72, 25, 6),
+                    () -> ModSounds.ELECTRO_FURNACE_LOOP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<GenericMachineBlock> ADVANCED_COMPRESSOR = registerBlock("advanced_compressor",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_COMPRESSOR.get(),
+                    (pos, state) -> new CompressorBlockEntity(ModBlockEntities.ADVANCED_COMPRESSOR.get(), pos, state, 200000, 48, 65, 6),
+                    () -> ModSounds.COMPRESSOR_OP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<GenericMachineBlock> ADVANCED_EXTRACTOR = registerBlock("advanced_extractor",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_EXTRACTOR.get(),
+                    (pos, state) -> new ExtractorBlockEntity(ModBlockEntities.ADVANCED_EXTRACTOR.get(), pos, state, 200000, 48, 50, 6),
+                    () -> ModSounds.EXTRACTOR_OP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<GenericMachineBlock> ADVANCED_METAL_FORMER = registerBlock("advanced_metal_former",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_METAL_FORMER.get(),
+                    (pos, state) -> new MetalFormerBlockEntity(ModBlockEntities.ADVANCED_METAL_FORMER.get(), pos, state, 200000, 60, 35, 6),
+                    () -> ModSounds.COMPRESSOR_OP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    // --- Maximum Machines (x12) ---
+    public static final DeferredBlock<GenericMachineBlock> MAX_MACERATOR = registerBlock("max_macerator",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_MACERATOR.get(),
+                    (pos, state) -> new MaceratorBlockEntity(ModBlockEntities.MAX_MACERATOR.get(), pos, state, 1000000, 96, 25, 12),
+                    () -> ModSounds.MACERATOR_OP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<GenericMachineBlock> MAX_ELECTRIC_FURNACE = registerBlock("max_electric_furnace",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_ELECTRIC_FURNACE.get(),
+                    (pos, state) -> new ElectricFurnaceBlockEntity(ModBlockEntities.MAX_ELECTRIC_FURNACE.get(), pos, state, 1000000, 144, 12, 12),
+                    () -> ModSounds.ELECTRO_FURNACE_LOOP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<GenericMachineBlock> MAX_COMPRESSOR = registerBlock("max_compressor",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_COMPRESSOR.get(),
+                    (pos, state) -> new CompressorBlockEntity(ModBlockEntities.MAX_COMPRESSOR.get(), pos, state, 1000000, 96, 30, 12),
+                    () -> ModSounds.COMPRESSOR_OP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<GenericMachineBlock> MAX_EXTRACTOR = registerBlock("max_extractor",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_EXTRACTOR.get(),
+                    (pos, state) -> new ExtractorBlockEntity(ModBlockEntities.MAX_EXTRACTOR.get(), pos, state, 1000000, 96, 25, 12),
+                    () -> ModSounds.EXTRACTOR_OP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<GenericMachineBlock> MAX_METAL_FORMER = registerBlock("max_metal_former",
+            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_METAL_FORMER.get(),
+                    (pos, state) -> new MetalFormerBlockEntity(ModBlockEntities.MAX_METAL_FORMER.get(), pos, state, 1000000, 120, 18, 12),
+                    () -> ModSounds.COMPRESSOR_OP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    // --- Generators & Solar Panels ---
     public static final DeferredBlock<GeneratorBlock> GENERATOR = registerBlock("generator",
             () -> new GeneratorBlock(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
@@ -70,7 +117,7 @@ public class ModBlocks {
             () -> new SolarPanelBlock(16384, 8192, 16384000, () -> ModBlockEntities.QUANTUM_SOLAR_PANEL.get(),
                     BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
-    // Energy Storages
+    // --- Energy Storages ---
     public static final DeferredBlock<EnergyStorageBlock> BATBOX = registerBlock("batbox",
             () -> new EnergyStorageBlock("batbox", 40000, 128, () -> ModBlockEntities.BATBOX.get(),
                     BlockBehaviour.Properties.of().strength(2.0F).sound(SoundType.WOOD)));
@@ -87,24 +134,52 @@ public class ModBlocks {
             () -> new EnergyStorageBlock("mfsu", 40000000, 8192, () -> ModBlockEntities.MFSU.get(),
                     BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL)));
 
-    // Cables
+    // --- Cables & Wires ---
+    // Copper (32 EU/t = 128 FE/t)
+    public static final DeferredBlock<CableBlock> COPPER_CABLE_UNINSULATED = registerBlock("copper_cable_uninsulated",
+            () -> new CableBlock(128, () -> ModBlockEntities.COPPER_CABLE_UNINSULATED.get(),
+                    BlockBehaviour.Properties.of().strength(0.4F).sound(SoundType.WOOL)));
+
     public static final DeferredBlock<CableBlock> COPPER_CABLE = registerBlock("copper_cable",
-            () -> new CableBlock(512, () -> ModBlockEntities.COPPER_CABLE.get(),
+            () -> new CableBlock(128, () -> ModBlockEntities.COPPER_CABLE.get(),
                     BlockBehaviour.Properties.of().strength(0.5F).sound(SoundType.WOOL)));
 
-    public static final DeferredBlock<CableBlock> GOLD_CABLE = registerBlock("gold_cable",
-            () -> new CableBlock(2048, () -> ModBlockEntities.GOLD_CABLE.get(),
+    // Gold (128 EU/t = 512 FE/t)
+    public static final DeferredBlock<CableBlock> GOLD_CABLE_UNINSULATED = registerBlock("gold_cable_uninsulated",
+            () -> new CableBlock(512, () -> ModBlockEntities.GOLD_CABLE_UNINSULATED.get(),
+                    BlockBehaviour.Properties.of().strength(0.5F).sound(SoundType.WOOL)));
+
+    public static final DeferredBlock<CableBlock> GOLD_CABLE_1X = registerBlock("gold_cable_1x",
+            () -> new CableBlock(512, () -> ModBlockEntities.GOLD_CABLE_1X.get(),
                     BlockBehaviour.Properties.of().strength(0.6F).sound(SoundType.WOOL)));
 
-    public static final DeferredBlock<CableBlock> HV_CABLE = registerBlock("hv_cable",
-            () -> new CableBlock(8192, () -> ModBlockEntities.HV_CABLE.get(),
+    public static final DeferredBlock<CableBlock> GOLD_CABLE_2X = registerBlock("gold_cable_2x",
+            () -> new CableBlock(512, () -> ModBlockEntities.GOLD_CABLE_2X.get(),
+                    BlockBehaviour.Properties.of().strength(0.6F).sound(SoundType.WOOL)));
+
+    // HV / Iron (512 EU/t = 2048 FE/t)
+    public static final DeferredBlock<CableBlock> HV_CABLE_UNINSULATED = registerBlock("hv_cable_uninsulated",
+            () -> new CableBlock(2048, () -> ModBlockEntities.HV_CABLE_UNINSULATED.get(),
+                    BlockBehaviour.Properties.of().strength(0.6F).sound(SoundType.WOOL)));
+
+    public static final DeferredBlock<CableBlock> HV_CABLE_1X = registerBlock("hv_cable_1x",
+            () -> new CableBlock(2048, () -> ModBlockEntities.HV_CABLE_1X.get(),
                     BlockBehaviour.Properties.of().strength(0.7F).sound(SoundType.WOOL)));
 
+    public static final DeferredBlock<CableBlock> HV_CABLE_2X = registerBlock("hv_cable_2x",
+            () -> new CableBlock(2048, () -> ModBlockEntities.HV_CABLE_2X.get(),
+                    BlockBehaviour.Properties.of().strength(0.7F).sound(SoundType.WOOL)));
+
+    public static final DeferredBlock<CableBlock> HV_CABLE_3X = registerBlock("hv_cable_3x",
+            () -> new CableBlock(2048, () -> ModBlockEntities.HV_CABLE_3X.get(),
+                    BlockBehaviour.Properties.of().strength(0.7F).sound(SoundType.WOOL)));
+
+    // Glass Fibre & Superconductor
     public static final DeferredBlock<CableBlock> GLASS_FIBRE_CABLE = registerBlock("glass_fibre_cable",
-            () -> new CableBlock(32768, () -> ModBlockEntities.GLASS_FIBRE_CABLE.get(),
+            () -> new CableBlock(8192, () -> ModBlockEntities.GLASS_FIBRE_CABLE.get(),
                     BlockBehaviour.Properties.of().strength(0.8F).sound(SoundType.GLASS)));
 
     public static final DeferredBlock<CableBlock> SUPERCONDUCTOR_CABLE = registerBlock("superconductor_cable",
-            () -> new CableBlock(Integer.MAX_VALUE, () -> ModBlockEntities.SUPERCONDUCTOR_CABLE.get(),
+            () -> new CableBlock(524288, () -> ModBlockEntities.SUPERCONDUCTOR_CABLE.get(),
                     BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.AMETHYST)));
 }

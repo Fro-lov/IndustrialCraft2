@@ -4,6 +4,6 @@
     "top": "onter_ic2:block/batbox_top",
     "bottom": "onter_ic2:block/batbox_bottom",
     "side": "onter_ic2:block/batbox_side",
-    "front": "onter_ic2:block/batbox_front"
+    "front": "onter_ic2:block/batbox_output"
   }
 }

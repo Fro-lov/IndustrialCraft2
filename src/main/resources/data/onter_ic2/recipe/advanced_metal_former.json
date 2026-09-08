@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OCO",
+    "AMA",
+    "OCO"
+  ],
+  "key": {
+    "O": {
+      "item": "onter_ic2:overclocker_upgrade"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "M": {
+      "item": "onter_ic2:metal_former"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:advanced_metal_former",
+    "count": 1
+  }
+}

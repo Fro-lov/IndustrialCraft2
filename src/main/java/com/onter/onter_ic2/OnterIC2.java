@@ -49,6 +49,20 @@ public class OnterIC2 {
         registerMachineCapabilities(event, ModBlockEntities.EXTRACTOR.get());
         registerMachineCapabilities(event, ModBlockEntities.METAL_FORMER.get());
 
+        // Advanced Machines (x6)
+        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_MACERATOR.get());
+        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get());
+        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_COMPRESSOR.get());
+        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_EXTRACTOR.get());
+        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_METAL_FORMER.get());
+
+        // Maximum Machines (x12)
+        registerMachineCapabilities(event, ModBlockEntities.MAX_MACERATOR.get());
+        registerMachineCapabilities(event, ModBlockEntities.MAX_ELECTRIC_FURNACE.get());
+        registerMachineCapabilities(event, ModBlockEntities.MAX_COMPRESSOR.get());
+        registerMachineCapabilities(event, ModBlockEntities.MAX_EXTRACTOR.get());
+        registerMachineCapabilities(event, ModBlockEntities.MAX_METAL_FORMER.get());
+
         // Generator
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.GENERATOR.get(), (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.GENERATOR.get(), (be, side) -> be.getItemHandler());
@@ -67,9 +81,15 @@ public class OnterIC2 {
         registerStorageCapabilities(event, ModBlockEntities.MFSU.get());
 
         // Cables
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.COPPER_CABLE_UNINSULATED.get(), (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.COPPER_CABLE.get(), (be, side) -> be.getEnergyStorage());
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.GOLD_CABLE.get(), (be, side) -> be.getEnergyStorage());
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.HV_CABLE.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.GOLD_CABLE_UNINSULATED.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.GOLD_CABLE_1X.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.GOLD_CABLE_2X.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.HV_CABLE_UNINSULATED.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.HV_CABLE_1X.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.HV_CABLE_2X.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.HV_CABLE_3X.get(), (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.GLASS_FIBRE_CABLE.get(), (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.SUPERCONDUCTOR_CABLE.get(), (be, side) -> be.getEnergyStorage());
 
@@ -90,7 +110,7 @@ public class OnterIC2 {
     }
 
     private void registerStorageCapabilities(RegisterCapabilitiesEvent event, net.minecraft.world.level.block.entity.BlockEntityType<? extends EnergyStorageBlockEntity> type) {
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, (be, side) -> be.getEnergyStorageForSide(side));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, (be, side) -> be.getItemHandler());
     }
 

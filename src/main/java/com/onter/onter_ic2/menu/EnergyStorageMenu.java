@@ -53,6 +53,10 @@ public class EnergyStorageMenu extends AbstractContainerMenu {
         }
     }
 
+    public EnergyStorageBlockEntity getBlockEntity() {
+        return blockEntity;
+    }
+
     public int getEnergy() {
         return (this.data.get(1) << 16) | (this.data.get(0) & 0xFFFF);
     }

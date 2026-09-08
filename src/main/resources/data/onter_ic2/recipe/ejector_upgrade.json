@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " P ",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:copper_cable"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:ejector_upgrade",
+    "count": 1
+  }
+}
