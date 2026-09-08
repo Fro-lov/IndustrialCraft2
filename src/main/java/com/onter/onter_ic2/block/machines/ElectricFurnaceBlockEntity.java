@@ -39,6 +39,12 @@ public class ElectricFurnaceBlockEntity extends BaseMachineBlockEntity {
         return new BaseMachineMenu(containerId, playerInventory, this, this.dataAccess);
     }
 
+    @Override
+    public boolean isValidInput(ItemStack stack) {
+        if (stack.isEmpty() || level == null) return false;
+        return level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(stack), level).isPresent();
+    }
+
     private Optional<RecipeHolder<SmeltingRecipe>> getCurrentRecipe() {
         if (level == null) return Optional.empty();
         ItemStack input = itemHandler.getStackInSlot(SLOT_INPUT);

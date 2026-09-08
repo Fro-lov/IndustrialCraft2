@@ -45,11 +45,14 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
             if (slot == SLOT_OUTPUT) return false;
-            if (slot == SLOT_BATTERY) return stack.getItem() instanceof BatteryItem;
+            if (slot == SLOT_BATTERY) return stack.getItem() instanceof BatteryItem || stack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null;
             if (slot >= SLOT_UPGRADE_1 && slot <= SLOT_UPGRADE_4) return stack.getItem() instanceof UpgradeItem;
+            if (slot == SLOT_INPUT) return isValidInput(stack);
             return true;
         }
     };
+
+    public abstract boolean isValidInput(ItemStack stack);
 
     protected final IC2EnergyStorage energyStorage;
     protected final int baseCapacity;

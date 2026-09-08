@@ -50,18 +50,18 @@ public class OnterIC2 {
         registerMachineCapabilities(event, ModBlockEntities.METAL_FORMER.get());
 
         // Advanced Machines (x6)
-        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_MACERATOR.get());
-        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get());
-        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_COMPRESSOR.get());
-        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_EXTRACTOR.get());
-        registerMachineCapabilities(event, ModBlockEntities.ADVANCED_METAL_FORMER.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.ADVANCED_MACERATOR.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.ADVANCED_COMPRESSOR.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.ADVANCED_EXTRACTOR.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.ADVANCED_METAL_FORMER.get());
 
         // Maximum Machines (x12)
-        registerMachineCapabilities(event, ModBlockEntities.MAX_MACERATOR.get());
-        registerMachineCapabilities(event, ModBlockEntities.MAX_ELECTRIC_FURNACE.get());
-        registerMachineCapabilities(event, ModBlockEntities.MAX_COMPRESSOR.get());
-        registerMachineCapabilities(event, ModBlockEntities.MAX_EXTRACTOR.get());
-        registerMachineCapabilities(event, ModBlockEntities.MAX_METAL_FORMER.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.MAX_MACERATOR.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.MAX_ELECTRIC_FURNACE.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.MAX_COMPRESSOR.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.MAX_EXTRACTOR.get());
+        registerMultiSlotMachineCapabilities(event, ModBlockEntities.MAX_METAL_FORMER.get());
 
         // Generator
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.GENERATOR.get(), (be, side) -> be.getEnergyStorage());
@@ -97,9 +97,47 @@ public class OnterIC2 {
         registerBatteryItemCapability(event, ModItems.RE_BATTERY.get());
         registerBatteryItemCapability(event, ModItems.ENERGY_CRYSTAL.get());
         registerBatteryItemCapability(event, ModItems.LAPOTRON_CRYSTAL.get());
+
+        // Electric Wrench Energy Capability
+        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> new IEnergyStorage() {
+            @Override
+            public int receiveEnergy(int maxReceive, boolean simulate) {
+                return BatteryItem.receiveEnergy(stack, maxReceive, com.onter.onter_ic2.item.ElectricWrenchItem.CAPACITY, com.onter.onter_ic2.item.ElectricWrenchItem.MAX_TRANSFER, simulate);
+            }
+
+            @Override
+            public int extractEnergy(int maxExtract, boolean simulate) {
+                return BatteryItem.extractEnergy(stack, maxExtract, com.onter.onter_ic2.item.ElectricWrenchItem.MAX_TRANSFER, simulate);
+            }
+
+            @Override
+            public int getEnergyStored() {
+                return BatteryItem.getEnergy(stack);
+            }
+
+            @Override
+            public int getMaxEnergyStored() {
+                return com.onter.onter_ic2.item.ElectricWrenchItem.CAPACITY;
+            }
+
+            @Override
+            public boolean canExtract() {
+                return true;
+            }
+
+            @Override
+            public boolean canReceive() {
+                return true;
+            }
+        }, ModItems.ELECTRIC_WRENCH.get());
     }
 
     private void registerMachineCapabilities(RegisterCapabilitiesEvent event, net.minecraft.world.level.block.entity.BlockEntityType<? extends BaseMachineBlockEntity> type) {
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, (be, side) -> be.getItemHandler(side));
+    }
+
+    private void registerMultiSlotMachineCapabilities(RegisterCapabilitiesEvent event, net.minecraft.world.level.block.entity.BlockEntityType<? extends com.onter.onter_ic2.block.machines.MultiSlotMachineBlockEntity> type) {
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, (be, side) -> be.getItemHandler(side));
     }

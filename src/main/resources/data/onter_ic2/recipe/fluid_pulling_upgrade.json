@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " P ",
+    " B ",
+    "   "
+  ],
+  "key": {
+    "P": {
+      "item": "onter_ic2:pulling_upgrade"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:fluid_pulling_upgrade",
+    "count": 1
+  }
+}

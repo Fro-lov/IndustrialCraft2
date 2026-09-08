@@ -56,8 +56,14 @@ public class ModItems {
             () -> new EjectorUpgradeItem(new Item.Properties()));
     public static final DeferredItem<PullingUpgradeItem> PULLING_UPGRADE = ITEMS.register("pulling_upgrade",
             () -> new PullingUpgradeItem(new Item.Properties()));
+    public static final DeferredItem<com.onter.onter_ic2.item.FluidEjectorUpgradeItem> FLUID_EJECTOR_UPGRADE = ITEMS.register("fluid_ejector_upgrade",
+            () -> new com.onter.onter_ic2.item.FluidEjectorUpgradeItem(new Item.Properties()));
+    public static final DeferredItem<com.onter.onter_ic2.item.FluidPullingUpgradeItem> FLUID_PULLING_UPGRADE = ITEMS.register("fluid_pulling_upgrade",
+            () -> new com.onter.onter_ic2.item.FluidPullingUpgradeItem(new Item.Properties()));
 
     // Tools
     public static final DeferredItem<WrenchItem> WRENCH = ITEMS.register("wrench",
             () -> new WrenchItem(new Item.Properties()));
+    public static final DeferredItem<com.onter.onter_ic2.item.ElectricWrenchItem> ELECTRIC_WRENCH = ITEMS.register("electric_wrench",
+            () -> new com.onter.onter_ic2.item.ElectricWrenchItem(new Item.Properties()));
 }

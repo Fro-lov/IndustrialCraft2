@@ -28,4 +28,7 @@ public class ModMenuTypes {
 
     public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.menu.SolarPanelMenu>> SOLAR_PANEL_MENU =
             MENUS.register("solar_panel", () -> IMenuTypeExtension.create(com.onter.onter_ic2.menu.SolarPanelMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.menu.MultiSlotMachineMenu>> MULTI_SLOT_MACHINE_MENU =
+            MENUS.register("multi_slot_machine", () -> IMenuTypeExtension.create(com.onter.onter_ic2.menu.MultiSlotMachineMenu::new));
 }

@@ -32,46 +32,46 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("metal_former", () -> BlockEntityType.Builder.of(MetalFormerBlockEntity::new, ModBlocks.METAL_FORMER.get()).build(null));
 
     // --- Advanced Machines (x6) ---
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MaceratorBlockEntity>> ADVANCED_MACERATOR =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> ADVANCED_MACERATOR =
             BLOCK_ENTITIES.register("advanced_macerator", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new MaceratorBlockEntity(ModBlockEntities.ADVANCED_MACERATOR.get(), pos, state, 200000, 48, 50, 6), ModBlocks.ADVANCED_MACERATOR.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_MACERATOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.MACERATOR, 6, 200000, 48, 50), ModBlocks.ADVANCED_MACERATOR.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectricFurnaceBlockEntity>> ADVANCED_ELECTRIC_FURNACE =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> ADVANCED_ELECTRIC_FURNACE =
             BLOCK_ENTITIES.register("advanced_electric_furnace", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new ElectricFurnaceBlockEntity(ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get(), pos, state, 200000, 72, 25, 6), ModBlocks.ADVANCED_ELECTRIC_FURNACE.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.ELECTRIC_FURNACE, 6, 200000, 72, 25), ModBlocks.ADVANCED_ELECTRIC_FURNACE.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CompressorBlockEntity>> ADVANCED_COMPRESSOR =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> ADVANCED_COMPRESSOR =
             BLOCK_ENTITIES.register("advanced_compressor", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new CompressorBlockEntity(ModBlockEntities.ADVANCED_COMPRESSOR.get(), pos, state, 200000, 48, 65, 6), ModBlocks.ADVANCED_COMPRESSOR.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_COMPRESSOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.COMPRESSOR, 6, 200000, 48, 65), ModBlocks.ADVANCED_COMPRESSOR.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ExtractorBlockEntity>> ADVANCED_EXTRACTOR =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> ADVANCED_EXTRACTOR =
             BLOCK_ENTITIES.register("advanced_extractor", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new ExtractorBlockEntity(ModBlockEntities.ADVANCED_EXTRACTOR.get(), pos, state, 200000, 48, 50, 6), ModBlocks.ADVANCED_EXTRACTOR.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_EXTRACTOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.EXTRACTOR, 6, 200000, 48, 50), ModBlocks.ADVANCED_EXTRACTOR.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MetalFormerBlockEntity>> ADVANCED_METAL_FORMER =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> ADVANCED_METAL_FORMER =
             BLOCK_ENTITIES.register("advanced_metal_former", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new MetalFormerBlockEntity(ModBlockEntities.ADVANCED_METAL_FORMER.get(), pos, state, 200000, 60, 35, 6), ModBlocks.ADVANCED_METAL_FORMER.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_METAL_FORMER.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.METAL_FORMER, 6, 200000, 60, 35), ModBlocks.ADVANCED_METAL_FORMER.get()).build(null));
 
     // --- Maximum Machines (x12) ---
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MaceratorBlockEntity>> MAX_MACERATOR =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> MAX_MACERATOR =
             BLOCK_ENTITIES.register("max_macerator", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new MaceratorBlockEntity(ModBlockEntities.MAX_MACERATOR.get(), pos, state, 1000000, 96, 25, 12), ModBlocks.MAX_MACERATOR.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_MACERATOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.MACERATOR, 12, 1000000, 96, 25), ModBlocks.MAX_MACERATOR.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ElectricFurnaceBlockEntity>> MAX_ELECTRIC_FURNACE =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> MAX_ELECTRIC_FURNACE =
             BLOCK_ENTITIES.register("max_electric_furnace", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new ElectricFurnaceBlockEntity(ModBlockEntities.MAX_ELECTRIC_FURNACE.get(), pos, state, 1000000, 144, 12, 12), ModBlocks.MAX_ELECTRIC_FURNACE.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_ELECTRIC_FURNACE.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.ELECTRIC_FURNACE, 12, 1000000, 144, 12), ModBlocks.MAX_ELECTRIC_FURNACE.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CompressorBlockEntity>> MAX_COMPRESSOR =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> MAX_COMPRESSOR =
             BLOCK_ENTITIES.register("max_compressor", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new CompressorBlockEntity(ModBlockEntities.MAX_COMPRESSOR.get(), pos, state, 1000000, 96, 30, 12), ModBlocks.MAX_COMPRESSOR.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_COMPRESSOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.COMPRESSOR, 12, 1000000, 96, 30), ModBlocks.MAX_COMPRESSOR.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ExtractorBlockEntity>> MAX_EXTRACTOR =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> MAX_EXTRACTOR =
             BLOCK_ENTITIES.register("max_extractor", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new ExtractorBlockEntity(ModBlockEntities.MAX_EXTRACTOR.get(), pos, state, 1000000, 96, 25, 12), ModBlocks.MAX_EXTRACTOR.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_EXTRACTOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.EXTRACTOR, 12, 1000000, 96, 25), ModBlocks.MAX_EXTRACTOR.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MetalFormerBlockEntity>> MAX_METAL_FORMER =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MultiSlotMachineBlockEntity>> MAX_METAL_FORMER =
             BLOCK_ENTITIES.register("max_metal_former", () -> BlockEntityType.Builder.of((pos, state) ->
-                    new MetalFormerBlockEntity(ModBlockEntities.MAX_METAL_FORMER.get(), pos, state, 1000000, 120, 18, 12), ModBlocks.MAX_METAL_FORMER.get()).build(null));
+                    new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_METAL_FORMER.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.METAL_FORMER, 12, 1000000, 120, 18), ModBlocks.MAX_METAL_FORMER.get()).build(null));
 
     // --- Generators & Solar Panels ---
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GeneratorBlockEntity>> GENERATOR =

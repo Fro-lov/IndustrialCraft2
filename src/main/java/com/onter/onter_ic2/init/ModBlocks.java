@@ -43,54 +43,54 @@ public class ModBlocks {
 
     // --- Advanced Machines (x6) ---
     public static final DeferredBlock<GenericMachineBlock> ADVANCED_MACERATOR = registerBlock("advanced_macerator",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_MACERATOR.get(),
-                    (pos, state) -> new MaceratorBlockEntity(ModBlockEntities.ADVANCED_MACERATOR.get(), pos, state, 200000, 48, 50, 6),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_MACERATOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.MACERATOR, 6, 200000, 48, 50),
                     () -> ModSounds.MACERATOR_OP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<GenericMachineBlock> ADVANCED_ELECTRIC_FURNACE = registerBlock("advanced_electric_furnace",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get(),
-                    (pos, state) -> new ElectricFurnaceBlockEntity(ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get(), pos, state, 200000, 72, 25, 6),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_ELECTRIC_FURNACE.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.ELECTRIC_FURNACE, 6, 200000, 72, 25),
                     () -> ModSounds.ELECTRO_FURNACE_LOOP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<GenericMachineBlock> ADVANCED_COMPRESSOR = registerBlock("advanced_compressor",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_COMPRESSOR.get(),
-                    (pos, state) -> new CompressorBlockEntity(ModBlockEntities.ADVANCED_COMPRESSOR.get(), pos, state, 200000, 48, 65, 6),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_COMPRESSOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.COMPRESSOR, 6, 200000, 48, 65),
                     () -> ModSounds.COMPRESSOR_OP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<GenericMachineBlock> ADVANCED_EXTRACTOR = registerBlock("advanced_extractor",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_EXTRACTOR.get(),
-                    (pos, state) -> new ExtractorBlockEntity(ModBlockEntities.ADVANCED_EXTRACTOR.get(), pos, state, 200000, 48, 50, 6),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_EXTRACTOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.EXTRACTOR, 6, 200000, 48, 50),
                     () -> ModSounds.EXTRACTOR_OP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<GenericMachineBlock> ADVANCED_METAL_FORMER = registerBlock("advanced_metal_former",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.ADVANCED_METAL_FORMER.get(),
-                    (pos, state) -> new MetalFormerBlockEntity(ModBlockEntities.ADVANCED_METAL_FORMER.get(), pos, state, 200000, 60, 35, 6),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.ADVANCED_METAL_FORMER.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.METAL_FORMER, 6, 200000, 60, 35),
                     () -> ModSounds.COMPRESSOR_OP.get(), BlockBehaviour.Properties.of().strength(4.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     // --- Maximum Machines (x12) ---
     public static final DeferredBlock<GenericMachineBlock> MAX_MACERATOR = registerBlock("max_macerator",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_MACERATOR.get(),
-                    (pos, state) -> new MaceratorBlockEntity(ModBlockEntities.MAX_MACERATOR.get(), pos, state, 1000000, 96, 25, 12),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_MACERATOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.MACERATOR, 12, 1000000, 96, 25),
                     () -> ModSounds.MACERATOR_OP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<GenericMachineBlock> MAX_ELECTRIC_FURNACE = registerBlock("max_electric_furnace",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_ELECTRIC_FURNACE.get(),
-                    (pos, state) -> new ElectricFurnaceBlockEntity(ModBlockEntities.MAX_ELECTRIC_FURNACE.get(), pos, state, 1000000, 144, 12, 12),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_ELECTRIC_FURNACE.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.ELECTRIC_FURNACE, 12, 1000000, 144, 12),
                     () -> ModSounds.ELECTRO_FURNACE_LOOP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<GenericMachineBlock> MAX_COMPRESSOR = registerBlock("max_compressor",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_COMPRESSOR.get(),
-                    (pos, state) -> new CompressorBlockEntity(ModBlockEntities.MAX_COMPRESSOR.get(), pos, state, 1000000, 96, 30, 12),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_COMPRESSOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.COMPRESSOR, 12, 1000000, 96, 30),
                     () -> ModSounds.COMPRESSOR_OP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<GenericMachineBlock> MAX_EXTRACTOR = registerBlock("max_extractor",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_EXTRACTOR.get(),
-                    (pos, state) -> new ExtractorBlockEntity(ModBlockEntities.MAX_EXTRACTOR.get(), pos, state, 1000000, 96, 25, 12),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_EXTRACTOR.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.EXTRACTOR, 12, 1000000, 96, 25),
                     () -> ModSounds.EXTRACTOR_OP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<GenericMachineBlock> MAX_METAL_FORMER = registerBlock("max_metal_former",
-            () -> new GenericMachineBlock(() -> ModBlockEntities.MAX_METAL_FORMER.get(),
-                    (pos, state) -> new MetalFormerBlockEntity(ModBlockEntities.MAX_METAL_FORMER.get(), pos, state, 1000000, 120, 18, 12),
+            () -> new GenericMachineBlock(
+                    (pos, state) -> new MultiSlotMachineBlockEntity(ModBlockEntities.MAX_METAL_FORMER.get(), pos, state, MultiSlotMachineBlockEntity.MachineType.METAL_FORMER, 12, 1000000, 120, 18),
                     () -> ModSounds.COMPRESSOR_OP.get(), BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 
     // --- Generators & Solar Panels ---

@@ -67,6 +67,7 @@ public class ModCreativeTabs {
 
                         // Tools
                         output.accept(ModItems.WRENCH.get());
+                        output.accept(ModItems.ELECTRIC_WRENCH.get());
 
                         // Resources
                         output.accept(ModItems.RUBBER.get());
@@ -97,5 +98,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.TRANSFORMER_UPGRADE.get());
                         output.accept(ModItems.EJECTOR_UPGRADE.get());
                         output.accept(ModItems.PULLING_UPGRADE.get());
+                        output.accept(ModItems.FLUID_EJECTOR_UPGRADE.get());
+                        output.accept(ModItems.FLUID_PULLING_UPGRADE.get());
                     }).build());
 }

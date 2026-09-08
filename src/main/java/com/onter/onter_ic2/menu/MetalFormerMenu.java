@@ -26,7 +26,12 @@ public class MetalFormerMenu extends BaseMachineMenu {
     @Override
     protected void addMachineSlots(BaseMachineBlockEntity entity) {
         // 0: Input (top left at x=17, y=17)
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_INPUT, 17, 17));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_INPUT, 17, 17) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return entity.isValidInput(stack);
+            }
+        });
         // 1: Output (right at x=116, y=35)
         this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_OUTPUT, 116, 35) {
             @Override
@@ -35,10 +40,21 @@ public class MetalFormerMenu extends BaseMachineMenu {
             }
         });
         // 2: Battery (bottom left at x=17, y=53)
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_BATTERY, 17, 53));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_BATTERY, 17, 53) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return entity.getItemHandler().isItemValid(BaseMachineBlockEntity.SLOT_BATTERY, stack);
+            }
+        });
         // 3..6: Upgrades (far right at x=152, y=8..62)
         for (int i = 0; i < 4; i++) {
-            this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_UPGRADE_1 + i, 152, 8 + i * 18));
+            final int slotIdx = BaseMachineBlockEntity.SLOT_UPGRADE_1 + i;
+            this.addSlot(new SlotItemHandler(entity.getItemHandler(), slotIdx, 152, 8 + i * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof com.onter.onter_ic2.item.UpgradeItem;
+                }
+            });
         }
     }
 

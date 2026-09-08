@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " W ",
+    " B "
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    },
+    "W": {
+      "item": "onter_ic2:wrench"
+    },
+    "B": {
+      "item": "onter_ic2:re_battery"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:electric_wrench",
+    "count": 1
+  }
+}

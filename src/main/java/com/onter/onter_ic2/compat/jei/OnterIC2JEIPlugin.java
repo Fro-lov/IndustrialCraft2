@@ -78,6 +78,6 @@ public class OnterIC2JEIPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(BaseMachineScreen.class, 79, 34, 24, 17, MACERATOR_TYPE, COMPRESSOR_TYPE, EXTRACTOR_TYPE, RecipeTypes.SMELTING);
-        registration.addRecipeClickArea(com.onter.onter_ic2.client.screen.MetalFormerScreen.class, 54, 39, 53, 34, METAL_FORMER_TYPE);
+        registration.addRecipeClickArea(com.onter.onter_ic2.client.screen.MetalFormerScreen.class, 54, 39, 51, 13, METAL_FORMER_TYPE);
     }
 }

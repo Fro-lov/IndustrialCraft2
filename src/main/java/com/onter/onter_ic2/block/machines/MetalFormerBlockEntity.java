@@ -98,6 +98,13 @@ public class MetalFormerBlockEntity extends BaseMachineBlockEntity {
         return new MetalFormerMenu(containerId, playerInventory, this, this.metalFormerDataAccess);
     }
 
+    @Override
+    public boolean isValidInput(ItemStack stack) {
+        if (stack.isEmpty() || level == null) return false;
+        return level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.METAL_FORMER_RECIPE_TYPE.get()).stream()
+                .anyMatch(r -> r.value().matches(new SingleRecipeInput(stack), this.mode));
+    }
+
     private Optional<RecipeHolder<MetalFormerRecipe>> getCurrentRecipe() {
         if (level == null) return Optional.empty();
         ItemStack input = itemHandler.getStackInSlot(SLOT_INPUT);

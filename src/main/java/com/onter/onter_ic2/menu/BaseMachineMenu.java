@@ -46,7 +46,12 @@ public class BaseMachineMenu extends AbstractContainerMenu {
 
     protected void addMachineSlots(BaseMachineBlockEntity entity) {
         // 0: Input (top left)
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_INPUT, 56, 17));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_INPUT, 56, 17) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return entity.isValidInput(stack);
+            }
+        });
         // 1: Output (right)
         this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_OUTPUT, 116, 35) {
             @Override
@@ -55,10 +60,21 @@ public class BaseMachineMenu extends AbstractContainerMenu {
             }
         });
         // 2: Battery (bottom left)
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_BATTERY, 56, 53));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_BATTERY, 56, 53) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return entity.getItemHandler().isItemValid(BaseMachineBlockEntity.SLOT_BATTERY, stack);
+            }
+        });
         // 3..6: Upgrades (far right)
         for (int i = 0; i < 4; i++) {
-            this.addSlot(new SlotItemHandler(entity.getItemHandler(), BaseMachineBlockEntity.SLOT_UPGRADE_1 + i, 152, 8 + i * 18));
+            final int slotIdx = BaseMachineBlockEntity.SLOT_UPGRADE_1 + i;
+            this.addSlot(new SlotItemHandler(entity.getItemHandler(), slotIdx, 152, 8 + i * 18) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof UpgradeItem;
+                }
+            });
         }
     }
 
@@ -110,18 +126,20 @@ public class BaseMachineMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (itemstack1.getItem() instanceof BatteryItem) {
-                    if (!this.moveItemStackTo(itemstack1, BaseMachineBlockEntity.SLOT_BATTERY, BaseMachineBlockEntity.SLOT_BATTERY + 1, false)) {
+                if (blockEntity != null && blockEntity.isValidInput(itemstack1)) {
+                    if (!this.moveItemStackTo(itemstack1, BaseMachineBlockEntity.SLOT_INPUT, BaseMachineBlockEntity.SLOT_INPUT + 1, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (itemstack1.getItem() instanceof UpgradeItem) {
                     if (!this.moveItemStackTo(itemstack1, BaseMachineBlockEntity.SLOT_UPGRADE_1, BaseMachineBlockEntity.SLOT_UPGRADE_4 + 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else {
-                    if (!this.moveItemStackTo(itemstack1, BaseMachineBlockEntity.SLOT_INPUT, BaseMachineBlockEntity.SLOT_INPUT + 1, false)) {
+                } else if (blockEntity != null && blockEntity.getItemHandler().isItemValid(BaseMachineBlockEntity.SLOT_BATTERY, itemstack1)) {
+                    if (!this.moveItemStackTo(itemstack1, BaseMachineBlockEntity.SLOT_BATTERY, BaseMachineBlockEntity.SLOT_BATTERY + 1, false)) {
                         return ItemStack.EMPTY;
                     }
+                } else {
+                    return ItemStack.EMPTY;
                 }
             }
 

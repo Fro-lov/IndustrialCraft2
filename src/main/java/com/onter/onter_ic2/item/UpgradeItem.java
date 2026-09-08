@@ -8,7 +8,9 @@ public class UpgradeItem extends Item {
         ENERGY_STORAGE,
         TRANSFORMER,
         EJECTOR,
-        PULLING
+        PULLING,
+        FLUID_EJECTOR,
+        FLUID_PULLING
     }
 
     private final UpgradeType type;

@@ -39,6 +39,12 @@ public class CompressorBlockEntity extends BaseMachineBlockEntity {
         return new BaseMachineMenu(containerId, playerInventory, this, this.dataAccess);
     }
 
+    @Override
+    public boolean isValidInput(ItemStack stack) {
+        if (stack.isEmpty() || level == null) return false;
+        return level.getRecipeManager().getRecipeFor(ModRecipeTypes.COMPRESSOR_RECIPE_TYPE.get(), new SingleRecipeInput(stack), level).isPresent();
+    }
+
     private Optional<RecipeHolder<CompressorRecipe>> getCurrentRecipe() {
         if (level == null) return Optional.empty();
         ItemStack input = itemHandler.getStackInSlot(SLOT_INPUT);

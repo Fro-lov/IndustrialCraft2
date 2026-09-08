@@ -20,5 +20,6 @@ public class ClientModEvents {
         event.register(ModMenuTypes.ENERGY_STORAGE_MENU.get(), EnergyStorageScreen::new);
         event.register(ModMenuTypes.METAL_FORMER_MENU.get(), MetalFormerScreen::new);
         event.register(ModMenuTypes.SOLAR_PANEL_MENU.get(), com.onter.onter_ic2.client.screen.SolarPanelScreen::new);
+        event.register(ModMenuTypes.MULTI_SLOT_MACHINE_MENU.get(), com.onter.onter_ic2.client.screen.MultiSlotMachineScreen::new);
     }
 }

@@ -68,6 +68,8 @@ public abstract class BaseMachineBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof BaseMachineBlockEntity machine) {
                 Containers.dropContents(level, pos, machine.getDrops());
+            } else if (blockEntity instanceof com.onter.onter_ic2.block.machines.MultiSlotMachineBlockEntity multi) {
+                Containers.dropContents(level, pos, multi.getDrops());
             }
             super.onRemove(state, level, pos, newState, isMoving);
         }

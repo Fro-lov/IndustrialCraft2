@@ -19,17 +19,14 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public class GenericMachineBlock extends BaseMachineBlock {
-    private final Supplier<? extends BlockEntityType<? extends BaseMachineBlockEntity>> blockEntityTypeSupplier;
-    private final BiFunction<BlockPos, BlockState, ? extends BaseMachineBlockEntity> factory;
+    private final BiFunction<BlockPos, BlockState, ? extends BlockEntity> factory;
     @Nullable
     private final Supplier<SoundEvent> soundSupplier;
 
-    public GenericMachineBlock(Supplier<? extends BlockEntityType<? extends BaseMachineBlockEntity>> blockEntityTypeSupplier,
-                               BiFunction<BlockPos, BlockState, ? extends BaseMachineBlockEntity> factory,
+    public GenericMachineBlock(BiFunction<BlockPos, BlockState, ? extends BlockEntity> factory,
                                @Nullable Supplier<SoundEvent> soundSupplier,
                                Properties properties) {
         super(properties);
-        this.blockEntityTypeSupplier = blockEntityTypeSupplier;
         this.factory = factory;
         this.soundSupplier = soundSupplier;
     }
@@ -51,6 +48,8 @@ public class GenericMachineBlock extends BaseMachineBlock {
         return level.isClientSide ? null : (lvl, p, st, be) -> {
             if (be instanceof BaseMachineBlockEntity machine) {
                 machine.tick(lvl, p, st);
+            } else if (be instanceof MultiSlotMachineBlockEntity multi) {
+                MultiSlotMachineBlockEntity.tick(lvl, p, st, multi);
             }
         };
     }
