@@ -40,4 +40,10 @@ public class ModMenuTypes {
 
     public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.inventory.UnifiedReplicatorMenu>> UNIFIED_REPLICATOR =
             MENUS.register("unified_replicator", () -> IMenuTypeExtension.create(com.onter.onter_ic2.inventory.UnifiedReplicatorMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.menu.MolecularTransformerMenu>> MOLECULAR_TRANSFORMER_MENU =
+            MENUS.register("molecular_transformer", () -> IMenuTypeExtension.create(com.onter.onter_ic2.menu.MolecularTransformerMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.menu.QuantumGeneratorMenu>> QUANTUM_GENERATOR_MENU =
+            MENUS.register("quantum_generator", () -> IMenuTypeExtension.create(com.onter.onter_ic2.menu.QuantumGeneratorMenu::new));
 }

@@ -110,7 +110,14 @@ public class OnterIC2 {
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.UNIFIED_REPLICATOR.get(), (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.UNIFIED_REPLICATOR.get(), (be, side) -> be.getItemHandler());
 
-        // Electric Armor & Jetpack & Batpacks Energy Capability
+        // Molecular Transformer
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.MOLECULAR_TRANSFORMER.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.MOLECULAR_TRANSFORMER.get(), (be, side) -> be.getItemHandler());
+
+        // Quantum Generator
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.QUANTUM_GENERATOR.get(), (be, side) -> be.getEnergyStorage());
+
+        // Electric Armor & Jetpack & Batpacks & Solar Helmets Energy Capability
         registerElectricArmorCapability(event, ModItems.NANO_HELMET.get());
         registerElectricArmorCapability(event, ModItems.NANO_CHESTPLATE.get());
         registerElectricArmorCapability(event, ModItems.NANO_LEGGINGS.get());
@@ -124,6 +131,9 @@ public class OnterIC2 {
         registerElectricArmorCapability(event, ModItems.ADVANCED_BATPACK.get());
         registerElectricArmorCapability(event, ModItems.ENERGY_PACK.get());
         registerElectricArmorCapability(event, ModItems.LAPPACK.get());
+        registerElectricArmorCapability(event, ModItems.ADVANCED_SOLAR_HELMET.get());
+        registerElectricArmorCapability(event, ModItems.HYBRID_SOLAR_HELMET.get());
+        registerElectricArmorCapability(event, ModItems.ULTIMATE_SOLAR_HELMET.get());
     }
 
     private void registerElectricArmorCapability(RegisterCapabilitiesEvent event, com.onter.onter_ic2.item.armor.ElectricArmorItem armorItem) {

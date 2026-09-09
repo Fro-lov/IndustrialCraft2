@@ -29,6 +29,7 @@ public class OnterIC2JEIPlugin implements IModPlugin {
     public static final RecipeType<CompressorRecipe> COMPRESSOR_TYPE = RecipeType.create(OnterIC2.MODID, "compressing", CompressorRecipe.class);
     public static final RecipeType<ExtractorRecipe> EXTRACTOR_TYPE = RecipeType.create(OnterIC2.MODID, "extracting", ExtractorRecipe.class);
     public static final RecipeType<MetalFormerRecipe> METAL_FORMER_TYPE = MetalFormerCategory.TYPE;
+    public static final RecipeType<com.onter.onter_ic2.block.machines.MolecularTransformerBlockEntity.MTRecipe> MOLECULAR_TRANSFORMER_TYPE = MolecularTransformerCategory.TYPE;
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -43,7 +44,8 @@ public class OnterIC2JEIPlugin implements IModPlugin {
                 new BaseMachineCategory<>(helper, MACERATOR_TYPE, ModBlocks.MACERATOR.get(), "block.onter_ic2.macerator", OnterIC2.loc("textures/gui/container/macerator.png")),
                 new BaseMachineCategory<>(helper, COMPRESSOR_TYPE, ModBlocks.COMPRESSOR.get(), "block.onter_ic2.compressor", OnterIC2.loc("textures/gui/container/compressor.png")),
                 new BaseMachineCategory<>(helper, EXTRACTOR_TYPE, ModBlocks.EXTRACTOR.get(), "block.onter_ic2.extractor", OnterIC2.loc("textures/gui/container/extractor.png")),
-                new MetalFormerCategory(helper)
+                new MetalFormerCategory(helper),
+                new MolecularTransformerCategory(helper)
         );
     }
 
@@ -63,6 +65,8 @@ public class OnterIC2JEIPlugin implements IModPlugin {
 
         List<MetalFormerRecipe> metalFormerRecipes = manager.getAllRecipesFor(ModRecipeTypes.METAL_FORMER_RECIPE_TYPE.get()).stream().map(RecipeHolder::value).toList();
         registration.addRecipes(METAL_FORMER_TYPE, metalFormerRecipes);
+
+        registration.addRecipes(MOLECULAR_TRANSFORMER_TYPE, com.onter.onter_ic2.block.machines.MolecularTransformerBlockEntity.RECIPES);
     }
 
     @Override
@@ -71,6 +75,7 @@ public class OnterIC2JEIPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.COMPRESSOR.get()), COMPRESSOR_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.EXTRACTOR.get()), EXTRACTOR_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.METAL_FORMER.get()), METAL_FORMER_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.MOLECULAR_TRANSFORMER.get()), MOLECULAR_TRANSFORMER_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.ELECTRIC_FURNACE.get()), RecipeTypes.SMELTING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.GENERATOR.get()), RecipeTypes.FUELING);
     }
@@ -79,5 +84,6 @@ public class OnterIC2JEIPlugin implements IModPlugin {
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(BaseMachineScreen.class, 79, 34, 24, 17, MACERATOR_TYPE, COMPRESSOR_TYPE, EXTRACTOR_TYPE, RecipeTypes.SMELTING);
         registration.addRecipeClickArea(com.onter.onter_ic2.client.screen.MetalFormerScreen.class, 54, 39, 51, 13, METAL_FORMER_TYPE);
+        registration.addRecipeClickArea(com.onter.onter_ic2.client.screen.MolecularTransformerScreen.class, 23, 48, 10, 15, MOLECULAR_TRANSFORMER_TYPE);
     }
 }

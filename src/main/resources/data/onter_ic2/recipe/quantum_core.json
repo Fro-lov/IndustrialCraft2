@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ANA",
+    "NEN",
+    "ANA"
+  ],
+  "key": {
+    "A": {
+      "item": "onter_ic2:enriched_sunnarium_alloy"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:quantum_core",
+    "count": 1
+  }
+}

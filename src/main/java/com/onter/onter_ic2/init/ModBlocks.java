@@ -196,4 +196,11 @@ public class ModBlocks {
 
     public static final DeferredBlock<UnifiedReplicatorBlock> UNIFIED_REPLICATOR = registerBlock("unified_replicator",
             () -> new UnifiedReplicatorBlock(BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    // --- Advanced Solar Panels Blocks ---
+    public static final DeferredBlock<MolecularTransformerBlock> MOLECULAR_TRANSFORMER = registerBlock("molecular_transformer",
+            () -> new MolecularTransformerBlock(BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<com.onter.onter_ic2.block.generators.QuantumGeneratorBlock> QUANTUM_GENERATOR = registerBlock("quantum_generator",
+            () -> new com.onter.onter_ic2.block.generators.QuantumGeneratorBlock(BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 }

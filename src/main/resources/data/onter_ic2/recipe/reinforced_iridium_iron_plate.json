@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ACA",
+    "CIC",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "C": {
+      "item": "onter_ic2:carbon_plate"
+    },
+    "I": {
+      "item": "onter_ic2:iridium_iron_plate"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:reinforced_iridium_iron_plate",
+    "count": 1
+  }
+}

@@ -1,8 +1,12 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "top": "onter_ic2:block/ultimate_hybrid_solar_panel_top",
-    "bottom": "onter_ic2:block/ultimate_hybrid_solar_panel_bottom",
-    "side": "onter_ic2:block/ultimate_hybrid_solar_panel_side"
+    "particle": "onter_ic2:block/ultimate_solar_panel_top",
+    "down": "onter_ic2:block/ultimate_solar_panel_bottom",
+    "up": "onter_ic2:block/ultimate_solar_panel_top",
+    "north": "onter_ic2:block/ultimate_solar_panel_side",
+    "south": "onter_ic2:block/ultimate_solar_panel_side",
+    "west": "onter_ic2:block/ultimate_solar_panel_side",
+    "east": "onter_ic2:block/ultimate_solar_panel_side"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GUG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "U": {
+      "item": "onter_ic2:uranium_fuel_rod_single"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:irradiant_uranium",
+    "count": 1
+  }
+}

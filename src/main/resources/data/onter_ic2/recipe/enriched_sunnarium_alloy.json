@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "SAS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "onter_ic2:enriched_sunnarium"
+    },
+    "A": {
+      "item": "onter_ic2:sunnarium_alloy"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:enriched_sunnarium_alloy",
+    "count": 1
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "CQC",
+    "GTG"
+  ],
+  "key": {
+    "S": {
+      "item": "onter_ic2:hybrid_solar_panel"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "Q": {
+      "item": "onter_ic2:quantum_helmet"
+    },
+    "G": {
+      "item": "onter_ic2:glass_fibre_cable"
+    },
+    "T": {
+      "item": "onter_ic2:hv_cable_2x"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:hybrid_solar_helmet",
+    "count": 1
+  }
+}

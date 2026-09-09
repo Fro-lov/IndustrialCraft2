@@ -159,5 +159,23 @@ public class ModCreativeTabs {
                         output.accept(ModItems.PULLING_UPGRADE.get());
                         output.accept(ModItems.FLUID_EJECTOR_UPGRADE.get());
                         output.accept(ModItems.FLUID_PULLING_UPGRADE.get());
+
+                        // Advanced Solar Panels
+                        output.accept(ModBlocks.MOLECULAR_TRANSFORMER.get());
+                        output.accept(ModBlocks.QUANTUM_GENERATOR.get());
+                        output.accept(ModItems.ADVANCED_SOLAR_HELMET.get());
+                        output.accept(ModItems.HYBRID_SOLAR_HELMET.get());
+                        output.accept(ModItems.ULTIMATE_SOLAR_HELMET.get());
+                        output.accept(ModItems.SUNNARIUM_ALLOY.get());
+                        output.accept(ModItems.ENRICHED_SUNNARIUM.get());
+                        output.accept(ModItems.ENRICHED_SUNNARIUM_ALLOY.get());
+                        output.accept(ModItems.IRRADIANT_GLASS_PANE.get());
+                        output.accept(ModItems.IRRADIANT_URANIUM.get());
+                        output.accept(ModItems.IRRADIANT_REINFORCED_PLATE.get());
+                        output.accept(ModItems.IRIDIUM_IRON_PLATE.get());
+                        output.accept(ModItems.REINFORCED_IRIDIUM_IRON_PLATE.get());
+                        output.accept(ModItems.MT_CORE.get());
+                        output.accept(ModItems.QUANTUM_CORE.get());
+                        output.accept(ModItems.URANIUM_INGOT.get());
                     }).build());
 }

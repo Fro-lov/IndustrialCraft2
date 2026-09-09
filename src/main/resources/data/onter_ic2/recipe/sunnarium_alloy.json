@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "ISI",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "onter_ic2:iridium_ingot"
+    },
+    "S": {
+      "item": "onter_ic2:sunnarium"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:sunnarium_alloy",
+    "count": 1
+  }
+}

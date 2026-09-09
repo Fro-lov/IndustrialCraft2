@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "onter_ic2:block/quantum_generator"
+    },
+    "active=true": {
+      "model": "onter_ic2:block/quantum_generator_active"
+    }
+  }
+}

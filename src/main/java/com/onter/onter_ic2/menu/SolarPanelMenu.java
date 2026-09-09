@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class SolarPanelMenu extends AbstractContainerMenu {
     private final SolarPanelBlockEntity blockEntity;
@@ -30,26 +31,26 @@ public class SolarPanelMenu extends AbstractContainerMenu {
 
         addDataSlots(data);
 
-        // 4 Battery/Crystal charging slots at (71, 92), (89, 92), (107, 92), (125, 92)
+        // 4 Charging slots: x = 17, 35, 53, 71, y = 59 (spacing 2)
         for (int i = 0; i < 4; i++) {
-            this.addSlot(new SlotItemHandler(entity.getItemHandler(), i, 71 + i * 18, 92) {
+            this.addSlot(new SlotItemHandler(entity.getItemHandler(), i, 17 + i * 18, 59) {
                 @Override
-                public boolean mayPlace(ItemStack stack) {
+                public boolean mayPlace(@NotNull ItemStack stack) {
                     return stack.getItem() instanceof BatteryItem || stack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null;
                 }
             });
         }
 
-        // Player Inventory (3 rows at x=26, y=128)
+        // Player Inventory: x = 17, y = 86
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
-                this.addSlot(new Slot(inv, col + row * 9 + 9, 26 + col * 18, 128 + row * 18));
+                this.addSlot(new Slot(inv, col + row * 9 + 9, 17 + col * 18, 86 + row * 18));
             }
         }
 
-        // Player Hotbar (1 row at x=26, y=186)
+        // Player Hotbar: x = 17, y = 144
         for (int col = 0; col < 9; ++col) {
-            this.addSlot(new Slot(inv, col, 26 + col * 18, 186));
+            this.addSlot(new Slot(inv, col, 17 + col * 18, 144));
         }
     }
 
@@ -82,7 +83,7 @@ public class SolarPanelMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
@@ -109,12 +110,18 @@ public class SolarPanelMenu extends AbstractContainerMenu {
             } else {
                 slot.setChanged();
             }
+
+            if (itemstack1.getCount() == itemstack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slot.onTake(player, itemstack1);
         }
         return itemstack;
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return stillValid(this.blockEntity.getBlockPos() != null ?
                 net.minecraft.world.inventory.ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos()) :
                 net.minecraft.world.inventory.ContainerLevelAccess.NULL, player, blockEntity.getBlockState().getBlock());

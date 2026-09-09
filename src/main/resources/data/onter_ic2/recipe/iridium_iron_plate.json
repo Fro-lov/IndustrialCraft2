@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "IRI",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "onter_ic2:iridium_ingot"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:iridium_iron_plate",
+    "count": 1
+  }
+}

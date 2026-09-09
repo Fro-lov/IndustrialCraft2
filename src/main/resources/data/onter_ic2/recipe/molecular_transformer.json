@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MTM",
+    "CAC",
+    "MTM"
+  ],
+  "key": {
+    "M": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "T": {
+      "item": "onter_ic2:hv_cable_3x"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "A": {
+      "item": "onter_ic2:mt_core"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:molecular_transformer",
+    "count": 1
+  }
+}

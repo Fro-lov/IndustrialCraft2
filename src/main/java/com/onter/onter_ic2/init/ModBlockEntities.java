@@ -172,5 +172,12 @@ public class ModBlockEntities {
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<UnifiedReplicatorBlockEntity>> UNIFIED_REPLICATOR =
             BLOCK_ENTITIES.register("unified_replicator", () -> BlockEntityType.Builder.of(UnifiedReplicatorBlockEntity::new, ModBlocks.UNIFIED_REPLICATOR.get()).build(null));
+
+    // --- Advanced Solar Panels Block Entities ---
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MolecularTransformerBlockEntity>> MOLECULAR_TRANSFORMER =
+            BLOCK_ENTITIES.register("molecular_transformer", () -> BlockEntityType.Builder.of(MolecularTransformerBlockEntity::new, ModBlocks.MOLECULAR_TRANSFORMER.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.onter.onter_ic2.block.generators.QuantumGeneratorBlockEntity>> QUANTUM_GENERATOR =
+            BLOCK_ENTITIES.register("quantum_generator", () -> BlockEntityType.Builder.of(com.onter.onter_ic2.block.generators.QuantumGeneratorBlockEntity::new, ModBlocks.QUANTUM_GENERATOR.get()).build(null));
 }
 

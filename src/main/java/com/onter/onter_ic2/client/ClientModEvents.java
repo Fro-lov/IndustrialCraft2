@@ -24,5 +24,7 @@ public class ClientModEvents {
         event.register(ModMenuTypes.NUCLEAR_REACTOR.get(), com.onter.onter_ic2.client.screen.NuclearReactorScreen::new);
         event.register(ModMenuTypes.MASS_FABRICATOR.get(), com.onter.onter_ic2.client.screen.MassFabricatorScreen::new);
         event.register(ModMenuTypes.UNIFIED_REPLICATOR.get(), com.onter.onter_ic2.client.screen.UnifiedReplicatorScreen::new);
+        event.register(ModMenuTypes.MOLECULAR_TRANSFORMER_MENU.get(), com.onter.onter_ic2.client.screen.MolecularTransformerScreen::new);
+        event.register(ModMenuTypes.QUANTUM_GENERATOR_MENU.get(), com.onter.onter_ic2.client.screen.QuantumGeneratorScreen::new);
     }
 }

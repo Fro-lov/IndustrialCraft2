@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "CNC",
+    "GTG"
+  ],
+  "key": {
+    "S": {
+      "item": "onter_ic2:advanced_solar_panel"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "N": {
+      "item": "onter_ic2:nano_helmet"
+    },
+    "G": {
+      "item": "onter_ic2:gold_cable_2x"
+    },
+    "T": {
+      "item": "onter_ic2:copper_cable"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:advanced_solar_helmet",
+    "count": 1
+  }
+}

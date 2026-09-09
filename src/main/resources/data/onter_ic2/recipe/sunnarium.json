@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SSS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "onter_ic2:sunnarium_part"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:sunnarium",
+    "count": 1
+  }
+}

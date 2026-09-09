@@ -174,4 +174,24 @@ public class ModItems {
             () -> new ElectricWrenchItem(new Item.Properties()));
     public static final DeferredItem<EUMeterItem> EU_METER = ITEMS.register("eu_meter",
             () -> new EUMeterItem(new Item.Properties()));
+
+    // Advanced Solar Panels Items & Helmets
+    public static final DeferredItem<SolarHelmetItem> ADVANCED_SOLAR_HELMET = ITEMS.register("advanced_solar_helmet",
+            () -> new SolarHelmetItem(Ic2ArmorMaterials.NANO_SUIT, new Item.Properties(), 1_000_000, 3_000, 3, 8, 1, 2_000, 0.90, false));
+    public static final DeferredItem<SolarHelmetItem> HYBRID_SOLAR_HELMET = ITEMS.register("hybrid_solar_helmet",
+            () -> new SolarHelmetItem(Ic2ArmorMaterials.NANO_SUIT, new Item.Properties(), 10_000_000, 10_000, 4, 64, 8, 5_000, 1.00, true));
+    public static final DeferredItem<SolarQuantumHelmetItem> ULTIMATE_SOLAR_HELMET = ITEMS.register("ultimate_solar_helmet",
+            () -> new SolarQuantumHelmetItem(new Item.Properties(), 512, 64));
+
+    public static final DeferredItem<Item> SUNNARIUM_ALLOY = ITEMS.registerSimpleItem("sunnarium_alloy", new Item.Properties());
+    public static final DeferredItem<Item> ENRICHED_SUNNARIUM = ITEMS.registerSimpleItem("enriched_sunnarium", new Item.Properties());
+    public static final DeferredItem<Item> ENRICHED_SUNNARIUM_ALLOY = ITEMS.registerSimpleItem("enriched_sunnarium_alloy", new Item.Properties());
+    public static final DeferredItem<Item> IRRADIANT_GLASS_PANE = ITEMS.registerSimpleItem("irradiant_glass_pane", new Item.Properties());
+    public static final DeferredItem<Item> IRRADIANT_URANIUM = ITEMS.registerSimpleItem("irradiant_uranium", new Item.Properties());
+    public static final DeferredItem<Item> IRRADIANT_REINFORCED_PLATE = ITEMS.registerSimpleItem("irradiant_reinforced_plate", new Item.Properties());
+    public static final DeferredItem<Item> IRIDIUM_IRON_PLATE = ITEMS.registerSimpleItem("iridium_iron_plate", new Item.Properties());
+    public static final DeferredItem<Item> REINFORCED_IRIDIUM_IRON_PLATE = ITEMS.registerSimpleItem("reinforced_iridium_iron_plate", new Item.Properties());
+    public static final DeferredItem<Item> MT_CORE = ITEMS.registerSimpleItem("mt_core", new Item.Properties());
+    public static final DeferredItem<Item> QUANTUM_CORE = ITEMS.registerSimpleItem("quantum_core", new Item.Properties());
+    public static final DeferredItem<Item> URANIUM_INGOT = ITEMS.registerSimpleItem("uranium_ingot", new Item.Properties());
 }
