@@ -1,12 +1,12 @@
 {
-  "parent": "block/cube",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "down": "onter_ic2:block/base/bottom",
-    "up": "onter_ic2:block/base/top",
-    "north": "onter_ic2:block/machine/advanced/advanced_machine_side",
-    "south": "onter_ic2:block/machine/advanced/advanced_machine_side",
-    "east": "onter_ic2:block/machine/advanced/advanced_machine_side",
-    "west": "onter_ic2:block/machine/advanced/advanced_machine_side",
-    "particle": "onter_ic2:block/machine/advanced/advanced_machine_side"
+    "particle": "onter_ic2:block/machine/uu/replicator_front",
+    "down": "onter_ic2:block/machine/uu/replicator_bottom",
+    "up": "onter_ic2:block/machine/uu/replicator_top",
+    "north": "onter_ic2:block/machine/uu/replicator_front",
+    "east": "onter_ic2:block/machine/uu/replicator_right",
+    "south": "onter_ic2:block/machine/uu/replicator_back",
+    "west": "onter_ic2:block/machine/uu/replicator_left"
   }
 }

@@ -105,29 +105,9 @@ public class MeterScreen extends AbstractContainerScreen<MeterMenu> {
         int tier = menu.getTier();
 
         // Mode label in header
-        guiGraphics.drawString(font, Component.translatable("ic2.meter.mode"), x + 118, y + 30, CRT_GREEN, false);
+        guiGraphics.drawString(font, Component.translatable("ic2.meter.mode"), x + 114, y + 28, CRT_GREEN, false);
 
-        // Average
-        guiGraphics.drawString(font, Component.translatable("ic2.meter.avg"), x + 15, y + 30, CRT_GREEN, false);
-        guiGraphics.drawString(font, String.format("%,d%s", avg, unit), x + 15, y + 40, CRT_GREEN, false);
-
-        // Max / Min
-        guiGraphics.drawString(font, Component.translatable("ic2.meter.max_min"), x + 15, y + 54, CRT_GREEN, false);
-        guiGraphics.drawString(font, String.format("%,d%s", max, unit), x + 15, y + 64, CRT_GREEN, false);
-        guiGraphics.drawString(font, String.format("%,d%s", min, unit), x + 15, y + 74, CRT_GREEN, false);
-
-        // Cycle time
-        guiGraphics.drawString(font, Component.translatable("ic2.meter.cycle", cycleSeconds), x + 15, y + 88, CRT_GREEN, false);
-
-        // Limit / Tier info line
-        guiGraphics.drawString(font, String.format("Лимит: %,d EU/t (T%d)", limit, tier), x + 15, y + 99, 0x55FFFF, false);
-
-        // Reset text
-        Component resetComp = Component.translatable("ic2.meter.mode.reset");
-        int resetWidth = font.width(resetComp);
-        guiGraphics.drawString(font, resetComp, x + 26 + (58 - resetWidth) / 2, y + 114, CRT_GREEN, false);
-
-        // Active mode description bottom-right
+        // Active mode description inside top-right black rectangle (x: 94..158, y: 38..49)
         String modeName = switch (mode) {
             case EnergyIn -> Component.translatable("ic2.meter.mode.EnergyIn").getString();
             case EnergyOut -> Component.translatable("ic2.meter.mode.EnergyOut").getString();
@@ -135,7 +115,27 @@ public class MeterScreen extends AbstractContainerScreen<MeterMenu> {
             case Voltage -> Component.translatable("ic2.meter.mode.Voltage").getString();
         };
         int modeWidth = font.width(modeName);
-        int modeX = Math.max(x + 94, x + 132 - (modeWidth / 2));
-        guiGraphics.drawString(font, modeName, modeX, y + 100, CRT_GREEN, false);
+        guiGraphics.drawString(font, modeName, x + 96 + Math.max(0, (62 - modeWidth) / 2), y + 40, CRT_GREEN, false);
+
+        // Left CRT Display:
+        // Average
+        guiGraphics.drawString(font, Component.translatable("ic2.meter.avg"), x + 15, y + 27, CRT_GREEN, false);
+        guiGraphics.drawString(font, String.format("%,d%s", avg, unit), x + 15, y + 36, CRT_GREEN, false);
+
+        // Max / Min
+        guiGraphics.drawString(font, Component.translatable("ic2.meter.max_min"), x + 15, y + 48, CRT_GREEN, false);
+        guiGraphics.drawString(font, String.format("%,d%s", max, unit), x + 15, y + 57, CRT_GREEN, false);
+        guiGraphics.drawString(font, String.format("%,d%s", min, unit), x + 15, y + 66, CRT_GREEN, false);
+
+        // Cycle time
+        guiGraphics.drawString(font, Component.translatable("ic2.meter.cycle", cycleSeconds), x + 15, y + 77, CRT_GREEN, false);
+
+        // Limit / Tier info line
+        guiGraphics.drawString(font, String.format("Лимит: %,d EU/t (T%d)", limit, tier), x + 15, y + 88, 0x55FFFF, false);
+
+        // Reset text
+        Component resetComp = Component.translatable("ic2.meter.mode.reset");
+        int resetWidth = font.width(resetComp);
+        guiGraphics.drawString(font, resetComp, x + 26 + (58 - resetWidth) / 2, y + 114, CRT_GREEN, false);
     }
 }

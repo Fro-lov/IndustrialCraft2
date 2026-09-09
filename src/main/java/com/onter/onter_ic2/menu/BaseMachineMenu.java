@@ -4,6 +4,7 @@ import com.onter.onter_ic2.block.base.BaseMachineBlockEntity;
 import com.onter.onter_ic2.init.ModMenuTypes;
 import com.onter.onter_ic2.item.BatteryItem;
 import com.onter.onter_ic2.item.UpgradeItem;
+import com.onter.onter_ic2.energy.EnergyPriority;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +23,7 @@ public class BaseMachineMenu extends AbstractContainerMenu {
     public BaseMachineMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
         this(ModMenuTypes.BASE_MACHINE_MENU.get(), containerId, inv,
                 (BaseMachineBlockEntity) inv.player.level().getBlockEntity(extraData.readBlockPos()),
-                new SimpleContainerData(4));
+                new SimpleContainerData(5));
     }
 
     public BaseMachineMenu(int containerId, Inventory inv, BaseMachineBlockEntity entity, ContainerData data) {
@@ -88,6 +89,19 @@ public class BaseMachineMenu extends AbstractContainerMenu {
 
     public int getMaxProgress() {
         return this.data.get(1);
+    }
+
+    public EnergyPriority getPriority() {
+        return EnergyPriority.fromLevel(data.get(4));
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if (id == 100 && blockEntity != null) {
+            blockEntity.setEnergyPriority(blockEntity.getEnergyPriority().next());
+            return true;
+        }
+        return super.clickMenuButton(player, id);
     }
 
     public int getEnergy() {

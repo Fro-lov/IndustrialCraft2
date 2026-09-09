@@ -1,5 +1,7 @@
 package com.onter.onter_ic2.block.machines;
 
+import com.onter.onter_ic2.energy.EnergyPriority;
+import com.onter.onter_ic2.energy.IEnergyPrioritized;
 import com.onter.onter_ic2.energy.IC2EnergyStorage;
 import com.onter.onter_ic2.init.ModBlockEntities;
 import com.onter.onter_ic2.init.ModItems;
@@ -23,7 +25,19 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class UnifiedReplicatorBlockEntity extends BlockEntity implements MenuProvider {
+public class UnifiedReplicatorBlockEntity extends BlockEntity implements MenuProvider, IEnergyPrioritized {
+    private EnergyPriority priority = EnergyPriority.LOW;
+
+    @Override
+    public EnergyPriority getEnergyPriority() {
+        return priority;
+    }
+
+    @Override
+    public void setEnergyPriority(EnergyPriority priority) {
+        this.priority = priority;
+        setChanged();
+    }
     public static final int CAPACITY = 2_000_000;
     public static final int MAX_RECEIVE = 32_768;
     public static final int MAX_PROGRESS = 100;
@@ -68,6 +82,7 @@ public class UnifiedReplicatorBlockEntity extends BlockEntity implements MenuPro
                 case 3 -> selectedPatternIndex;
                 case 4 -> energyStorage.getEnergyStored();
                 case 5 -> energyStorage.getMaxEnergyStored();
+                case 6 -> priority.getLevel();
                 default -> 0;
             };
         }
@@ -79,12 +94,13 @@ public class UnifiedReplicatorBlockEntity extends BlockEntity implements MenuPro
                 case 2 -> scanProgress = value;
                 case 3 -> selectedPatternIndex = Math.max(0, Math.min(PATTERNS.length - 1, value));
                 case 4 -> energyStorage.setEnergy(value);
+                case 6 -> priority = EnergyPriority.fromLevel(value);
             }
         }
 
         @Override
         public int getCount() {
-            return 6;
+            return 7;
         }
     };
 
@@ -176,6 +192,7 @@ public class UnifiedReplicatorBlockEntity extends BlockEntity implements MenuPro
     protected void saveAdditional(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("Inventory", itemHandler.serializeNBT(registries));
+        tag.putInt("EnergyPriority", priority.getLevel());
         tag.put("Energy", energyStorage.serializeNBT(registries));
         tag.putInt("Progress", progress);
         tag.putInt("ScanProgress", scanProgress);
@@ -189,6 +206,7 @@ public class UnifiedReplicatorBlockEntity extends BlockEntity implements MenuPro
         if (tag.contains("Energy")) energyStorage.deserializeNBT(registries, tag.get("Energy"));
         progress = tag.getInt("Progress");
         scanProgress = tag.getInt("ScanProgress");
+        if (tag.contains("EnergyPriority")) priority = EnergyPriority.fromLevel(tag.getInt("EnergyPriority"));
         selectedPatternIndex = tag.getInt("PatternIndex");
     }
 

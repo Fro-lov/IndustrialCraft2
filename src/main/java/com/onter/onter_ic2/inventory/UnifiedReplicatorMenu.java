@@ -6,6 +6,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import com.onter.onter_ic2.energy.EnergyPriority;
+import com.onter.onter_ic2.block.machines.UnifiedReplicatorBlockEntity;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -18,7 +20,7 @@ public class UnifiedReplicatorMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public UnifiedReplicatorMenu(int containerId, Inventory playerInventory) {
-        this(containerId, playerInventory, new ItemStackHandler(3), new SimpleContainerData(6));
+        this(containerId, playerInventory, new ItemStackHandler(3), new SimpleContainerData(7));
     }
 
     public UnifiedReplicatorMenu(int containerId, Inventory playerInventory, net.minecraft.network.FriendlyByteBuf extraData) {
@@ -59,6 +61,19 @@ public class UnifiedReplicatorMenu extends AbstractContainerMenu {
         this.addDataSlots(data);
     }
 
+    public int getScaledProgress(int width) {
+        int max = getMaxProgress();
+        return max > 0 ? getProgress() * width / max : 0;
+    }
+
+    public int getSelectedPatternIndex() {
+        return getPatternIndex();
+    }
+
+    public net.minecraft.world.item.Item[] getPatterns() {
+        return UnifiedReplicatorBlockEntity.PATTERNS;
+    }
+
     public int getProgress() {
         return data.get(0);
     }
@@ -75,6 +90,10 @@ public class UnifiedReplicatorMenu extends AbstractContainerMenu {
         return data.get(3);
     }
 
+    public EnergyPriority getPriority() {
+        return EnergyPriority.fromLevel(data.get(6));
+    }
+
     public int getEnergy() {
         return data.get(4);
     }
@@ -85,6 +104,11 @@ public class UnifiedReplicatorMenu extends AbstractContainerMenu {
 
     @Override
     public boolean clickMenuButton(@NotNull Player player, int id) {
+                if (id == 100) {
+            int current = data.get(6);
+            data.set(6, EnergyPriority.fromLevel(current).next().getLevel());
+            return true;
+        }
         if (id == 0) {
             // Previous pattern
             int current = getPatternIndex();

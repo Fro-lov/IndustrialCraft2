@@ -1,5 +1,7 @@
 package com.onter.onter_ic2.block.base;
 
+import com.onter.onter_ic2.energy.EnergyPriority;
+import com.onter.onter_ic2.energy.IEnergyPrioritized;
 import com.onter.onter_ic2.energy.IC2EnergyStorage;
 import com.onter.onter_ic2.item.BatteryItem;
 import com.onter.onter_ic2.item.EjectorUpgradeItem;
@@ -26,7 +28,19 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BaseMachineBlockEntity extends BlockEntity implements MenuProvider {
+public abstract class BaseMachineBlockEntity extends BlockEntity implements MenuProvider, IEnergyPrioritized {
+    protected EnergyPriority priority = EnergyPriority.HIGH;
+
+    @Override
+    public EnergyPriority getEnergyPriority() {
+        return priority;
+    }
+
+    @Override
+    public void setEnergyPriority(EnergyPriority priority) {
+        this.priority = priority;
+        setChanged();
+    }
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT = 1;
     public static final int SLOT_BATTERY = 2;
@@ -71,6 +85,7 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
                 case 1 -> maxProgress;
                 case 2 -> energyStorage.getEnergyStored();
                 case 3 -> energyStorage.getMaxEnergyStored();
+                case 4 -> priority.getLevel();
                 default -> 0;
             };
         }
@@ -82,12 +97,13 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
                 case 1 -> maxProgress = value;
                 case 2 -> energyStorage.setEnergy(value);
                 case 3 -> energyStorage.setCapacity(value);
+                case 4 -> priority = EnergyPriority.fromLevel(value);
             }
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
     };
 
@@ -390,6 +406,7 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
         tag.put("Inventory", itemHandler.serializeNBT(registries));
         tag.put("Energy", energyStorage.serializeNBT(registries));
         tag.putInt("Progress", progress);
+        tag.putInt("EnergyPriority", priority.getLevel());
 
         net.minecraft.nbt.ListTag surplusTag = new net.minecraft.nbt.ListTag();
         for (ItemStack surplus : surplusOutputBuffer) {
@@ -418,6 +435,9 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
         }
         if (tag.contains("Progress")) {
             progress = tag.getInt("Progress");
+        }
+        if (tag.contains("EnergyPriority")) {
+            priority = EnergyPriority.fromLevel(tag.getInt("EnergyPriority"));
         }
         surplusOutputBuffer.clear();
         if (tag.contains("SurplusBuffer")) {

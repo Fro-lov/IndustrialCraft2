@@ -2,6 +2,7 @@ package com.onter.onter_ic2.item;
 
 import com.onter.onter_ic2.block.base.BaseMachineBlockEntity;
 import com.onter.onter_ic2.block.cables.CableBlockEntity;
+import com.onter.onter_ic2.energy.IEnergyPrioritized;
 import com.onter.onter_ic2.block.generators.GeneratorBlockEntity;
 import com.onter.onter_ic2.block.generators.QuantumGeneratorBlockEntity;
 import com.onter.onter_ic2.block.generators.SolarPanelBlockEntity;
@@ -84,16 +85,16 @@ public class EUMeterItem extends Item {
         int tier = 1;
 
         if (be instanceof CableBlockEntity cable) {
-            limitEU = cable.getMaxTransfer() / 4;
-            tier = limitEU <= 32 ? 1 : (limitEU <= 128 ? 2 : (limitEU <= 512 ? 3 : (limitEU <= 2048 ? 4 : 5)));
-            player.displayClientMessage(Component.literal(String.format("§6[Ваттметр] §f%s §7| §eПропускная способность: §a%d EU/t §7(Tier %d)", blockName, limitEU, tier)), false);
+            int bufferEU = cable.getEnergyStorage().getEnergyStored() / 4;
+            player.displayClientMessage(Component.literal(String.format("§6[Ваттметр] §f%s §7| §eШина энергосети: §aНеограниченная §7| §bБуфер сети: §f%,d EU", blockName, bufferEU)), false);
             return;
         }
 
         if (be instanceof EnergyStorageBlockEntity esbe) {
             int transferEU = esbe.getMaxTransfer() / 4;
             tier = transferEU <= 32 ? 1 : (transferEU <= 128 ? 2 : (transferEU <= 512 ? 3 : 4));
-            player.displayClientMessage(Component.literal(String.format("§6[Ваттметр] §f%s §7| §eЗаряд: §f%,d / %,d EU §7| §bВыход: §a%d EU/t §7(Tier %d)", blockName, stored, max, transferEU, tier)), false);
+            String priorityStr = (be instanceof IEnergyPrioritized p) ? " §7| §6Приоритет: " + p.getEnergyPriority().getIcon() + " " + p.getEnergyPriority().getDisplayName().getString() : "";
+            player.displayClientMessage(Component.literal(String.format("§6[Ваттметр] §f%s §7| §eЗаряд: §f%,d / %,d EU §7| §bВыход: §a%d EU/t §7(Tier %d)%s", blockName, stored, max, transferEU, tier, priorityStr)), false);
             return;
         }
 
@@ -118,13 +119,15 @@ public class EUMeterItem extends Item {
             limitEU = multiMachine.getNumChannels() > 6 ? 512 : 128;
             tier = multiMachine.getNumChannels() > 6 ? 3 : 2;
             int powerEU = multiMachine.getBaseEnergyPerTick() / 4;
-            player.displayClientMessage(Component.literal(String.format("§6[Ваттметр] §f%s §7| §eЭнергия: §f%,d / %,d EU §7| §bРасход: §c%d EU/t §7| §aМакс. вход: %d EU/t (Tier %d)", blockName, stored, max, powerEU, limitEU, tier)), false);
+            String priorityStr = (be instanceof IEnergyPrioritized p) ? " §7| §6Приоритет: " + p.getEnergyPriority().getIcon() + " " + p.getEnergyPriority().getDisplayName().getString() : "";
+            player.displayClientMessage(Component.literal(String.format("§6[Ваттметр] §f%s §7| §eЭнергия: §f%,d / %,d EU §7| §bРасход: §c%d EU/t §7| §aМакс. вход: %d EU/t (Tier %d)%s", blockName, stored, max, powerEU, limitEU, tier, priorityStr)), false);
             return;
         }
 
         if (be instanceof BaseMachineBlockEntity machine) {
             int powerEU = machine.getBaseEnergyPerTick() / 4;
-            player.displayClientMessage(Component.literal(String.format("§6[Ваттметр] §f%s §7| §eЭнергия: §f%,d / %,d EU §7| §bРасход: §c%d EU/t §7| §aМакс. вход: 32 EU/t (Tier 1)", blockName, stored, max, powerEU)), false);
+            String priorityStr = (be instanceof IEnergyPrioritized p) ? " §7| §6Приоритет: " + p.getEnergyPriority().getIcon() + " " + p.getEnergyPriority().getDisplayName().getString() : "";
+            player.displayClientMessage(Component.literal(String.format("§6[Ваттметр] §f%s §7| §eЭнергия: §f%,d / %,d EU §7| §bРасход: §c%d EU/t §7| §aМакс. вход: 32 EU/t (Tier 1)%s", blockName, stored, max, powerEU, priorityStr)), false);
             return;
         }
 

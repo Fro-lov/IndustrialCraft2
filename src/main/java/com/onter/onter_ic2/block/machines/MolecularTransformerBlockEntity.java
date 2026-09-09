@@ -1,5 +1,7 @@
 package com.onter.onter_ic2.block.machines;
 
+import com.onter.onter_ic2.energy.EnergyPriority;
+import com.onter.onter_ic2.energy.IEnergyPrioritized;
 import com.onter.onter_ic2.energy.IC2EnergyStorage;
 import com.onter.onter_ic2.init.ModBlockEntities;
 import com.onter.onter_ic2.init.ModItems;
@@ -26,7 +28,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MolecularTransformerBlockEntity extends BlockEntity implements MenuProvider {
+public class MolecularTransformerBlockEntity extends BlockEntity implements MenuProvider, IEnergyPrioritized {
+    private EnergyPriority priority = EnergyPriority.LOW;
+
+    @Override
+    public EnergyPriority getEnergyPriority() {
+        return priority;
+    }
+
+    @Override
+    public void setEnergyPriority(EnergyPriority priority) {
+        this.priority = priority;
+        setChanged();
+    }
     public static final int CAPACITY = 100_000_000; // 25,000,000 EU
 
     public record MTRecipe(Item input, int inputCount, ItemStack output, int totalEU) {}
@@ -74,6 +88,7 @@ public class MolecularTransformerBlockEntity extends BlockEntity implements Menu
                 case 4 -> currentRecipeIndex;
                 case 5 -> energyStorage.getEnergyStored();
                 case 6 -> energyStorage.getMaxEnergyStored();
+                case 7 -> priority.getLevel();
                 default -> 0;
             };
         }
@@ -84,12 +99,13 @@ public class MolecularTransformerBlockEntity extends BlockEntity implements Menu
                 case 3 -> lastEnergyGiven = value;
                 case 4 -> currentRecipeIndex = value;
                 case 5 -> energyStorage.setEnergy(value);
+                case 7 -> priority = EnergyPriority.fromLevel(value);
             }
         }
 
         @Override
         public int getCount() {
-            return 7;
+            return 8;
         }
     };
 
@@ -192,6 +208,7 @@ public class MolecularTransformerBlockEntity extends BlockEntity implements Menu
     protected void saveAdditional(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("Inventory", itemHandler.serializeNBT(registries));
+        tag.putInt("EnergyPriority", priority.getLevel());
         tag.put("Energy", energyStorage.serializeNBT(registries));
         tag.putDouble("EnergyUsed", energyUsed);
         tag.putInt("RecipeIndex", currentRecipeIndex);
@@ -203,6 +220,7 @@ public class MolecularTransformerBlockEntity extends BlockEntity implements Menu
         if (tag.contains("Inventory")) itemHandler.deserializeNBT(registries, tag.getCompound("Inventory"));
         if (tag.contains("Energy")) energyStorage.deserializeNBT(registries, tag.get("Energy"));
         energyUsed = tag.getDouble("EnergyUsed");
+        if (tag.contains("EnergyPriority")) priority = EnergyPriority.fromLevel(tag.getInt("EnergyPriority"));
         currentRecipeIndex = tag.getInt("RecipeIndex");
     }
 

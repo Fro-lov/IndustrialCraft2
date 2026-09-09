@@ -1,7 +1,28 @@
 {
   "variants": {
-    "": {
+    "facing=north,active=false": {
       "model": "onter_ic2:block/molecular_transformer"
+    },
+    "facing=south,active=false": {
+      "model": "onter_ic2:block/molecular_transformer"
+    },
+    "facing=east,active=false": {
+      "model": "onter_ic2:block/molecular_transformer"
+    },
+    "facing=west,active=false": {
+      "model": "onter_ic2:block/molecular_transformer"
+    },
+    "facing=north,active=true": {
+      "model": "onter_ic2:block/molecular_transformer_active"
+    },
+    "facing=south,active=true": {
+      "model": "onter_ic2:block/molecular_transformer_active"
+    },
+    "facing=east,active=true": {
+      "model": "onter_ic2:block/molecular_transformer_active"
+    },
+    "facing=west,active=true": {
+      "model": "onter_ic2:block/molecular_transformer_active"
     }
   }
 }

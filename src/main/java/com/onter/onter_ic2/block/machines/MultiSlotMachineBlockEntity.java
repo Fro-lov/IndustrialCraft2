@@ -1,6 +1,8 @@
 package com.onter.onter_ic2.block.machines;
 
 import com.onter.onter_ic2.block.base.BaseMachineBlock;
+import com.onter.onter_ic2.energy.EnergyPriority;
+import com.onter.onter_ic2.energy.IEnergyPrioritized;
 import com.onter.onter_ic2.energy.IC2EnergyStorage;
 import com.onter.onter_ic2.init.ModItems;
 import com.onter.onter_ic2.init.ModRecipeTypes;
@@ -46,7 +48,19 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MultiSlotMachineBlockEntity extends BlockEntity implements MenuProvider {
+public class MultiSlotMachineBlockEntity extends BlockEntity implements MenuProvider, IEnergyPrioritized {
+    private EnergyPriority priority = EnergyPriority.HIGH;
+
+    @Override
+    public EnergyPriority getEnergyPriority() {
+        return priority;
+    }
+
+    @Override
+    public void setEnergyPriority(EnergyPriority priority) {
+        this.priority = priority;
+        setChanged();
+    }
     public enum MachineType {
         MACERATOR,
         ELECTRIC_FURNACE,
@@ -463,6 +477,7 @@ public class MultiSlotMachineBlockEntity extends BlockEntity implements MenuProv
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("Inventory", itemHandler.serializeNBT(registries));
+        tag.putInt("EnergyPriority", priority.getLevel());
         tag.putInt("Progress", progress);
         tag.putInt("MaxProgress", maxProgress);
         tag.putInt("Energy", energyStorage.getEnergyStored());
@@ -473,6 +488,7 @@ public class MultiSlotMachineBlockEntity extends BlockEntity implements MenuProv
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         int totalSlots = (numChannels * 2) + 1 + 4;
+        if (tag.contains("EnergyPriority")) priority = EnergyPriority.fromLevel(tag.getInt("EnergyPriority"));
         if (tag.contains("Inventory")) {
             itemHandler.deserializeNBT(registries, tag.getCompound("Inventory"));
             if (itemHandler.getSlots() != totalSlots) {

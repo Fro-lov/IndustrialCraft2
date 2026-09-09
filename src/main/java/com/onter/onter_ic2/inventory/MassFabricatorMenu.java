@@ -6,6 +6,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import com.onter.onter_ic2.energy.EnergyPriority;
+import com.onter.onter_ic2.block.machines.MassFabricatorBlockEntity;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -18,7 +20,7 @@ public class MassFabricatorMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public MassFabricatorMenu(int containerId, Inventory playerInventory) {
-        this(containerId, playerInventory, new ItemStackHandler(2), new SimpleContainerData(5));
+        this(containerId, playerInventory, new ItemStackHandler(2), new SimpleContainerData(6));
     }
 
     public MassFabricatorMenu(int containerId, Inventory playerInventory, net.minecraft.network.FriendlyByteBuf extraData) {
@@ -56,6 +58,16 @@ public class MassFabricatorMenu extends AbstractContainerMenu {
         this.addDataSlots(data);
     }
 
+    public int getScaledProgress(int width) {
+        int max = getMaxProgress();
+        return max > 0 ? getProgress() * width / max : 0;
+    }
+
+    public int getProgressPercent() {
+        int max = getMaxProgress();
+        return max > 0 ? (int) ((long) getProgress() * 100 / max) : 0;
+    }
+
     public int getProgress() {
         return data.get(0);
     }
@@ -68,6 +80,19 @@ public class MassFabricatorMenu extends AbstractContainerMenu {
         return data.get(2);
     }
 
+        public EnergyPriority getPriority() {
+        return EnergyPriority.fromLevel(data.get(5));
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if (id == 100) {
+            int current = data.get(5);
+            data.set(5, EnergyPriority.fromLevel(current).next().getLevel());
+            return true;
+        }
+        return super.clickMenuButton(player, id);
+    }
     public int getEnergy() {
         return data.get(3);
     }

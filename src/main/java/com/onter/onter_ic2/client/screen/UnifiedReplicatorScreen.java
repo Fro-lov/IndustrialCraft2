@@ -1,17 +1,17 @@
 package com.onter.onter_ic2.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.onter.onter_ic2.OnterIC2;
-import com.onter.onter_ic2.block.machines.UnifiedReplicatorBlockEntity;
+import com.onter.onter_ic2.energy.EnergyPriority;
 import com.onter.onter_ic2.inventory.UnifiedReplicatorMenu;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class UnifiedReplicatorScreen extends AbstractContainerScreen<UnifiedReplicatorMenu> {
     private static final ResourceLocation TEXTURE = OnterIC2.loc("textures/gui/guireplicator.png");
@@ -20,43 +20,88 @@ public class UnifiedReplicatorScreen extends AbstractContainerScreen<UnifiedRepl
         super(menu, playerInventory, title);
         this.imageWidth = 176;
         this.imageHeight = 166;
+        this.titleLabelX = 8;
+        this.titleLabelY = 6;
     }
 
     @Override
-    protected void init() {
-        super.init();
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
+        int relX = (int) (mouseX - x);
+        int relY = (int) (mouseY - y);
 
-        // Button Previous Pattern
-        this.addRenderableWidget(Button.builder(Component.literal("<"), btn -> {
-            if (this.minecraft != null && this.minecraft.gameMode != null) {
-                this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 0);
+        if (mouseX >= x + 150 && mouseX <= x + 168 && mouseY >= y + 4 && mouseY <= y + 16) {
+            if (minecraft != null && minecraft.gameMode != null) {
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 100);
+                return true;
             }
-        }).bounds(x + 25, y + 45, 16, 16).build());
+        }
 
-        // Button Next Pattern
-        this.addRenderableWidget(Button.builder(Component.literal(">"), btn -> {
-            if (this.minecraft != null && this.minecraft.gameMode != null) {
-                this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, 1);
+        boolean handled = handlePatternClicks(relX, relY);
+        if (handled) return true;
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private boolean handlePatternClicks(int relX, int relY) {
+        int startX = 62;
+        int startY = 18;
+        int cols = 3;
+        int rows = 3;
+        int slotSize = 18;
+
+        for (int i = 0; i < 9; i++) {
+            int col = i % cols;
+            int row = i / cols;
+            int bx = startX + col * slotSize;
+            int by = startY + row * slotSize;
+
+            if (relX >= bx && relX < bx + slotSize && relY >= by && relY < by + slotSize) {
+                if (minecraft != null && minecraft.gameMode != null) {
+                    minecraft.gameMode.handleInventoryButtonClick(menu.containerId, i);
+                    return true;
+                }
             }
-        }).bounds(x + 75, y + 45, 16, 16).build());
+        }
+        return false;
     }
 
     @Override
     protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
         guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
-        // Render replication progress bar
-        int progress = menu.getProgress();
-        int maxProgress = menu.getMaxProgress();
-        if (maxProgress > 0 && progress > 0) {
-            int progressWidth = (int) ((float) progress / maxProgress * 24);
-            guiGraphics.blit(TEXTURE, x + 102, y + 22, 176, 14, progressWidth, 16);
+        int progressWidth = menu.getScaledProgress(20);
+        if (progressWidth > 0) {
+            guiGraphics.blit(TEXTURE, x + 120, y + 36, 176, 0, progressWidth, 16);
+        }
+
+        renderPatternSelectionGrid(guiGraphics, x, y);
+    }
+
+    private void renderPatternSelectionGrid(GuiGraphics guiGraphics, int x, int y) {
+        int startX = x + 62;
+        int startY = y + 18;
+        int cols = 3;
+        int slotSize = 18;
+
+        int selected = menu.getSelectedPatternIndex();
+
+        for (int i = 0; i < menu.getPatterns().length; i++) {
+            int col = i % cols;
+            int row = i / cols;
+            int bx = startX + col * slotSize;
+            int by = startY + row * slotSize;
+
+            if (i == selected) {
+                guiGraphics.fill(bx, by, bx + 16, by + 16, 0x8033FF33);
+            }
+
+            ItemStack icon = new ItemStack(menu.getPatterns()[i]);
+            guiGraphics.renderItem(icon, bx, by);
         }
     }
 
@@ -68,13 +113,15 @@ public class UnifiedReplicatorScreen extends AbstractContainerScreen<UnifiedRepl
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
+        EnergyPriority priority = menu.getPriority();
 
-        int patternIdx = menu.getPatternIndex();
-        if (patternIdx >= 0 && patternIdx < UnifiedReplicatorBlockEntity.PATTERNS.length) {
-            ItemStack patternItem = new ItemStack(UnifiedReplicatorBlockEntity.PATTERNS[patternIdx]);
-            guiGraphics.renderItem(patternItem, x + 49, y + 45);
+        guiGraphics.drawString(font, priority.getIcon(), x + 154, y + 6, 0xFFFFFF, false);
+
+        if (mouseX >= x + 150 && mouseX <= x + 168 && mouseY >= y + 4 && mouseY <= y + 16) {
+            guiGraphics.renderComponentTooltip(font, List.of(
+                    Component.literal("§6Приоритет сети: §f" + priority.getDisplayName().getString()),
+                    Component.literal("§8(Клик: переключить)")
+            ), mouseX, mouseY);
         }
-
-        guiGraphics.drawString(font, Component.literal(String.format("EU: %,d", menu.getEnergy() / 4)), x + 105, y + 50, 0xFFFF55, false);
     }
 }

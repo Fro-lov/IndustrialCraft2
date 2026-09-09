@@ -1,5 +1,7 @@
 package com.onter.onter_ic2.block.storage;
 
+import com.onter.onter_ic2.energy.EnergyPriority;
+import com.onter.onter_ic2.energy.IEnergyPrioritized;
 import com.onter.onter_ic2.energy.IC2EnergyStorage;
 import com.onter.onter_ic2.item.BatteryItem;
 import com.onter.onter_ic2.item.UpgradeItem;
@@ -25,7 +27,19 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class EnergyStorageBlockEntity extends BlockEntity implements MenuProvider {
+public class EnergyStorageBlockEntity extends BlockEntity implements MenuProvider, IEnergyPrioritized {
+    private EnergyPriority priority = EnergyPriority.NORMAL;
+
+    @Override
+    public EnergyPriority getEnergyPriority() {
+        return priority;
+    }
+
+    @Override
+    public void setEnergyPriority(EnergyPriority priority) {
+        this.priority = priority;
+        setChanged();
+    }
     public static final int SLOT_CHARGE = 0;
     public static final int SLOT_DISCHARGE = 1;
     public static final int SLOT_UPGRADE_1 = 2;
@@ -59,18 +73,19 @@ public class EnergyStorageBlockEntity extends BlockEntity implements MenuProvide
                 case 1 -> (energyStorage.getEnergyStored() >> 16) & 0xFFFF;
                 case 2 -> energyStorage.getMaxEnergyStored() & 0xFFFF;
                 case 3 -> (energyStorage.getMaxEnergyStored() >> 16) & 0xFFFF;
+                case 4 -> priority.getLevel();
                 default -> 0;
             };
         }
 
         @Override
         public void set(int index, int value) {
-            // Handled on server
+            if (index == 4) priority = EnergyPriority.fromLevel(value);
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
     };
 
@@ -288,12 +303,14 @@ public class EnergyStorageBlockEntity extends BlockEntity implements MenuProvide
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("Inventory", itemHandler.serializeNBT(registries));
+        tag.putInt("EnergyPriority", priority.getLevel());
         tag.put("Energy", energyStorage.serializeNBT(registries));
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
+        if (tag.contains("EnergyPriority")) priority = EnergyPriority.fromLevel(tag.getInt("EnergyPriority"));
         if (tag.contains("Inventory")) {
             itemHandler.deserializeNBT(registries, tag.getCompound("Inventory"));
             if (itemHandler.getSlots() < TOTAL_SLOTS) {

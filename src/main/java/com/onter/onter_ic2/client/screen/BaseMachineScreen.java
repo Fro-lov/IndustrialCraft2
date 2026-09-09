@@ -2,6 +2,7 @@ package com.onter.onter_ic2.client.screen;
 
 import com.onter.onter_ic2.OnterIC2;
 import com.onter.onter_ic2.block.machines.*;
+import com.onter.onter_ic2.energy.EnergyPriority;
 import com.onter.onter_ic2.menu.BaseMachineMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -70,6 +71,17 @@ public class BaseMachineScreen<T extends BaseMachineMenu> extends AbstractContai
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
+        EnergyPriority priority = menu.getPriority();
+
+        // Render Priority Badge
+        guiGraphics.drawString(font, priority.getIcon(), x + 154, y + 6, 0xFFFFFF, false);
+
+        if (mouseX >= x + 150 && mouseX <= x + 168 && mouseY >= y + 4 && mouseY <= y + 16) {
+            guiGraphics.renderComponentTooltip(font, List.of(
+                    Component.literal("§6Приоритет сети: §f" + priority.getDisplayName().getString()),
+                    Component.literal("§8(Клик: переключить)")
+            ), mouseX, mouseY);
+        }
 
         if (mouseX >= x + 56 && mouseX <= x + 70 && mouseY >= y + 36 && mouseY <= y + 52) {
             int energy = menu.getEnergy();
@@ -79,6 +91,19 @@ public class BaseMachineScreen<T extends BaseMachineMenu> extends AbstractContai
                     Component.literal("§7(§a" + (energy / 4) + " §7/ §a" + (max / 4) + " EU§7)")
             ), mouseX, mouseY);
         }
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+        if (mouseX >= x + 150 && mouseX <= x + 168 && mouseY >= y + 4 && mouseY <= y + 16) {
+            if (minecraft != null && minecraft.gameMode != null) {
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 100);
+                return true;
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     public static class MachineScreen extends BaseMachineScreen<BaseMachineMenu> {

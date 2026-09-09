@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import com.onter.onter_ic2.energy.EnergyPriority;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.SlotItemHandler;
@@ -21,7 +22,7 @@ public class EnergyStorageMenu extends AbstractContainerMenu {
     public EnergyStorageMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
         this(containerId, inv,
                 (EnergyStorageBlockEntity) inv.player.level().getBlockEntity(extraData.readBlockPos()),
-                new SimpleContainerData(4));
+                new SimpleContainerData(5));
     }
 
     public EnergyStorageMenu(int containerId, Inventory inv, EnergyStorageBlockEntity entity, ContainerData data) {
@@ -65,6 +66,19 @@ public class EnergyStorageMenu extends AbstractContainerMenu {
 
     public EnergyStorageBlockEntity getBlockEntity() {
         return blockEntity;
+    }
+
+    public EnergyPriority getPriority() {
+        return EnergyPriority.fromLevel(data.get(4));
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if (id == 100 && blockEntity != null) {
+            blockEntity.setEnergyPriority(blockEntity.getEnergyPriority().next());
+            return true;
+        }
+        return super.clickMenuButton(player, id);
     }
 
     public int getEnergy() {

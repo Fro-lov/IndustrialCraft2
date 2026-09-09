@@ -8,6 +8,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import com.onter.onter_ic2.energy.EnergyPriority;
+import com.onter.onter_ic2.block.machines.MolecularTransformerBlockEntity;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.SlotItemHandler;
@@ -20,7 +22,7 @@ public class MolecularTransformerMenu extends AbstractContainerMenu {
     public MolecularTransformerMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
         this(containerId, inv,
                 (MolecularTransformerBlockEntity) inv.player.level().getBlockEntity(extraData.readBlockPos()),
-                new SimpleContainerData(7));
+                new SimpleContainerData(8));
     }
 
     public MolecularTransformerMenu(int containerId, Inventory inv, MolecularTransformerBlockEntity entity, ContainerData data) {
@@ -54,6 +56,17 @@ public class MolecularTransformerMenu extends AbstractContainerMenu {
         }
     }
 
+    public int getProgressPercent() {
+        int recipeIdx = getCurrentRecipeIndex();
+        if (recipeIdx >= 0 && recipeIdx < MolecularTransformerBlockEntity.RECIPES.size()) {
+            double totalEU = MolecularTransformerBlockEntity.RECIPES.get(recipeIdx).totalEU();
+            if (totalEU > 0) {
+                return (int) Math.min(100, (getEnergyUsed() * 100.0) / totalEU);
+            }
+        }
+        return 0;
+    }
+
     public double getEnergyUsed() {
         return (long) this.data.get(0) + (long) this.data.get(1) * 10000L + (long) this.data.get(2) * 100_000_000L;
     }
@@ -72,6 +85,20 @@ public class MolecularTransformerMenu extends AbstractContainerMenu {
 
     public int getMaxEnergy() {
         return this.data.get(6);
+    }
+
+    public EnergyPriority getPriority() {
+        return EnergyPriority.fromLevel(this.data.get(7));
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if (id == 100) {
+            int current = data.get(7);
+            data.set(7, EnergyPriority.fromLevel(current).next().getLevel());
+            return true;
+        }
+        return super.clickMenuButton(player, id);
     }
 
     public MolecularTransformerBlockEntity getBlockEntity() {

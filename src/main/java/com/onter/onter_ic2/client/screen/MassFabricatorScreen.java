@@ -1,7 +1,7 @@
 package com.onter.onter_ic2.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.onter.onter_ic2.OnterIC2;
+import com.onter.onter_ic2.energy.EnergyPriority;
 import com.onter.onter_ic2.inventory.MassFabricatorMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -10,6 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class MassFabricatorScreen extends AbstractContainerScreen<MassFabricatorMenu> {
     private static final ResourceLocation TEXTURE = OnterIC2.loc("textures/gui/guimatter.png");
 
@@ -17,22 +19,33 @@ public class MassFabricatorScreen extends AbstractContainerScreen<MassFabricator
         super(menu, playerInventory, title);
         this.imageWidth = 176;
         this.imageHeight = 166;
+        this.titleLabelX = 8;
+        this.titleLabelY = 6;
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+        if (mouseX >= x + 150 && mouseX <= x + 168 && mouseY >= y + 4 && mouseY <= y + 16) {
+            if (minecraft != null && minecraft.gameMode != null) {
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 100);
+                return true;
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
     protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
         guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
-        // Render progress bar (middle sphere or bar)
-        int progress = menu.getProgress();
-        int maxProgress = menu.getMaxProgress();
-        if (maxProgress > 0 && progress > 0) {
-            int progressWidth = (int) ((float) progress / maxProgress * 24);
-            guiGraphics.blit(TEXTURE, x + 63, y + 36, 176, 0, progressWidth, 16);
+        int progressWidth = menu.getScaledProgress(24);
+        if (progressWidth > 0) {
+            guiGraphics.blit(TEXTURE, x + 79, y + 34, 176, 0, progressWidth + 1, 16);
         }
     }
 
@@ -44,13 +57,19 @@ public class MassFabricatorScreen extends AbstractContainerScreen<MassFabricator
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
+        EnergyPriority priority = menu.getPriority();
 
-        int progress = menu.getProgress();
-        int maxProgress = menu.getMaxProgress();
-        float percent = maxProgress > 0 ? (100.0F * progress / maxProgress) : 0.0F;
+        guiGraphics.drawString(font, priority.getIcon(), x + 154, y + 6, 0xFFFFFF, false);
 
-        guiGraphics.drawString(font, Component.literal(String.format("Progress: %.1f%%", percent)), x + 10, y + 20, 0x55FFFF, false);
-        guiGraphics.drawString(font, Component.literal(String.format("Scrap: %,d", menu.getAmplifier())), x + 10, y + 35, 0xFFAA00, false);
-        guiGraphics.drawString(font, Component.literal(String.format("EU: %,d", menu.getEnergy() / 4)), x + 10, y + 50, 0xFFFF55, false);
+        if (mouseX >= x + 150 && mouseX <= x + 168 && mouseY >= y + 4 && mouseY <= y + 16) {
+            guiGraphics.renderComponentTooltip(font, List.of(
+                    Component.literal("§6Приоритет сети: §f" + priority.getDisplayName().getString()),
+                    Component.literal("§8(Клик: переключить)")
+            ), mouseX, mouseY);
+        }
+
+        guiGraphics.drawString(font, Component.literal("Прогресс: " + menu.getProgressPercent() + "%"), x + 8, y + 20, 0x404040, false);
+        guiGraphics.drawString(font, Component.literal("Усилитель: " + menu.getAmplifier()), x + 8, y + 32, 0x404040, false);
+        guiGraphics.drawString(font, Component.literal("Энергия: " + String.format("%,d", menu.getEnergy() / 4) + " EU"), x + 8, y + 44, 0x404040, false);
     }
 }

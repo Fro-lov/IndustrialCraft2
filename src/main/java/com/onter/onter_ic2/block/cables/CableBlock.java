@@ -1,17 +1,15 @@
 package com.onter.onter_ic2.block.cables;
 
-import com.mojang.serialization.MapCodec;
+import com.onter.onter_ic2.energy.network.EnergyNetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -24,21 +22,21 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class CableBlock extends BaseEntityBlock {
+public class CableBlock extends Block implements EntityBlock {
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
     public static final BooleanProperty SOUTH = BooleanProperty.create("south");
-    public static final BooleanProperty EAST = BooleanProperty.create("east");
     public static final BooleanProperty WEST = BooleanProperty.create("west");
+    public static final BooleanProperty EAST = BooleanProperty.create("east");
     public static final BooleanProperty UP = BooleanProperty.create("up");
     public static final BooleanProperty DOWN = BooleanProperty.create("down");
 
-    private static final VoxelShape CORE_SHAPE = Block.box(5.0, 5.0, 5.0, 11.0, 11.0, 11.0);
-    private static final VoxelShape NORTH_SHAPE = Block.box(5.0, 5.0, 0.0, 11.0, 11.0, 5.0);
-    private static final VoxelShape SOUTH_SHAPE = Block.box(5.0, 5.0, 11.0, 11.0, 11.0, 16.0);
-    private static final VoxelShape WEST_SHAPE = Block.box(0.0, 5.0, 5.0, 5.0, 11.0, 11.0);
-    private static final VoxelShape EAST_SHAPE = Block.box(11.0, 5.0, 5.0, 16.0, 11.0, 11.0);
-    private static final VoxelShape DOWN_SHAPE = Block.box(5.0, 0.0, 5.0, 11.0, 5.0, 11.0);
-    private static final VoxelShape UP_SHAPE = Block.box(5.0, 11.0, 5.0, 11.0, 16.0, 11.0);
+    private static final VoxelShape CORE = Block.box(6, 6, 6, 10, 10, 10);
+    private static final VoxelShape SHAPE_N = Block.box(6, 6, 0, 10, 10, 6);
+    private static final VoxelShape SHAPE_S = Block.box(6, 6, 10, 10, 10, 16);
+    private static final VoxelShape SHAPE_W = Block.box(0, 6, 6, 6, 10, 10);
+    private static final VoxelShape SHAPE_E = Block.box(10, 6, 6, 16, 10, 10);
+    private static final VoxelShape SHAPE_U = Block.box(6, 10, 6, 10, 16, 10);
+    private static final VoxelShape SHAPE_D = Block.box(6, 0, 6, 10, 6, 10);
 
     private final int maxTransfer;
     private final Supplier<BlockEntityType<? extends CableBlockEntity>> blockEntityTypeSupplier;
@@ -48,36 +46,29 @@ public class CableBlock extends BaseEntityBlock {
         this.maxTransfer = maxTransfer;
         this.blockEntityTypeSupplier = blockEntityTypeSupplier;
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(NORTH, false).setValue(SOUTH, false)
-                .setValue(EAST, false).setValue(WEST, false)
-                .setValue(UP, false).setValue(DOWN, false));
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
-    }
-
-    @Override
-    public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        VoxelShape shape = CORE_SHAPE;
-        if (state.getValue(NORTH)) shape = Shapes.or(shape, NORTH_SHAPE);
-        if (state.getValue(SOUTH)) shape = Shapes.or(shape, SOUTH_SHAPE);
-        if (state.getValue(WEST)) shape = Shapes.or(shape, WEST_SHAPE);
-        if (state.getValue(EAST)) shape = Shapes.or(shape, EAST_SHAPE);
-        if (state.getValue(DOWN)) shape = Shapes.or(shape, DOWN_SHAPE);
-        if (state.getValue(UP)) shape = Shapes.or(shape, UP_SHAPE);
-        return shape;
+                .setValue(NORTH, false)
+                .setValue(SOUTH, false)
+                .setValue(WEST, false)
+                .setValue(EAST, false)
+                .setValue(UP, false)
+                .setValue(DOWN, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(NORTH, SOUTH, EAST, WEST, UP, DOWN);
+        builder.add(NORTH, SOUTH, WEST, EAST, UP, DOWN);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        VoxelShape shape = CORE;
+        if (state.getValue(NORTH)) shape = Shapes.or(shape, SHAPE_N);
+        if (state.getValue(SOUTH)) shape = Shapes.or(shape, SHAPE_S);
+        if (state.getValue(WEST)) shape = Shapes.or(shape, SHAPE_W);
+        if (state.getValue(EAST)) shape = Shapes.or(shape, SHAPE_E);
+        if (state.getValue(UP)) shape = Shapes.or(shape, SHAPE_U);
+        if (state.getValue(DOWN)) shape = Shapes.or(shape, SHAPE_D);
+        return shape;
     }
 
     @Nullable
@@ -85,7 +76,7 @@ public class CableBlock extends BaseEntityBlock {
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
-        return makeConnectionState(level, pos, this.defaultBlockState());
+        return makeConnectionState(level, pos, defaultBlockState());
     }
 
     @Override
@@ -94,6 +85,14 @@ public class CableBlock extends BaseEntityBlock {
             return makeConnectionState(actualLevel, pos, state);
         }
         return state;
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean isMoving) {
+        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, isMoving);
+        if (!level.isClientSide) {
+            EnergyNetworkManager.invalidateAt(level, pos);
+        }
     }
 
     private BlockState makeConnectionState(Level level, BlockPos pos, BlockState state) {
@@ -116,15 +115,5 @@ public class CableBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CableBlockEntity(blockEntityTypeSupplier.get(), pos, state, maxTransfer);
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : (lvl, p, st, be) -> {
-            if (be instanceof CableBlockEntity cable) {
-                cable.tick(lvl, p, st);
-            }
-        };
     }
 }
