@@ -3,7 +3,9 @@ package com.onter.onter_ic2.menu;
 import com.onter.onter_ic2.block.base.BaseMachineBlockEntity;
 import com.onter.onter_ic2.block.cables.CableBlockEntity;
 import com.onter.onter_ic2.block.generators.GeneratorBlockEntity;
+import com.onter.onter_ic2.block.generators.QuantumGeneratorBlockEntity;
 import com.onter.onter_ic2.block.generators.SolarPanelBlockEntity;
+import com.onter.onter_ic2.block.machines.MolecularTransformerBlockEntity;
 import com.onter.onter_ic2.block.machines.MultiSlotMachineBlockEntity;
 import com.onter.onter_ic2.block.storage.EnergyStorageBlockEntity;
 import com.onter.onter_ic2.init.ModMenuTypes;
@@ -40,9 +42,11 @@ public class MeterMenu extends AbstractContainerMenu {
     private int resultMax = 0;
     private int resultCount = 0;
     private int mode = 0; // 0: EnergyIn, 1: EnergyOut, 2: EnergyGain, 3: Voltage
+    private int maxVoltageLimit = 32;
+    private int tier = 1;
 
     public MeterMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(containerId, inv, extraData.readBlockPos(), extraData.readEnum(Direction.class), new SimpleContainerData(9));
+        this(containerId, inv, extraData.readBlockPos(), extraData.readEnum(Direction.class), new SimpleContainerData(12));
     }
 
     public MeterMenu(int containerId, Inventory inv, BlockPos pos, Direction side, ContainerData data) {
@@ -67,7 +71,7 @@ public class MeterMenu extends AbstractContainerMenu {
     }
 
     public static ContainerData createServerContainerData() {
-        return new SimpleContainerData(9);
+        return new SimpleContainerData(12);
     }
 
     public BlockPos getTargetPos() {
@@ -102,6 +106,14 @@ public class MeterMenu extends AbstractContainerMenu {
 
     public int getMaxEnergy() {
         return (this.data.get(8) << 16) | (this.data.get(7) & 0xFFFF);
+    }
+
+    public int getMaxVoltageLimit() {
+        return (this.data.get(10) << 16) | (this.data.get(9) & 0xFFFF);
+    }
+
+    public int getTier() {
+        return this.data.get(11);
     }
 
     public void reset() {
@@ -147,42 +159,58 @@ public class MeterMenu extends AbstractContainerMenu {
                 int max = storage != null ? storage.getMaxEnergyStored() : 0;
 
                 double currentEU = 0;
-                double voltage = 32;
+                maxVoltageLimit = 32;
+                tier = 1;
 
                 if (be instanceof GeneratorBlockEntity gen) {
                     boolean isBurning = gen.getDataAccess().get(0) > 0;
-                    if (mode == 1) currentEU = isBurning ? 10 : 0; // EnergyOut
-                    else if (mode == 2) currentEU = isBurning ? 10 : 0; // Gain
-                    voltage = 32;
+                    if (mode == 1 || mode == 2) currentEU = isBurning ? 10 : 0;
+                    maxVoltageLimit = 32;
+                    tier = 1;
                 } else if (be instanceof SolarPanelBlockEntity solar) {
-                    if (mode == 1) currentEU = solar.getDayGen() / 4.0;
-                    else if (mode == 2) currentEU = solar.getDayGen() / 4.0;
-                    voltage = solar.getDayGen() <= 32 ? 32 : (solar.getDayGen() <= 256 ? 128 : 512);
+                    if (mode == 1 || mode == 2) currentEU = solar.getDayGen() / 4.0;
+                    maxVoltageLimit = solar.getDayGen() / 4;
+                    tier = solar.getDayGen() <= 32 ? 1 : (solar.getDayGen() <= 128 ? 2 : (solar.getDayGen() <= 512 ? 3 : 4));
+                } else if (be instanceof QuantumGeneratorBlockEntity qg) {
+                    if (mode == 1 || mode == 2) currentEU = qg.isActive() ? qg.getProduction() : 0;
+                    maxVoltageLimit = qg.getProduction();
+                    tier = qg.getTier();
+                } else if (be instanceof MolecularTransformerBlockEntity mt) {
+                    if (mode == 0) currentEU = mt.getLastEnergyGiven();
+                    else if (mode == 2) currentEU = -mt.getLastEnergyGiven();
+                    maxVoltageLimit = 8192;
+                    tier = 5;
                 } else if (be instanceof BaseMachineBlockEntity machine) {
                     boolean isRunning = machine.getProgress() > 0;
-                    if (mode == 0) currentEU = isRunning ? (machine.getBaseEnergyPerTick() / 4.0) : 0; // EnergyIn
-                    else if (mode == 2) currentEU = isRunning ? -(machine.getBaseEnergyPerTick() / 4.0) : 0; // Gain
-                    voltage = 32;
+                    if (mode == 0) currentEU = isRunning ? (machine.getBaseEnergyPerTick() / 4.0) : 0;
+                    else if (mode == 2) currentEU = isRunning ? -(machine.getBaseEnergyPerTick() / 4.0) : 0;
+                    maxVoltageLimit = 32;
+                    tier = 1;
                 } else if (be instanceof MultiSlotMachineBlockEntity multiMachine) {
                     boolean isRunning = multiMachine.getProgress() > 0;
                     if (mode == 0) currentEU = isRunning ? (multiMachine.getBaseEnergyPerTick() / 4.0) : 0;
                     else if (mode == 2) currentEU = isRunning ? -(multiMachine.getBaseEnergyPerTick() / 4.0) : 0;
-                    voltage = 128;
+                    maxVoltageLimit = multiMachine.getNumChannels() > 6 ? 512 : 128;
+                    tier = multiMachine.getNumChannels() > 6 ? 3 : 2;
                 } else if (be instanceof EnergyStorageBlockEntity esbe) {
-                    if (mode == 0) currentEU = Math.min(esbe.getMaxTransfer() / 4.0, (max - stored) / 4.0);
-                    else if (mode == 1) currentEU = Math.min(esbe.getMaxTransfer() / 4.0, stored / 4.0);
+                    int transferEU = esbe.getMaxTransfer() / 4;
+                    if (mode == 0) currentEU = Math.min(transferEU, (max - stored) / 4.0);
+                    else if (mode == 1) currentEU = Math.min(transferEU, stored / 4.0);
                     else if (mode == 2) currentEU = 0;
-                    voltage = esbe.getMaxTransfer() / 4.0;
+                    maxVoltageLimit = transferEU;
+                    tier = transferEU <= 32 ? 1 : (transferEU <= 128 ? 2 : (transferEU <= 512 ? 3 : 4));
                 } else if (be instanceof CableBlockEntity cable) {
-                    voltage = cable.getMaxTransfer() / 4.0;
-                    currentEU = mode == 3 ? voltage : 0;
+                    maxVoltageLimit = cable.getMaxTransfer() / 4;
+                    tier = maxVoltageLimit <= 32 ? 1 : (maxVoltageLimit <= 128 ? 2 : (maxVoltageLimit <= 512 ? 3 : (maxVoltageLimit <= 2048 ? 4 : 5)));
+                    currentEU = mode == 3 ? maxVoltageLimit : 0;
                 } else if (storage != null) {
-                    voltage = storage.getMaxEnergyStored() > 100000 ? 512 : 32;
+                    maxVoltageLimit = storage.getMaxEnergyStored() > 100000 ? 512 : 32;
+                    tier = maxVoltageLimit <= 32 ? 1 : 3;
                     if (mode == 0 && storage.canReceive()) currentEU = storage.receiveEnergy(10000, true) / 4.0;
                     else if (mode == 1 && storage.canExtract()) currentEU = storage.extractEnergy(10000, true) / 4.0;
                 }
 
-                double measuredValue = mode == 3 ? voltage : currentEU;
+                double measuredValue = (mode == 3) ? maxVoltageLimit : currentEU;
 
                 if (resultCount == 0) {
                     resultAvg = (int) measuredValue;
@@ -210,6 +238,9 @@ public class MeterMenu extends AbstractContainerMenu {
         this.data.set(6, (stored >> 16) & 0xFFFF);
         this.data.set(7, max & 0xFFFF);
         this.data.set(8, (max >> 16) & 0xFFFF);
+        this.data.set(9, maxVoltageLimit & 0xFFFF);
+        this.data.set(10, (maxVoltageLimit >> 16) & 0xFFFF);
+        this.data.set(11, tier);
     }
 
     @Override

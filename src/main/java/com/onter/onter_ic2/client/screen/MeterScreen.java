@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.onter.onter_ic2.OnterIC2;
 import com.onter.onter_ic2.menu.MeterMenu;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,39 +12,52 @@ import org.jetbrains.annotations.NotNull;
 
 public class MeterScreen extends AbstractContainerScreen<MeterMenu> {
     private static final ResourceLocation TEXTURE = OnterIC2.loc("textures/gui/guitooleumeter.png");
-    private static final int CRT_COLOR = 0x20EBBE; // Classic IC2 meter CRT green/cyan color (2157374)
+    private static final int CRT_GREEN = 0x33FF33; // Classic IC2 bright CRT green
 
     public MeterScreen(MeterMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageWidth = 176;
         this.imageHeight = 217;
         this.inventoryLabelY = -100;
-        this.titleLabelY = -100;
+        this.titleLabelY = 7;
     }
 
     @Override
     protected void init() {
         super.init();
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
+    }
 
-        // Mode switch buttons (20x20 each)
-        // EnergyIn (0): 112, 55
-        addRenderableWidget(Button.builder(Component.empty(), btn -> sendButton(0))
-                .bounds(x + 112, y + 55, 20, 20).build());
-        // EnergyOut (1): 132, 55
-        addRenderableWidget(Button.builder(Component.empty(), btn -> sendButton(1))
-                .bounds(x + 132, y + 55, 20, 20).build());
-        // EnergyGain (2): 112, 75
-        addRenderableWidget(Button.builder(Component.empty(), btn -> sendButton(2))
-                .bounds(x + 112, y + 75, 20, 20).build());
-        // Voltage (3): 132, 75
-        addRenderableWidget(Button.builder(Component.empty(), btn -> sendButton(3))
-                .bounds(x + 132, y + 75, 20, 20).build());
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        int xMin = (this.width - this.imageWidth) / 2;
+        int yMin = (this.height - this.imageHeight) / 2;
+        int relX = (int) (mouseX - xMin);
+        int relY = (int) (mouseY - yMin);
 
-        // Reset button: 26, 111, width 58, height 14
-        addRenderableWidget(Button.builder(Component.translatable("ic2.meter.mode.reset"), btn -> sendButton(4))
-                .bounds(x + 26, y + 111, 58, 14).build());
+        // Click quadrants on the round mode dial (x: 112..152, y: 55..95)
+        if (relX >= 112 && relX <= 152 && relY >= 55 && relY <= 95) {
+            if (relX < 132 && relY < 75) {
+                sendButton(0); // Top-Left: Energy In
+                return true;
+            } else if (relX >= 132 && relY < 75) {
+                sendButton(1); // Top-Right: Energy Out
+                return true;
+            } else if (relX < 132 && relY >= 75) {
+                sendButton(2); // Bottom-Left: Energy Gain
+                return true;
+            } else {
+                sendButton(3); // Bottom-Right: Voltage
+                return true;
+            }
+        }
+
+        // Click Reset button area (x: 26..83, y: 111..123)
+        if (relX >= 26 && relX <= 83 && relY >= 111 && relY <= 123) {
+            sendButton(4); // Reset
+            return true;
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     private void sendButton(int buttonId) {
@@ -62,16 +74,15 @@ public class MeterScreen extends AbstractContainerScreen<MeterMenu> {
 
         guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
-        // Active mode dial texture overlay (40x40 at x=112, y=55)
+        // Render circular dial overlay with pointing needle from UV (176, 0..120) at x=112, y=55
         MeterMenu.Mode mode = menu.getMode();
-        int u = 176;
         int v = switch (mode) {
-            case EnergyIn -> 0;
-            case EnergyOut -> 40;
-            case Voltage -> 80;
-            case EnergyGain -> 120;
+            case EnergyIn -> 0;    // needle pointing top-left (\)
+            case EnergyOut -> 40;   // needle pointing top-right (/)
+            case Voltage -> 80;     // needle pointing bottom-right (\ down)
+            case EnergyGain -> 120; // needle pointing bottom-left (/ down)
         };
-        guiGraphics.blit(TEXTURE, x + 112, y + 55, u, v, 40, 40);
+        guiGraphics.blit(TEXTURE, x + 112, y + 55, 176, v, 40, 40);
     }
 
     @Override
@@ -90,25 +101,41 @@ public class MeterScreen extends AbstractContainerScreen<MeterMenu> {
         int min = menu.getResultMin();
         int max = menu.getResultMax();
         int cycleSeconds = menu.getResultCount() / 20;
+        int limit = menu.getMaxVoltageLimit();
+        int tier = menu.getTier();
 
-        // Draw meter readouts in classic CRT font
-        guiGraphics.drawString(font, Component.translatable("ic2.meter.mode"), x + 115, y + 43, CRT_COLOR, false);
+        // Mode label in header
+        guiGraphics.drawString(font, Component.translatable("ic2.meter.mode"), x + 118, y + 30, CRT_GREEN, false);
 
-        guiGraphics.drawString(font, Component.translatable("ic2.meter.avg"), x + 15, y + 41, CRT_COLOR, false);
-        guiGraphics.drawString(font, String.format("%,d%s", avg, unit), x + 15, y + 51, CRT_COLOR, false);
+        // Average
+        guiGraphics.drawString(font, Component.translatable("ic2.meter.avg"), x + 15, y + 30, CRT_GREEN, false);
+        guiGraphics.drawString(font, String.format("%,d%s", avg, unit), x + 15, y + 40, CRT_GREEN, false);
 
-        guiGraphics.drawString(font, Component.translatable("ic2.meter.max_min"), x + 15, y + 64, CRT_COLOR, false);
-        guiGraphics.drawString(font, String.format("%,d%s", max, unit), x + 15, y + 74, CRT_COLOR, false);
-        guiGraphics.drawString(font, String.format("%,d%s", min, unit), x + 15, y + 84, CRT_COLOR, false);
+        // Max / Min
+        guiGraphics.drawString(font, Component.translatable("ic2.meter.max_min"), x + 15, y + 54, CRT_GREEN, false);
+        guiGraphics.drawString(font, String.format("%,d%s", max, unit), x + 15, y + 64, CRT_GREEN, false);
+        guiGraphics.drawString(font, String.format("%,d%s", min, unit), x + 15, y + 74, CRT_GREEN, false);
 
-        guiGraphics.drawString(font, Component.translatable("ic2.meter.cycle", cycleSeconds), x + 15, y + 100, CRT_COLOR, false);
+        // Cycle time
+        guiGraphics.drawString(font, Component.translatable("ic2.meter.cycle", cycleSeconds), x + 15, y + 88, CRT_GREEN, false);
 
+        // Limit / Tier info line
+        guiGraphics.drawString(font, String.format("Лимит: %,d EU/t (T%d)", limit, tier), x + 15, y + 99, 0x55FFFF, false);
+
+        // Reset text
+        Component resetComp = Component.translatable("ic2.meter.mode.reset");
+        int resetWidth = font.width(resetComp);
+        guiGraphics.drawString(font, resetComp, x + 26 + (58 - resetWidth) / 2, y + 114, CRT_GREEN, false);
+
+        // Active mode description bottom-right
         String modeName = switch (mode) {
             case EnergyIn -> Component.translatable("ic2.meter.mode.EnergyIn").getString();
             case EnergyOut -> Component.translatable("ic2.meter.mode.EnergyOut").getString();
             case EnergyGain -> Component.translatable("ic2.meter.mode.EnergyGain").getString();
             case Voltage -> Component.translatable("ic2.meter.mode.Voltage").getString();
         };
-        guiGraphics.drawString(font, modeName, x + 105, y + 100, CRT_COLOR, false);
+        int modeWidth = font.width(modeName);
+        int modeX = Math.max(x + 94, x + 132 - (modeWidth / 2));
+        guiGraphics.drawString(font, modeName, modeX, y + 100, CRT_GREEN, false);
     }
 }
