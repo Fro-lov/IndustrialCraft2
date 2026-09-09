@@ -151,6 +151,14 @@ public abstract class BaseMachineBlockEntity extends BlockEntity implements Menu
         return dataAccess;
     }
 
+    public int getBaseEnergyPerTick() {
+        return baseEnergyPerTick;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
     public NonNullList<ItemStack> getDrops() {
         NonNullList<ItemStack> drops = NonNullList.create();
         for (int i = 0; i < itemHandler.getSlots(); i++) {

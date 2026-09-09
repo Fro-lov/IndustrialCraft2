@@ -1,13 +1,17 @@
 package com.onter.onter_ic2.item;
 
 import com.onter.onter_ic2.init.ModSounds;
+import com.onter.onter_ic2.menu.MeterMenu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,27 +35,25 @@ public class EUMeterItem extends Item {
         Level world = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
+        Direction face = context.getClickedFace();
 
         if (player == null) return InteractionResult.PASS;
 
         BlockEntity be = world.getBlockEntity(pos);
-        if (be != null) {
-            IEnergyStorage energyStorage = world.getCapability(Capabilities.EnergyStorage.BLOCK, pos, context.getClickedFace());
-            if (energyStorage != null) {
-                if (!world.isClientSide()) {
-                    int stored = energyStorage.getEnergyStored();
-                    int max = energyStorage.getMaxEnergyStored();
-                    int euStored = stored / 4;
-                    int euMax = max / 4;
+        IEnergyStorage energyStorage = world.getCapability(Capabilities.EnergyStorage.BLOCK, pos, face);
 
-                    player.displayClientMessage(Component.literal("=== EU-Meter Report ===").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD), false);
-                    player.displayClientMessage(Component.literal(String.format("Storage: %,d / %,d EU (%,d / %,d FE)", euStored, euMax, stored, max)).withStyle(ChatFormatting.YELLOW), false);
-                    player.displayClientMessage(Component.literal(String.format("Fill Level: %.1f%%", max > 0 ? (100.0 * stored / max) : 0.0)).withStyle(ChatFormatting.AQUA), false);
-                    player.displayClientMessage(Component.literal(String.format("Input Supported: %s | Output Supported: %s", energyStorage.canReceive() ? "Yes" : "No", energyStorage.canExtract() ? "Yes" : "No")).withStyle(ChatFormatting.GRAY), false);
-                }
-                world.playSound(null, pos, ModSounds.WRENCH.get(), SoundSource.PLAYERS, 0.8F, 1.2F);
-                return InteractionResult.sidedSuccess(world.isClientSide());
+        if (be != null || energyStorage != null) {
+            if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(new SimpleMenuProvider(
+                        (containerId, playerInventory, p) -> new MeterMenu(containerId, playerInventory, pos, face, MeterMenu.createServerContainerData()),
+                        Component.translatable("item.onter_ic2.eu_meter")
+                ), buf -> {
+                    buf.writeBlockPos(pos);
+                    buf.writeEnum(face);
+                });
             }
+            world.playSound(null, pos, ModSounds.WRENCH.get(), SoundSource.PLAYERS, 0.8F, 1.2F);
+            return InteractionResult.sidedSuccess(world.isClientSide());
         }
 
         return InteractionResult.PASS;

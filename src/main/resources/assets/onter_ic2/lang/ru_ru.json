@@ -163,7 +163,15 @@
   "advanced_solar_panels.gui.energyPerTick": "EU/t:",
   "advanced_solar_panels.gui.progress": "Прогресс:",
   "advanced_solar_panels.gui.tier": "Тир:",
-  "advanced_solar_panels.gui.max": "MAX",
   "advanced_solar_panels.tooltip.day_gen": "Дневная генерация: %d EU/t",
-  "advanced_solar_panels.tooltip.night_gen": "Ночная генерация: %d EU/t"
+  "advanced_solar_panels.tooltip.night_gen": "Ночная генерация: %d EU/t",
+  "ic2.meter.mode": "Режим",
+  "ic2.meter.avg": "Среднее:",
+  "ic2.meter.max_min": "Макс / Мин:",
+  "ic2.meter.cycle": "Цикл: %d сек.",
+  "ic2.meter.mode.reset": "Сброс",
+  "ic2.meter.mode.EnergyIn": "Входная энергия",
+  "ic2.meter.mode.EnergyOut": "Выходная энергия",
+  "ic2.meter.mode.EnergyGain": "Прирост энергии",
+  "ic2.meter.mode.Voltage": "Напряжение"
 }

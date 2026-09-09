@@ -46,4 +46,7 @@ public class ModMenuTypes {
 
     public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.menu.QuantumGeneratorMenu>> QUANTUM_GENERATOR_MENU =
             MENUS.register("quantum_generator", () -> IMenuTypeExtension.create(com.onter.onter_ic2.menu.QuantumGeneratorMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.menu.MeterMenu>> METER_MENU =
+            MENUS.register("meter", () -> IMenuTypeExtension.create(com.onter.onter_ic2.menu.MeterMenu::new));
 }

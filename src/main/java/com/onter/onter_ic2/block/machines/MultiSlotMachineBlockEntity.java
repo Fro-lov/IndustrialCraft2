@@ -161,6 +161,14 @@ public class MultiSlotMachineBlockEntity extends BlockEntity implements MenuProv
         return energyStorage;
     }
 
+    public int getBaseEnergyPerTick() {
+        return baseEnergyPerTick;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
     public MetalFormerRecipe.Mode getMetalFormerMode() {
         return metalFormerMode;
     }

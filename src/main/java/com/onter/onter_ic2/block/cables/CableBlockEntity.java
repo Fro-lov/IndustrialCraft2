@@ -43,6 +43,10 @@ public class CableBlockEntity extends BlockEntity {
         return energyStorage;
     }
 
+    public int getMaxTransfer() {
+        return maxTransfer;
+    }
+
     public int distributeToNetwork(int amount, boolean simulate) {
         if (level == null || level.isClientSide || amount <= 0) return 0;
 

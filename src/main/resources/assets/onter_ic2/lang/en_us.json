@@ -163,7 +163,15 @@
   "advanced_solar_panels.gui.energyPerTick": "EU/t:",
   "advanced_solar_panels.gui.progress": "Progress:",
   "advanced_solar_panels.gui.tier": "Tier:",
-  "advanced_solar_panels.gui.max": "MAX",
   "advanced_solar_panels.tooltip.day_gen": "Day Generation: %d EU/t",
-  "advanced_solar_panels.tooltip.night_gen": "Night Generation: %d EU/t"
+  "advanced_solar_panels.tooltip.night_gen": "Night Generation: %d EU/t",
+  "ic2.meter.mode": "Mode",
+  "ic2.meter.avg": "Avg:",
+  "ic2.meter.max_min": "Max / Min:",
+  "ic2.meter.cycle": "Cycle: %ds",
+  "ic2.meter.mode.reset": "Reset",
+  "ic2.meter.mode.EnergyIn": "Energy In",
+  "ic2.meter.mode.EnergyOut": "Energy Out",
+  "ic2.meter.mode.EnergyGain": "Energy Gain",
+  "ic2.meter.mode.Voltage": "Voltage"
 }
