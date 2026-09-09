@@ -31,4 +31,13 @@ public class ModMenuTypes {
 
     public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.menu.MultiSlotMachineMenu>> MULTI_SLOT_MACHINE_MENU =
             MENUS.register("multi_slot_machine", () -> IMenuTypeExtension.create(com.onter.onter_ic2.menu.MultiSlotMachineMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.inventory.NuclearReactorMenu>> NUCLEAR_REACTOR =
+            MENUS.register("nuclear_reactor", () -> IMenuTypeExtension.create(com.onter.onter_ic2.inventory.NuclearReactorMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.inventory.MassFabricatorMenu>> MASS_FABRICATOR =
+            MENUS.register("mass_fabricator", () -> IMenuTypeExtension.create(com.onter.onter_ic2.inventory.MassFabricatorMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<com.onter.onter_ic2.inventory.UnifiedReplicatorMenu>> UNIFIED_REPLICATOR =
+            MENUS.register("unified_replicator", () -> IMenuTypeExtension.create(com.onter.onter_ic2.inventory.UnifiedReplicatorMenu::new));
 }

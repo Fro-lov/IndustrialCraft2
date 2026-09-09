@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ACA",
+    "RGR",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "R": {
+      "item": "onter_ic2:reactor_chamber"
+    },
+    "G": {
+      "item": "onter_ic2:generator"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:nuclear_reactor",
+    "count": 1
+  }
+}

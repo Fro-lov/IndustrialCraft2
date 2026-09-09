@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " T ",
+    "TVT",
+    " T "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:iron_ingot"
+    },
+    "V": {
+      "item": "onter_ic2:heat_vent"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:component_heat_vent",
+    "count": 1
+  }
+}

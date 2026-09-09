@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LCL",
+    "LBL",
+    "L L"
+  ],
+  "key": {
+    "L": {
+      "item": "onter_ic2:energy_crystal"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "B": {
+      "item": "onter_ic2:advanced_batpack"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:energy_pack",
+    "count": 1
+  }
+}

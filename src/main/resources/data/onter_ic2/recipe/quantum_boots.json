@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "RNR",
+    " B "
+  ],
+  "key": {
+    "I": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    },
+    "R": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "N": {
+      "item": "onter_ic2:nano_boots"
+    },
+    "B": {
+      "item": "onter_ic2:rubber"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:quantum_boots",
+    "count": 1
+  }
+}

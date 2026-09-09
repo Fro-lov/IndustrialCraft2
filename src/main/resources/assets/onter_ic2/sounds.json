@@ -31,8 +31,38 @@
   },
   "wrench": {
     "sounds": [
-      "onter_ic2:wrench"
+      "onter_ic2:tools/wrench"
     ],
     "subtitle": "subtitles.onter_ic2.wrench"
+  },
+  "reactor_loop": {
+    "sounds": [
+      "onter_ic2:generators/nuclear/reactor"
+    ]
+  },
+  "reactor_high": {
+    "sounds": [
+      "onter_ic2:generators/nuclear/power/high"
+    ]
+  },
+  "nuke_explode": {
+    "sounds": [
+      "onter_ic2:misc/nuke/explode"
+    ]
+  },
+  "jetpack_loop": {
+    "sounds": [
+      "onter_ic2:tools/jetpack/jetpack_loop"
+    ]
+  },
+  "fabricator_loop": {
+    "sounds": [
+      "onter_ic2:machines/fabricator/loop"
+    ]
+  },
+  "meter_use": {
+    "sounds": [
+      "onter_ic2:tools/battery"
+    ]
   }
 }

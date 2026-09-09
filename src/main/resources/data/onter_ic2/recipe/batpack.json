@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BCB",
+    "BIB",
+    "B B"
+  ],
+  "key": {
+    "B": {
+      "item": "onter_ic2:re_battery"
+    },
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:batpack",
+    "count": 1
+  }
+}

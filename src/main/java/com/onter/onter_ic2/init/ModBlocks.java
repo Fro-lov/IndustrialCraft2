@@ -182,4 +182,18 @@ public class ModBlocks {
     public static final DeferredBlock<CableBlock> SUPERCONDUCTOR_CABLE = registerBlock("superconductor_cable",
             () -> new CableBlock(524288, () -> ModBlockEntities.SUPERCONDUCTOR_CABLE.get(),
                     BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.AMETHYST)));
+
+    // --- Nuclear Reactor & Chambers ---
+    public static final DeferredBlock<com.onter.onter_ic2.block.reactor.NuclearReactorBlock> NUCLEAR_REACTOR = registerBlock("nuclear_reactor",
+            () -> new com.onter.onter_ic2.block.reactor.NuclearReactorBlock(BlockBehaviour.Properties.of().strength(6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<com.onter.onter_ic2.block.reactor.ReactorChamberBlock> REACTOR_CHAMBER = registerBlock("reactor_chamber",
+            () -> new com.onter.onter_ic2.block.reactor.ReactorChamberBlock(BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    // --- Mass Fabricator & Unified Replicator ---
+    public static final DeferredBlock<MassFabricatorBlock> MASS_FABRICATOR = registerBlock("mass_fabricator",
+            () -> new MassFabricatorBlock(BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+
+    public static final DeferredBlock<UnifiedReplicatorBlock> UNIFIED_REPLICATOR = registerBlock("unified_replicator",
+            () -> new UnifiedReplicatorBlock(BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 }

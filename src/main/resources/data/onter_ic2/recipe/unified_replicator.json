@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IGI",
+    "CMC",
+    "ILI"
+  ],
+  "key": {
+    "I": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    },
+    "G": {
+      "item": "onter_ic2:glass_fibre_cable"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "M": {
+      "item": "onter_ic2:mass_fabricator"
+    },
+    "L": {
+      "item": "onter_ic2:lapotron_crystal"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:unified_replicator",
+    "count": 1
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "CBC",
+    " R "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "C": {
+      "item": "onter_ic2:copper_cable"
+    },
+    "B": {
+      "item": "onter_ic2:electronic_circuit"
+    },
+    "R": {
+      "item": "onter_ic2:re_battery"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:eu_meter",
+    "count": 1
+  }
+}

@@ -18,6 +18,12 @@ public class ModSounds {
     public static final Supplier<SoundEvent> EXTRACTOR_OP = registerSoundEvent("machine.extractor", "extractor_op");
     public static final Supplier<SoundEvent> GENERATOR_OP = registerSoundEvent("machine.generator", "generator_op");
     public static final Supplier<SoundEvent> WRENCH = registerSoundEvent("tool.wrench", "wrench");
+    public static final Supplier<SoundEvent> REACTOR_LOOP = registerSoundEvent("generator.nuclear.loop", "reactor_loop");
+    public static final Supplier<SoundEvent> REACTOR_HIGH = registerSoundEvent("generator.nuclear.high", "reactor_high");
+    public static final Supplier<SoundEvent> NUKE_EXPLODE = registerSoundEvent("misc.nuke.explode", "nuke_explode");
+    public static final Supplier<SoundEvent> JETPACK_LOOP = registerSoundEvent("item.jetpack.loop", "jetpack_loop");
+    public static final Supplier<SoundEvent> MASS_FABRICATOR_LOOP = registerSoundEvent("machine.fabricator.loop", "fabricator_loop");
+    public static final Supplier<SoundEvent> METER_USE = registerSoundEvent("item.meter.use", "meter_use");
 
     private static Supplier<SoundEvent> registerSoundEvent(String name, String soundLocation) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(OnterIC2.MODID, soundLocation)));

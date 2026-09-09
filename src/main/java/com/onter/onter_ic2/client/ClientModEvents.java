@@ -21,5 +21,8 @@ public class ClientModEvents {
         event.register(ModMenuTypes.METAL_FORMER_MENU.get(), MetalFormerScreen::new);
         event.register(ModMenuTypes.SOLAR_PANEL_MENU.get(), com.onter.onter_ic2.client.screen.SolarPanelScreen::new);
         event.register(ModMenuTypes.MULTI_SLOT_MACHINE_MENU.get(), com.onter.onter_ic2.client.screen.MultiSlotMachineScreen::new);
+        event.register(ModMenuTypes.NUCLEAR_REACTOR.get(), com.onter.onter_ic2.client.screen.NuclearReactorScreen::new);
+        event.register(ModMenuTypes.MASS_FABRICATOR.get(), com.onter.onter_ic2.client.screen.MassFabricatorScreen::new);
+        event.register(ModMenuTypes.UNIFIED_REPLICATOR.get(), com.onter.onter_ic2.client.screen.UnifiedReplicatorScreen::new);
     }
 }

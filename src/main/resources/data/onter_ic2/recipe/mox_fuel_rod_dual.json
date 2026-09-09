@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "onter_ic2:mox_fuel_rod_single"
+    },
+    {
+      "item": "onter_ic2:mox_fuel_rod_single"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "result": {
+    "id": "onter_ic2:mox_fuel_rod_dual",
+    "count": 1
+  }
+}

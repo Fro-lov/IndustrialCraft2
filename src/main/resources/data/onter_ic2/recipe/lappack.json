@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LCL",
+    "LBL",
+    "I I"
+  ],
+  "key": {
+    "L": {
+      "item": "onter_ic2:lapotron_crystal"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "B": {
+      "item": "onter_ic2:energy_pack"
+    },
+    "I": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:lappack",
+    "count": 1
+  }
+}

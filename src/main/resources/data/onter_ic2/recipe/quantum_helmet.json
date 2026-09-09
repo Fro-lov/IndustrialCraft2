@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "RNR",
+    " L "
+  ],
+  "key": {
+    "I": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    },
+    "R": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "N": {
+      "item": "onter_ic2:nano_helmet"
+    },
+    "L": {
+      "item": "onter_ic2:lapotron_crystal"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:quantum_helmet",
+    "count": 1
+  }
+}

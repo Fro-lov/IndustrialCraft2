@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "onter_ic2:item/energy_pack"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " O ",
+    "OPO",
+    " O "
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "P": {
+      "item": "onter_ic2:reactor_plating"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:containment_plating",
+    "count": 1
+  }
+}

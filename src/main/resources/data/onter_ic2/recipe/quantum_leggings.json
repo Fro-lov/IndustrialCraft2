@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "RNR",
+    " G "
+  ],
+  "key": {
+    "I": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    },
+    "R": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "N": {
+      "item": "onter_ic2:nano_leggings"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:quantum_leggings",
+    "count": 1
+  }
+}

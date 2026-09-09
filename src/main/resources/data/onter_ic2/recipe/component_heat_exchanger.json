@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GEG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "E": {
+      "item": "onter_ic2:heat_exchanger"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:component_heat_exchanger",
+    "count": 1
+  }
+}

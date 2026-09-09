@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ACA",
+    "ABA",
+    "A A"
+  ],
+  "key": {
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "B": {
+      "item": "onter_ic2:batpack"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:advanced_batpack",
+    "count": 1
+  }
+}

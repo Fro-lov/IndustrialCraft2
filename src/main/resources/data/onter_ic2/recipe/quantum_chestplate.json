@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "RNR",
+    " J "
+  ],
+  "key": {
+    "I": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    },
+    "R": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "N": {
+      "item": "onter_ic2:nano_chestplate"
+    },
+    "J": {
+      "item": "onter_ic2:electric_jetpack"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:quantum_chestplate",
+    "count": 1
+  }
+}

@@ -65,9 +65,68 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.GLASS_FIBRE_CABLE.get());
                         output.accept(ModBlocks.SUPERCONDUCTOR_CABLE.get());
 
-                        // Tools
+                        // Tools & Meters
                         output.accept(ModItems.WRENCH.get());
                         output.accept(ModItems.ELECTRIC_WRENCH.get());
+                        output.accept(ModItems.EU_METER.get());
+
+                        // Armor & Jetpacks & Batpacks
+                        output.accept(ModItems.NANO_HELMET.get());
+                        output.accept(ModItems.NANO_CHESTPLATE.get());
+                        output.accept(ModItems.NANO_LEGGINGS.get());
+                        output.accept(ModItems.NANO_BOOTS.get());
+                        output.accept(ModItems.QUANTUM_HELMET.get());
+                        output.accept(ModItems.QUANTUM_CHESTPLATE.get());
+                        output.accept(ModItems.QUANTUM_LEGGINGS.get());
+                        output.accept(ModItems.QUANTUM_BOOTS.get());
+                        output.accept(ModItems.ELECTRIC_JETPACK.get());
+                        output.accept(ModItems.BATPACK.get());
+                        output.accept(ModItems.ADVANCED_BATPACK.get());
+                        output.accept(ModItems.ENERGY_PACK.get());
+                        output.accept(ModItems.LAPPACK.get());
+
+                        // Nuclear Reactor & Chambers
+                        output.accept(ModBlocks.NUCLEAR_REACTOR.get());
+                        output.accept(ModBlocks.REACTOR_CHAMBER.get());
+
+                        // Reactor Components
+                        output.accept(ModItems.URANIUM_FUEL_ROD_SINGLE.get());
+                        output.accept(ModItems.URANIUM_FUEL_ROD_DUAL.get());
+                        output.accept(ModItems.URANIUM_FUEL_ROD_QUAD.get());
+                        output.accept(ModItems.MOX_FUEL_ROD_SINGLE.get());
+                        output.accept(ModItems.MOX_FUEL_ROD_DUAL.get());
+                        output.accept(ModItems.MOX_FUEL_ROD_QUAD.get());
+                        output.accept(ModItems.DEPLETED_URANIUM_ROD_SINGLE.get());
+                        output.accept(ModItems.DEPLETED_URANIUM_ROD_DUAL.get());
+                        output.accept(ModItems.DEPLETED_URANIUM_ROD_QUAD.get());
+                        output.accept(ModItems.DEPLETED_MOX_ROD_SINGLE.get());
+                        output.accept(ModItems.DEPLETED_MOX_ROD_DUAL.get());
+                        output.accept(ModItems.DEPLETED_MOX_ROD_QUAD.get());
+                        output.accept(ModItems.HEAT_VENT.get());
+                        output.accept(ModItems.REACTOR_HEAT_VENT.get());
+                        output.accept(ModItems.OVERCLOCKED_HEAT_VENT.get());
+                        output.accept(ModItems.ADVANCED_HEAT_VENT.get());
+                        output.accept(ModItems.COMPONENT_HEAT_VENT.get());
+                        output.accept(ModItems.HEAT_EXCHANGER.get());
+                        output.accept(ModItems.REACTOR_HEAT_EXCHANGER.get());
+                        output.accept(ModItems.COMPONENT_HEAT_EXCHANGER.get());
+                        output.accept(ModItems.ADVANCED_HEAT_EXCHANGER.get());
+                        output.accept(ModItems.COOLANT_CELL_10K.get());
+                        output.accept(ModItems.COOLANT_CELL_30K.get());
+                        output.accept(ModItems.COOLANT_CELL_60K.get());
+                        output.accept(ModItems.NEUTRON_REFLECTOR.get());
+                        output.accept(ModItems.THICK_NEUTRON_REFLECTOR.get());
+                        output.accept(ModItems.IRIDIUM_NEUTRON_REFLECTOR.get());
+                        output.accept(ModItems.REACTOR_PLATING.get());
+                        output.accept(ModItems.CONTAINMENT_PLATING.get());
+                        output.accept(ModItems.HEAT_CAPACITY_PLATING.get());
+
+                        // Matter & Replicator
+                        output.accept(ModBlocks.MASS_FABRICATOR.get());
+                        output.accept(ModBlocks.UNIFIED_REPLICATOR.get());
+                        output.accept(ModItems.UU_MATTER.get());
+                        output.accept(ModItems.SCRAP.get());
+                        output.accept(ModItems.SCRAP_BOX.get());
 
                         // Resources
                         output.accept(ModItems.RUBBER.get());

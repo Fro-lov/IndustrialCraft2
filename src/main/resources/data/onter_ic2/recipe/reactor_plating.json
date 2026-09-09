@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "ALA",
+    " A "
+  ],
+  "key": {
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "L": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:reactor_plating",
+    "count": 1
+  }
+}

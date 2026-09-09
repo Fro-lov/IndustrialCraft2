@@ -158,5 +158,19 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CableBlockEntity>> SUPERCONDUCTOR_CABLE =
             BLOCK_ENTITIES.register("superconductor_cable", () -> BlockEntityType.Builder.of((pos, state) ->
                     new CableBlockEntity(ModBlockEntities.SUPERCONDUCTOR_CABLE.get(), pos, state, 524288), ModBlocks.SUPERCONDUCTOR_CABLE.get()).build(null));
+
+    // --- Nuclear Reactor & Chambers ---
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.onter.onter_ic2.block.reactor.NuclearReactorBlockEntity>> NUCLEAR_REACTOR =
+            BLOCK_ENTITIES.register("nuclear_reactor", () -> BlockEntityType.Builder.of(com.onter.onter_ic2.block.reactor.NuclearReactorBlockEntity::new, ModBlocks.NUCLEAR_REACTOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.onter.onter_ic2.block.reactor.ReactorChamberBlockEntity>> REACTOR_CHAMBER =
+            BLOCK_ENTITIES.register("reactor_chamber", () -> BlockEntityType.Builder.of(com.onter.onter_ic2.block.reactor.ReactorChamberBlockEntity::new, ModBlocks.REACTOR_CHAMBER.get()).build(null));
+
+    // --- Mass Fabricator & Unified Replicator ---
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MassFabricatorBlockEntity>> MASS_FABRICATOR =
+            BLOCK_ENTITIES.register("mass_fabricator", () -> BlockEntityType.Builder.of(MassFabricatorBlockEntity::new, ModBlocks.MASS_FABRICATOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<UnifiedReplicatorBlockEntity>> UNIFIED_REPLICATOR =
+            BLOCK_ENTITIES.register("unified_replicator", () -> BlockEntityType.Builder.of(UnifiedReplicatorBlockEntity::new, ModBlocks.UNIFIED_REPLICATOR.get()).build(null));
 }
 

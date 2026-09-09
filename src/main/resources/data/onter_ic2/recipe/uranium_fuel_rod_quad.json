@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "onter_ic2:uranium_fuel_rod_dual"
+    },
+    {
+      "item": "onter_ic2:uranium_fuel_rod_dual"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "result": {
+    "id": "onter_ic2:uranium_fuel_rod_quad",
+    "count": 1
+  }
+}

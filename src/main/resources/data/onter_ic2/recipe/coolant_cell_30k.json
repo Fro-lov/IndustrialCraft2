@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "TCT",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:coolant_cell_10k"
+    },
+    "T": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:coolant_cell_30k",
+    "count": 1
+  }
+}

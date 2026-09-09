@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CGC",
+    " E "
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:carbon_plate"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "E": {
+      "item": "onter_ic2:energy_crystal"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:nano_helmet",
+    "count": 1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "DVD",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "V": {
+      "item": "onter_ic2:overclocked_heat_vent"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:advanced_heat_vent",
+    "count": 1
+  }
+}

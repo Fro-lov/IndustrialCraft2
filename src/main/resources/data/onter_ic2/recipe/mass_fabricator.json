@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AGA",
+    "CMC",
+    "ALA"
+  ],
+  "key": {
+    "A": {
+      "item": "onter_ic2:advanced_alloy"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    },
+    "C": {
+      "item": "onter_ic2:advanced_circuit"
+    },
+    "M": {
+      "item": "minecraft:iron_block"
+    },
+    "L": {
+      "item": "onter_ic2:lapotron_crystal"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:mass_fabricator",
+    "count": 1
+  }
+}

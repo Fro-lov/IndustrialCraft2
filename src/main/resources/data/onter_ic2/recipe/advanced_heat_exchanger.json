@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "DED",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "E": {
+      "item": "onter_ic2:heat_exchanger"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:advanced_heat_exchanger",
+    "count": 1
+  }
+}

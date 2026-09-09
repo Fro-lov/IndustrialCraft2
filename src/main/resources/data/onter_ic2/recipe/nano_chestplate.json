@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C C",
+    "CEC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "onter_ic2:carbon_plate"
+    },
+    "E": {
+      "item": "onter_ic2:energy_crystal"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:nano_chestplate",
+    "count": 1
+  }
+}

@@ -98,26 +98,54 @@ public class OnterIC2 {
         registerBatteryItemCapability(event, ModItems.ENERGY_CRYSTAL.get());
         registerBatteryItemCapability(event, ModItems.LAPOTRON_CRYSTAL.get());
 
-        // Electric Wrench Energy Capability
+        // Nuclear Reactor & Chambers
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.NUCLEAR_REACTOR.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.NUCLEAR_REACTOR.get(), (be, side) -> be.getItemHandler());
+
+        // Mass Fabricator
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.MASS_FABRICATOR.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.MASS_FABRICATOR.get(), (be, side) -> be.getItemHandler());
+
+        // Unified Replicator
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.UNIFIED_REPLICATOR.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.UNIFIED_REPLICATOR.get(), (be, side) -> be.getItemHandler());
+
+        // Electric Armor & Jetpack & Batpacks Energy Capability
+        registerElectricArmorCapability(event, ModItems.NANO_HELMET.get());
+        registerElectricArmorCapability(event, ModItems.NANO_CHESTPLATE.get());
+        registerElectricArmorCapability(event, ModItems.NANO_LEGGINGS.get());
+        registerElectricArmorCapability(event, ModItems.NANO_BOOTS.get());
+        registerElectricArmorCapability(event, ModItems.QUANTUM_HELMET.get());
+        registerElectricArmorCapability(event, ModItems.QUANTUM_CHESTPLATE.get());
+        registerElectricArmorCapability(event, ModItems.QUANTUM_LEGGINGS.get());
+        registerElectricArmorCapability(event, ModItems.QUANTUM_BOOTS.get());
+        registerElectricArmorCapability(event, ModItems.ELECTRIC_JETPACK.get());
+        registerElectricArmorCapability(event, ModItems.BATPACK.get());
+        registerElectricArmorCapability(event, ModItems.ADVANCED_BATPACK.get());
+        registerElectricArmorCapability(event, ModItems.ENERGY_PACK.get());
+        registerElectricArmorCapability(event, ModItems.LAPPACK.get());
+    }
+
+    private void registerElectricArmorCapability(RegisterCapabilitiesEvent event, com.onter.onter_ic2.item.armor.ElectricArmorItem armorItem) {
         event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> new IEnergyStorage() {
             @Override
             public int receiveEnergy(int maxReceive, boolean simulate) {
-                return BatteryItem.receiveEnergy(stack, maxReceive, com.onter.onter_ic2.item.ElectricWrenchItem.CAPACITY, com.onter.onter_ic2.item.ElectricWrenchItem.MAX_TRANSFER, simulate);
+                return com.onter.onter_ic2.item.armor.ElectricArmorItem.receiveEnergy(stack, maxReceive, armorItem.getCapacity(), armorItem.getMaxTransfer(), simulate);
             }
 
             @Override
             public int extractEnergy(int maxExtract, boolean simulate) {
-                return BatteryItem.extractEnergy(stack, maxExtract, com.onter.onter_ic2.item.ElectricWrenchItem.MAX_TRANSFER, simulate);
+                return com.onter.onter_ic2.item.armor.ElectricArmorItem.extractEnergy(stack, maxExtract, armorItem.getMaxTransfer(), simulate);
             }
 
             @Override
             public int getEnergyStored() {
-                return BatteryItem.getEnergy(stack);
+                return com.onter.onter_ic2.item.armor.ElectricArmorItem.getEnergy(stack);
             }
 
             @Override
             public int getMaxEnergyStored() {
-                return com.onter.onter_ic2.item.ElectricWrenchItem.CAPACITY;
+                return armorItem.getCapacity();
             }
 
             @Override
@@ -129,7 +157,7 @@ public class OnterIC2 {
             public boolean canReceive() {
                 return true;
             }
-        }, ModItems.ELECTRIC_WRENCH.get());
+        }, armorItem);
     }
 
     private void registerMachineCapabilities(RegisterCapabilitiesEvent event, net.minecraft.world.level.block.entity.BlockEntityType<? extends BaseMachineBlockEntity> type) {

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IBI",
+    "BCB",
+    "IBI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "onter_ic2:electronic_circuit"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:heat_vent",
+    "count": 1
+  }
+}

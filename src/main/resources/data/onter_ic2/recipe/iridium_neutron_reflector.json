@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "ITI",
+    " I "
+  ],
+  "key": {
+    "I": {
+      "item": "onter_ic2:reinforced_iridium_plate"
+    },
+    "T": {
+      "item": "onter_ic2:thick_neutron_reflector"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:iridium_neutron_reflector",
+    "count": 1
+  }
+}

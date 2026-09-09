@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "CEC",
+    " C "
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "E": {
+      "item": "onter_ic2:heat_exchanger"
+    }
+  },
+  "result": {
+    "id": "onter_ic2:reactor_heat_exchanger",
+    "count": 1
+  }
+}
