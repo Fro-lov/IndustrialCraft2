@@ -16,6 +16,9 @@ public class MetalFormerScreen extends BaseMachineScreen<MetalFormerMenu> {
     private static final ResourceLocation ICON_ROLLING = OnterIC2.loc("textures/gui/mode_icons/rolling.png");
     private static final ResourceLocation ICON_CUTTING = OnterIC2.loc("textures/gui/mode_icons/cutting.png");
 
+    private static final ResourceLocation SPRITE_BUTTON = ResourceLocation.withDefaultNamespace("widget/button");
+    private static final ResourceLocation SPRITE_BUTTON_HIGHLIGHTED = ResourceLocation.withDefaultNamespace("widget/button_highlighted");
+
     public MetalFormerScreen(MetalFormerMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title, TEXTURE);
         this.titleLabelX = 8;
@@ -36,21 +39,31 @@ public class MetalFormerScreen extends BaseMachineScreen<MetalFormerMenu> {
             guiGraphics.blit(TEXTURE, x + 17, y + 37 + (14 - energyHeight), 176, 14 - energyHeight, 14, energyHeight);
         }
 
-        // 3-Capsules Progress Bar (width 51, height 13 at x=54, y=39)
+        // 3-Capsules Progress Bar (width 51, height 13 at x=50, y=37)
         // Orange capsules from u=176, v=14 overlay the gray capsules as progress increases
         int progress = menu.getScaledProgress(51);
         if (progress > 0) {
-            guiGraphics.blit(TEXTURE, x + 54, y + 39, 176, 14, progress, 13);
+            guiGraphics.blit(TEXTURE, x + 50, y + 37, 176, 14, progress, 13);
         }
 
-        // Mode Button Icon (16x16 at x=71, y=55)
+        // Mode Button (20x20 at x=65, y=53 under middle capsule, matching original IC2 VanillaButton)
+        int bx = x + 65;
+        int by = y + 53;
+        int bw = 20;
+        int bh = 20;
+        boolean isHovered = mouseX >= bx && mouseX < bx + bw && mouseY >= by && mouseY < by + bh;
+
+        // Render authentic 9-slice vanilla button widget
+        guiGraphics.blitSprite(isHovered ? SPRITE_BUTTON_HIGHLIGHTED : SPRITE_BUTTON, bx, by, bw, bh);
+
+        // Mode Button Icon (16x16 centered inside 20x20 button)
         MetalFormerRecipe.Mode mode = menu.getMode();
         ResourceLocation modeIcon = switch (mode) {
             case EXTRUDING -> ICON_EXTRUDING;
             case ROLLING -> ICON_ROLLING;
             case CUTTING -> ICON_CUTTING;
         };
-        guiGraphics.blit(modeIcon, x + 71, y + 55, 0, 0, 16, 16, 16, 16);
+        guiGraphics.blit(modeIcon, bx + 2, by + 2, 0, 0, 16, 16, 16, 16);
     }
 
     @Override
@@ -59,8 +72,8 @@ public class MetalFormerScreen extends BaseMachineScreen<MetalFormerMenu> {
             int x = (width - imageWidth) / 2;
             int y = (height - imageHeight) / 2;
 
-            // Click on Mode Button below progress bar (71..87, 55..71)
-            if (mouseX >= x + 71 && mouseX <= x + 87 && mouseY >= y + 55 && mouseY <= y + 71) {
+            // Click on Mode Button below progress bar (65..85, 53..73)
+            if (mouseX >= x + 65 && mouseX <= x + 85 && mouseY >= y + 53 && mouseY <= y + 73) {
                 minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 3);
                 return true;
             }
@@ -85,8 +98,8 @@ public class MetalFormerScreen extends BaseMachineScreen<MetalFormerMenu> {
             ), mouseX, mouseY);
         }
 
-        // Tooltip over Mode Button (71..87, 55..71)
-        if (mouseX >= x + 71 && mouseX <= x + 87 && mouseY >= y + 55 && mouseY <= y + 71) {
+        // Tooltip over Mode Button (65..85, 53..73)
+        if (mouseX >= x + 65 && mouseX <= x + 85 && mouseY >= y + 53 && mouseY <= y + 73) {
             MetalFormerRecipe.Mode mode = menu.getMode();
             String modeName = switch (mode) {
                 case EXTRUDING -> "Выдавливание (Провода)";

@@ -221,13 +221,23 @@ public class EnergyStorageBlockEntity extends BlockEntity implements MenuProvide
         // Slot 0: Charge battery
         if (SLOT_CHARGE < slots) {
             ItemStack chargeStack = itemHandler.getStackInSlot(SLOT_CHARGE);
-            if (!chargeStack.isEmpty() && chargeStack.getItem() instanceof BatteryItem battery) {
-                int canSend = Math.min(energyStorage.getEnergyStored(), Math.min(maxTransfer, battery.getMaxTransfer()));
-                if (canSend > 0) {
-                    int received = BatteryItem.receiveEnergy(chargeStack, canSend, battery.getCapacity(), battery.getMaxTransfer(), false);
-                    if (received > 0) {
-                        energyStorage.consumeEnergy(received);
+            if (!chargeStack.isEmpty()) {
+                net.neoforged.neoforge.energy.IEnergyStorage itemCap = chargeStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null);
+                if (itemCap != null && itemCap.canReceive()) {
+                    int toSend = Math.min(energyStorage.getEnergyStored(), maxTransfer);
+                    int accepted = itemCap.receiveEnergy(toSend, false);
+                    if (accepted > 0) {
+                        energyStorage.consumeEnergy(accepted);
                         setChanged();
+                    }
+                } else if (chargeStack.getItem() instanceof BatteryItem battery) {
+                    int canSend = Math.min(energyStorage.getEnergyStored(), Math.min(maxTransfer, battery.getMaxTransfer()));
+                    if (canSend > 0) {
+                        int received = BatteryItem.receiveEnergy(chargeStack, canSend, battery.getCapacity(), battery.getMaxTransfer(), false);
+                        if (received > 0) {
+                            energyStorage.consumeEnergy(received);
+                            setChanged();
+                        }
                     }
                 }
             }
@@ -236,14 +246,25 @@ public class EnergyStorageBlockEntity extends BlockEntity implements MenuProvide
         // Slot 1: Discharge battery into storage
         if (SLOT_DISCHARGE < slots) {
             ItemStack dischargeStack = itemHandler.getStackInSlot(SLOT_DISCHARGE);
-            if (!dischargeStack.isEmpty() && dischargeStack.getItem() instanceof BatteryItem battery) {
-                int needed = energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored();
-                int canExtract = Math.min(needed, Math.min(maxTransfer, battery.getMaxTransfer()));
-                if (canExtract > 0) {
-                    int extracted = BatteryItem.extractEnergy(dischargeStack, canExtract, battery.getMaxTransfer(), false);
+            if (!dischargeStack.isEmpty()) {
+                net.neoforged.neoforge.energy.IEnergyStorage itemCap = dischargeStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null);
+                if (itemCap != null && itemCap.canExtract()) {
+                    int needed = energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored();
+                    int canExtract = Math.min(needed, maxTransfer);
+                    int extracted = itemCap.extractEnergy(canExtract, false);
                     if (extracted > 0) {
                         energyStorage.produceEnergy(extracted);
                         setChanged();
+                    }
+                } else if (dischargeStack.getItem() instanceof BatteryItem battery) {
+                    int needed = energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored();
+                    int canExtract = Math.min(needed, Math.min(maxTransfer, battery.getMaxTransfer()));
+                    if (canExtract > 0) {
+                        int extracted = BatteryItem.extractEnergy(dischargeStack, canExtract, battery.getMaxTransfer(), false);
+                        if (extracted > 0) {
+                            energyStorage.produceEnergy(extracted);
+                            setChanged();
+                        }
                     }
                 }
             }

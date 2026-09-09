@@ -143,13 +143,23 @@ public class SolarPanelBlockEntity extends BlockEntity implements MenuProvider {
         for (int i = 0; i < Math.min(CHARGE_SLOTS, slots); i++) {
             if (energyStorage.getEnergyStored() <= 0) break;
             ItemStack batteryStack = itemHandler.getStackInSlot(i);
-            if (!batteryStack.isEmpty() && batteryStack.getItem() instanceof BatteryItem battery) {
-                int canSend = Math.min(energyStorage.getEnergyStored(), battery.getMaxTransfer());
-                if (canSend > 0) {
-                    int received = BatteryItem.receiveEnergy(batteryStack, canSend, battery.getCapacity(), battery.getMaxTransfer(), false);
-                    if (received > 0) {
-                        energyStorage.consumeEnergy(received);
+            if (!batteryStack.isEmpty()) {
+                net.neoforged.neoforge.energy.IEnergyStorage itemCap = batteryStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null);
+                if (itemCap != null && itemCap.canReceive()) {
+                    int toSend = Math.min(energyStorage.getEnergyStored(), 20000);
+                    int accepted = itemCap.receiveEnergy(toSend, false);
+                    if (accepted > 0) {
+                        energyStorage.consumeEnergy(accepted);
                         setChanged();
+                    }
+                } else if (batteryStack.getItem() instanceof BatteryItem battery) {
+                    int canSend = Math.min(energyStorage.getEnergyStored(), battery.getMaxTransfer());
+                    if (canSend > 0) {
+                        int received = BatteryItem.receiveEnergy(batteryStack, canSend, battery.getCapacity(), battery.getMaxTransfer(), false);
+                        if (received > 0) {
+                            energyStorage.consumeEnergy(received);
+                            setChanged();
+                        }
                     }
                 }
             }

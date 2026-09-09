@@ -142,13 +142,23 @@ public class GeneratorBlockEntity extends BlockEntity implements MenuProvider {
 
         // Charge battery in slot
         ItemStack chargeStack = itemHandler.getStackInSlot(SLOT_CHARGE);
-        if (!chargeStack.isEmpty() && chargeStack.getItem() instanceof BatteryItem battery) {
-            int canSend = Math.min(energyStorage.getEnergyStored(), battery.getMaxTransfer());
-            if (canSend > 0) {
-                int received = BatteryItem.receiveEnergy(chargeStack, canSend, battery.getCapacity(), battery.getMaxTransfer(), false);
-                if (received > 0) {
-                    energyStorage.consumeEnergy(received);
+        if (!chargeStack.isEmpty()) {
+            net.neoforged.neoforge.energy.IEnergyStorage itemCap = chargeStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null);
+            if (itemCap != null && itemCap.canReceive()) {
+                int toSend = Math.min(energyStorage.getEnergyStored(), 1000);
+                int accepted = itemCap.receiveEnergy(toSend, false);
+                if (accepted > 0) {
+                    energyStorage.consumeEnergy(accepted);
                     setChanged();
+                }
+            } else if (chargeStack.getItem() instanceof BatteryItem battery) {
+                int canSend = Math.min(energyStorage.getEnergyStored(), battery.getMaxTransfer());
+                if (canSend > 0) {
+                    int received = BatteryItem.receiveEnergy(chargeStack, canSend, battery.getCapacity(), battery.getMaxTransfer(), false);
+                    if (received > 0) {
+                        energyStorage.consumeEnergy(received);
+                        setChanged();
+                    }
                 }
             }
         }

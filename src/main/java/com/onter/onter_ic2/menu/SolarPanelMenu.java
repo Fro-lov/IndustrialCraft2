@@ -32,7 +32,12 @@ public class SolarPanelMenu extends AbstractContainerMenu {
 
         // 4 Battery/Crystal charging slots at (71, 92), (89, 92), (107, 92), (125, 92)
         for (int i = 0; i < 4; i++) {
-            this.addSlot(new SlotItemHandler(entity.getItemHandler(), i, 71 + i * 18, 92));
+            this.addSlot(new SlotItemHandler(entity.getItemHandler(), i, 71 + i * 18, 92) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stack.getItem() instanceof BatteryItem || stack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null;
+                }
+            });
         }
 
         // Player Inventory (3 rows at x=26, y=128)
@@ -90,10 +95,12 @@ public class SolarPanelMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (itemstack1.getItem() instanceof BatteryItem) {
+                if (itemstack1.getItem() instanceof BatteryItem || itemstack1.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null) {
                     if (!this.moveItemStackTo(itemstack1, 0, 4, false)) {
                         return ItemStack.EMPTY;
                     }
+                } else {
+                    return ItemStack.EMPTY;
                 }
             }
 

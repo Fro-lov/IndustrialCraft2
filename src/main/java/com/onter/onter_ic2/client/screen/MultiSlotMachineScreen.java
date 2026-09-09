@@ -18,18 +18,61 @@ public class MultiSlotMachineScreen extends AbstractContainerScreen<MultiSlotMac
     private static final ResourceLocation ICON_ROLLING = OnterIC2.loc("textures/gui/mode_icons/rolling.png");
     private static final ResourceLocation ICON_CUTTING = OnterIC2.loc("textures/gui/mode_icons/cutting.png");
 
+    // =========================================================================
+    // НАСТРОЙКИ КООРДИНАТ, РАЗМЕРОВ И UV-РАЗВЕРТКИ (МЕНЯТЬ ЗДЕСЬ)
+    // =========================================================================
+
+    // 1. Размеры окна GUI и заголовки текста
+    public static final int GUI_WIDTH = 212;
+    public static final int GUI_HEIGHT = 214;
+    public static final int TITLE_X = 14;
+    public static final int TITLE_Y = 8;
+    public static final int INVENTORY_TITLE_X = 26;
+    public static final int INVENTORY_TITLE_Y = 120;
+
+    // 2. Полоса энергии (Energy Bar)
+    public static final int ENERGY_BAR_X = 46;       // Позиция X в окне GUI
+    public static final int ENERGY_BAR_Y = 105;      // Позиция Y в окне GUI
+    public static final int ENERGY_BAR_U = 0;        // Смещение U (X) в guielements.png
+    public static final int ENERGY_BAR_V = 16;       // Смещение V (Y) в guielements.png
+    public static final int ENERGY_BAR_WIDTH = 129;  // Полная длина полоски (при 100% энергии)
+    public static final int ENERGY_BAR_HEIGHT = 5;   // Высота полоски
+
+    // 3. Иконка молнии (Lightning Icon)
+    public static final int LIGHTNING_X = 36;        // Позиция X в окне GUI
+    public static final int LIGHTNING_Y = 105;       // Позиция Y в окне GUI
+    public static final int LIGHTNING_U = 134;       // Смещение U (X) в guielements.png
+    public static final int LIGHTNING_V = 15;        // Смещение V (Y) в guielements.png
+    public static final int LIGHTNING_WIDTH = 5;     // Ширина молнии
+    public static final int LIGHTNING_HEIGHT = 7;    // Высота молнии
+
+    // 4. Кнопка режима металлоформовщика (Metal Former Mode Button)
+    public static final int MODE_BUTTON_X = 84;     // Позиция X в окне GUI
+    public static final int MODE_BUTTON_Y = 80;      // Позиция Y в окне GUI
+    public static final int MODE_BUTTON_SIZE = 16;   // Размер кнопки (16x16)
+
+    // 5. Полоса/стрелка прогресса между слотами (Progress Bar)
+    public static final int PROGRESS_X = 84;         // Позиция X между входами и выходами
+    public static final int PROGRESS_Y = 55;         // Позиция Y между входами и выходами
+    public static final int PROGRESS_U = 212;        // Смещение U (X) в правом верхнем углу PNG
+    public static final int PROGRESS_V = 0;          // Смещение V (Y) в правом верхнем углу PNG
+    public static final int PROGRESS_WIDTH = 16;     // Полная ширина стрелочки
+    public static final int PROGRESS_HEIGHT = 17;    // Высота стрелочки
+
+    // =========================================================================
+
     private final ResourceLocation backgroundTexture;
     private final boolean isMetalFormer;
     private final int numChannels;
 
     public MultiSlotMachineScreen(MultiSlotMachineMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.imageWidth = 228;
-        this.imageHeight = 214;
-        this.titleLabelX = 10;
-        this.titleLabelY = 8;
-        this.inventoryLabelX = 26;
-        this.inventoryLabelY = 120;
+        this.imageWidth = GUI_WIDTH;
+        this.imageHeight = GUI_HEIGHT;
+        this.titleLabelX = TITLE_X;
+        this.titleLabelY = TITLE_Y;
+        this.inventoryLabelX = INVENTORY_TITLE_X;
+        this.inventoryLabelY = INVENTORY_TITLE_Y;
 
         MultiSlotMachineBlockEntity entity = menu.getBlockEntity();
         MultiSlotMachineBlockEntity.MachineType type = entity != null ? entity.getMachineType() : MultiSlotMachineBlockEntity.MachineType.ELECTRIC_FURNACE;
@@ -52,20 +95,25 @@ public class MultiSlotMachineScreen extends AbstractContainerScreen<MultiSlotMac
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        // Main Background (228x214)
+        // 1. Главный фон механизма
         guiGraphics.blit(backgroundTexture, x, y, 0, 0, imageWidth, imageHeight, 256, 256);
 
-        // Energy Bar from GuiElements.png (2nd row: u=0, v=10, width=144, height=8)
-        // Located in GUI at (x + 24, y + 118)
-        int scaledEnergy = menu.getScaledEnergy(144);
+        // 2. Отрисовка полосы энергии
+        int scaledEnergy = menu.getScaledEnergy(ENERGY_BAR_WIDTH);
         if (scaledEnergy > 0) {
-            guiGraphics.blit(GUI_ELEMENTS, x + 24, y + 118, 0, 10, scaledEnergy, 8, 256, 256);
+            guiGraphics.blit(GUI_ELEMENTS, x + ENERGY_BAR_X, y + ENERGY_BAR_Y, ENERGY_BAR_U, ENERGY_BAR_V, scaledEnergy, ENERGY_BAR_HEIGHT, 256, 256);
         }
 
-        // Lightning Icon at (x + 8, y + 115) from GuiElements.png (u=120, v=10, 14x14)
-        guiGraphics.blit(GUI_ELEMENTS, x + 8, y + 115, 120, 10, 14, 14, 256, 256);
+        // 3. Отрисовка иконки молнии
+        guiGraphics.blit(GUI_ELEMENTS, x + LIGHTNING_X, y + LIGHTNING_Y, LIGHTNING_U, LIGHTNING_V, LIGHTNING_WIDTH, LIGHTNING_HEIGHT, 256, 256);
 
-        // If Metal Former: Mode Button at (x + 202, y + 50, 16x16)
+        // 4. Отрисовка стрелки/анимации прогресса работы
+        int progress = menu.getScaledProgress(PROGRESS_WIDTH);
+        if (progress > 0) {
+            guiGraphics.blit(backgroundTexture, x + PROGRESS_X, y + PROGRESS_Y, PROGRESS_U, PROGRESS_V, progress, PROGRESS_HEIGHT, 256, 256);
+        }
+
+        // 5. Кнопка режима металлоформовщика (если применимо)
         if (isMetalFormer) {
             MetalFormerRecipe.Mode mode = menu.getMetalFormerMode();
             ResourceLocation modeIcon = switch (mode) {
@@ -73,7 +121,7 @@ public class MultiSlotMachineScreen extends AbstractContainerScreen<MultiSlotMac
                 case ROLLING -> ICON_ROLLING;
                 case CUTTING -> ICON_CUTTING;
             };
-            guiGraphics.blit(modeIcon, x + 202, y + 50, 0, 0, 16, 16, 16, 16);
+            guiGraphics.blit(modeIcon, x + MODE_BUTTON_X, y + MODE_BUTTON_Y, 0, 0, MODE_BUTTON_SIZE, MODE_BUTTON_SIZE, MODE_BUTTON_SIZE, MODE_BUTTON_SIZE);
         }
     }
 
@@ -83,8 +131,9 @@ public class MultiSlotMachineScreen extends AbstractContainerScreen<MultiSlotMac
             int x = (width - imageWidth) / 2;
             int y = (height - imageHeight) / 2;
 
-            // Click on Metal Former Mode Button (202..218, 50..66)
-            if (mouseX >= x + 202 && mouseX <= x + 218 && mouseY >= y + 50 && mouseY <= y + 66) {
+            // Клик по кнопке режима металлоформовщика
+            if (mouseX >= x + MODE_BUTTON_X && mouseX <= x + MODE_BUTTON_X + MODE_BUTTON_SIZE &&
+                mouseY >= y + MODE_BUTTON_Y && mouseY <= y + MODE_BUTTON_Y + MODE_BUTTON_SIZE) {
                 minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 3);
                 return true;
             }
@@ -100,8 +149,13 @@ public class MultiSlotMachineScreen extends AbstractContainerScreen<MultiSlotMac
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        // Energy Tooltip over Energy Bar & Lightning (8..170, 115..126)
-        if (mouseX >= x + 8 && mouseX <= x + 170 && mouseY >= y + 115 && mouseY <= y + 126) {
+        // Всплывающая подсказка энергии (над молнией и всей полоской энергии)
+        int minEnergyX = Math.min(LIGHTNING_X, ENERGY_BAR_X);
+        int maxEnergyX = Math.max(LIGHTNING_X + LIGHTNING_WIDTH, ENERGY_BAR_X + ENERGY_BAR_WIDTH);
+        int minEnergyY = Math.min(LIGHTNING_Y, ENERGY_BAR_Y) - 1;
+        int maxEnergyY = Math.max(LIGHTNING_Y + LIGHTNING_HEIGHT, ENERGY_BAR_Y + ENERGY_BAR_HEIGHT) + 1;
+
+        if (mouseX >= x + minEnergyX && mouseX <= x + maxEnergyX && mouseY >= y + minEnergyY && mouseY <= y + maxEnergyY) {
             int energy = menu.getEnergy();
             int maxEnergy = menu.getMaxEnergy();
             guiGraphics.renderComponentTooltip(font, List.of(
@@ -110,8 +164,9 @@ public class MultiSlotMachineScreen extends AbstractContainerScreen<MultiSlotMac
             ), mouseX, mouseY);
         }
 
-        // Metal Former Mode Tooltip (202..218, 50..66)
-        if (isMetalFormer && mouseX >= x + 202 && mouseX <= x + 218 && mouseY >= y + 50 && mouseY <= y + 66) {
+        // Всплывающая подсказка режима металлоформовщика
+        if (isMetalFormer && mouseX >= x + MODE_BUTTON_X && mouseX <= x + MODE_BUTTON_X + MODE_BUTTON_SIZE &&
+            mouseY >= y + MODE_BUTTON_Y && mouseY <= y + MODE_BUTTON_Y + MODE_BUTTON_SIZE) {
             MetalFormerRecipe.Mode mode = menu.getMetalFormerMode();
             String modeName = switch (mode) {
                 case EXTRUDING -> "Выдавливание (Провода)";

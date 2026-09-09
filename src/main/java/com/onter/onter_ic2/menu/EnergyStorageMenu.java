@@ -32,9 +32,19 @@ public class EnergyStorageMenu extends AbstractContainerMenu {
         addDataSlots(data);
 
         // 0: Charge slot (top)
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), EnergyStorageBlockEntity.SLOT_CHARGE, 56, 17));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), EnergyStorageBlockEntity.SLOT_CHARGE, 56, 17) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.getItem() instanceof BatteryItem || stack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null;
+            }
+        });
         // 1: Discharge slot (bottom)
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), EnergyStorageBlockEntity.SLOT_DISCHARGE, 56, 53));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), EnergyStorageBlockEntity.SLOT_DISCHARGE, 56, 53) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.getItem() instanceof BatteryItem || stack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null;
+            }
+        });
         // 2..5: 4 Upgrade slots
         for (int i = 0; i < 4; i++) {
             this.addSlot(new SlotItemHandler(entity.getItemHandler(), EnergyStorageBlockEntity.SLOT_UPGRADE_1 + i, 8 + i * 18, 84));
@@ -87,7 +97,7 @@ public class EnergyStorageMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (itemstack1.getItem() instanceof BatteryItem) {
+                if (itemstack1.getItem() instanceof BatteryItem || itemstack1.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null) {
                     if (!this.moveItemStackTo(itemstack1, 0, 2, false)) {
                         return ItemStack.EMPTY;
                     }
@@ -95,6 +105,8 @@ public class EnergyStorageMenu extends AbstractContainerMenu {
                     if (!this.moveItemStackTo(itemstack1, 2, 6, false)) {
                         return ItemStack.EMPTY;
                     }
+                } else {
+                    return ItemStack.EMPTY;
                 }
             }
 

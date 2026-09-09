@@ -34,7 +34,12 @@ public class GeneratorMenu extends AbstractContainerMenu {
         // 0: Fuel slot at (65, 53)
         this.addSlot(new SlotItemHandler(entity.getItemHandler(), GeneratorBlockEntity.SLOT_FUEL, 65, 53));
         // 1: Charge battery slot at (65, 17)
-        this.addSlot(new SlotItemHandler(entity.getItemHandler(), GeneratorBlockEntity.SLOT_CHARGE, 65, 17));
+        this.addSlot(new SlotItemHandler(entity.getItemHandler(), GeneratorBlockEntity.SLOT_CHARGE, 65, 17) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.getItem() instanceof BatteryItem || stack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null;
+            }
+        });
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
@@ -82,7 +87,7 @@ public class GeneratorMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (itemstack1.getItem() instanceof BatteryItem) {
+                if (itemstack1.getItem() instanceof BatteryItem || itemstack1.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.ITEM, null) != null) {
                     if (!this.moveItemStackTo(itemstack1, GeneratorBlockEntity.SLOT_CHARGE, GeneratorBlockEntity.SLOT_CHARGE + 1, false)) {
                         return ItemStack.EMPTY;
                     }
@@ -90,6 +95,8 @@ public class GeneratorMenu extends AbstractContainerMenu {
                     if (!this.moveItemStackTo(itemstack1, GeneratorBlockEntity.SLOT_FUEL, GeneratorBlockEntity.SLOT_FUEL + 1, false)) {
                         return ItemStack.EMPTY;
                     }
+                } else {
+                    return ItemStack.EMPTY;
                 }
             }
 
